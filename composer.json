@@ -46,6 +46,12 @@
         "hiqdev/hidev-php": "dev-master",
         "hiqdev/hidev-hiqdev": "dev-master"
     },
+    "autoload": {
+        "psr-4": {
+            "hipanel\\server\\order\\": "src",
+            "hipanel\\server\\order\\yii\\": "yii"
+        }
+    },
     "minimum-stability": "dev",
     "repositories": [
         {
