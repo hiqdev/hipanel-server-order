@@ -1,0 +1,5 @@
+package:
+    type:       yii2-extension
+    name:       hipanel-server-order
+    title:      HiPanel Server Order
+    keywords:   hipanel, server, order
