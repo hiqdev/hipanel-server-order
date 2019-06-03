@@ -49,6 +49,7 @@
     "autoload": {
         "psr-4": {
             "hipanel\\server\\order\\": "src",
+            "hipanel\\server\\order\\dist": "dist",
             "hipanel\\server\\order\\yii\\": "yii"
         }
     },

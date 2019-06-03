@@ -22,8 +22,10 @@ nbproject
 /composer.lock
 /vendor
 
-# node internals
-/node-modules
+# JS package internals
+/node_modules
+/coverage
+/dist
 
 # php-cs-fixer cache
 .php_cs.cache
