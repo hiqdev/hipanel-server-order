@@ -1,10 +1,13 @@
 'use strict';
 
 import React, {Component} from 'react'
+import {FormattedMessage} from 'react-intl';
 
 const defaultLocation = 'usa';
 
-const action = 'http://hipanel.advancedhosters.com.local/server/order/add-to-cart-dedicated';
+const currency = 'EUR';
+
+const action = 'http://local.hipanel-demo.hipanel.com/server/order/add-to-cart-dedicated';
 
 const os = [
     {
@@ -19,11 +22,11 @@ const os = [
 
 const administration = [
     {
-        name: 'manged',
+        name: 'managed',
         label: 'Managed'
     },
     {
-        name: 'unmanged',
+        name: 'unmanaged',
         label: 'Unmanaged'
     },
 ];
@@ -58,11 +61,11 @@ const softpack = [
 const locations = [
     {
         name: 'netherlands',
-        label: 'Netherlands'
+        label: <FormattedMessage id='netherlands' defaultMessage='Netherlands'/>
     },
     {
         name: 'usa',
-        label: 'USA'
+        label: <FormattedMessage id='usa' defaultMessage='USA'/>
     },
 ];
 
@@ -71,19 +74,22 @@ const configurations = {
         {
             id: 1,
             label: 'Single Start',
-            content: '1 х W-2123 CPU / 16 GB DDR4 / 2 х 2 TB HDD'
+            content: '1 х W-2123 CPU / 16 GB DDR4 / 2 х 2 TB HDD',
+            price: 127
         },
     ],
     usa: [
         {
             id: 2,
             label: 'Single Business',
-            content: '1 х W-2125 CPU / 32 GB DDR4 / 2 х 2 TB HDD'
+            content: '1 х W-2125 CPU / 32 GB DDR4 / 2 х 2 TB HDD',
+            price: 175
         },
         {
             id: 3,
             label: 'Single Advanced',
-            content: '1 х W-2133 CPU / 64 GB DDR4 / 2 х 2 TB HDD'
+            content: '1 х W-2133 CPU / 64 GB DDR4 / 2 х 2 TB HDD',
+            price: 202
         },
     ],
 };
@@ -97,20 +103,21 @@ class App extends Component {
             label: '',
             os: null,
             administration: null,
-            softPack: null,
+            softpack: null,
             isOrderActive: false,
+            total: 0
         };
     }
 
-    handleLocationChange(locationName) {
+    handleLocationChange(location) {
         this.setState({
-            location: locationName,
+            location: location,
             configurationId: null,
             label: '',
             os: null,
             administration: null,
-            softPack: null,
-            isOrderActive: false
+            softpack: null,
+            isOrderActive: false,
         });
     }
 
@@ -120,8 +127,9 @@ class App extends Component {
             label: '',
             os: null,
             administration: null,
-            softPack: null,
-            isOrderActive: false
+            softpack: null,
+            isOrderActive: false,
+            total: configurations[this.state.location].find(conf => parseInt(conf.id) === parseInt(configurationId)).price,
         });
     }
 
@@ -130,15 +138,31 @@ class App extends Component {
     }
 
     handleAdministration(value) {
-        this.setState({administration: value});
+        let total = this.state.total;
+        const currentState = this.state.administration;
+        if (value === 'managed' && (currentState === 'unmanaged' || currentState == null)) {
+            total += 100;
+        } else if (value === 'unmanaged' && currentState === 'managed') {
+            total -= 100;
+        }
+        this.setState({
+            administration: value,
+            total: total
+        });
     }
 
     handleSoftPack(value) {
-        this.setState({softPack: value});
+        this.setState({softpack: value});
+    }
+
+    handleLabelChange(evt) {
+        this.setState({label: evt.target.value});
     }
 
     render() {
-        let main = (<div className="alert alert-warning text-center">Select location</div>), orderPanel = '',
+        let main = (<div className="alert alert-warning text-center"><FormattedMessage id='select_locaction'
+                                                                                       defaultMessage='Select location'/>
+            </div>), orderPanel = '',
             location = this.state.location, configurationId = this.state.configurationId,
             sideMargin = {marginTop: '1em'}, isOrderActive = this.state.isOrderActive;
 
@@ -151,7 +175,7 @@ class App extends Component {
             )));
         }
 
-        if (this.state.os && this.state.administration && this.state.softPack) {
+        if (this.state.os && this.state.administration && this.state.softpack) {
             isOrderActive = true;
         }
 
@@ -167,25 +191,41 @@ class App extends Component {
                     placing the order, we will contact you to confirm it and connect your project to the service.
                 </p>
 
-                <div className="row">
-                    <div className="col-md-9">
-                        <div className="form-group">
-                            <label htmlFor="exampleInputEmail1">Label</label>
-                            <input type="email" className="form-control" id="exampleInputEmail1" placeholder="label"/>
+                <div
+                    className="row">
+                    <div
+                        className="col-md-9">
+                        <div
+                            className="form-group">
+                            <label
+                                htmlFor="exampleInputEmail1"> Label </label>
+                            <input type="email" className="form-control" id="exampleInputEmail1"
+                                   value={this.state.value}
+                                   placeholder="label" onChange={evt => this.handleLabelChange(evt)}/>
                         </div>
                     </div>
                 </div>
 
-                <RadioList label="OS" options={os} onInputChange={evt => this.handleOs(evt)}/>
+                <input type="hidden" id="configuration_id" name="configuration_id" value={configurationId}/>
 
-                <RadioList label="Administration" options={administration}
+                <RadioList label="os" options={os} onInputChange={evt => this.handleOs(evt)}/>
+
+                <RadioList label="administration" options={administration}
                            onInputChange={evt => this.handleAdministration(evt)}/>
 
-                <RadioList label="Softpack" options={softpack} onInputChange={evt => this.handleSoftPack(evt)}/>
+                <RadioList label="softpack" options={softpack} onInputChange={evt => this.handleSoftPack(evt)}/>
 
             </fieldset>;
-            orderPanel =
-                <ConfigurationCard configuration={fullConfiguration} isSideBar={true} isOrderActive={isOrderActive}/>;
+            orderPanel = <ConfigurationCard
+                configuration={fullConfiguration}
+                isSideBar={true}
+                isOrderActive={isOrderActive}
+                total={this.state.total}
+                label={this.state.label}
+                os={this.state.os}
+                administration={this.state.administration}
+                softpack={this.state.softpack}
+            />;
         }
 
         return (
@@ -200,7 +240,7 @@ class App extends Component {
                         <div className="row">
                             <div className="col-md-12">
                                 <LocationSwitcher locations={locations}
-                                                  onLocationChange={evt => this.handleLocationChange(evt)}/>
+                                                  onLocationChange={loc => this.handleLocationChange(loc)}/>
                             </div>
                             <div className="col-md-12" style={sideMargin}>
                                 {orderPanel}
@@ -215,16 +255,15 @@ class App extends Component {
 
 function LocationSwitcher(props) {
     const handleChange = evt => {
-        props.onLocationChange(evt.target.dataset.location);
+        props.onLocationChange(evt.currentTarget.dataset.location);
     };
 
     return (
-        <div className="btn-group btn-group-justified" data-toggle="buttons">
-            {props.locations.map(location => (
+        <div className="btn-group btn-group-justified">
+            {props.locations.map((location, idx) => (
                 <label className={"btn btn-default " + (location.name === defaultLocation ? 'active' : '')}
-                       key={location.name} data-location={location.name}
-                       onClick={handleChange}>
-                    <input type="radio" autoComplete="off"/>{location.label}
+                       key={idx} data-location={location.name} onClick={handleChange}>
+                    {location.label}
                 </label>
             ))}
         </div>
@@ -233,29 +272,47 @@ function LocationSwitcher(props) {
 
 function ConfigurationCard(props) {
     const handleSelect = evt => {
-        props.onSelectConfiguration(evt.target.dataset.configuration);
+        props.onSelectConfiguration(evt.currentTarget.dataset.configuration);
     };
-    let isSideBar = false;
+    let isSideBar = false, price = null, label = null;
     if (props.isSideBar) {
         isSideBar = true;
+        price = props.total;
+        label = props.label;
+    } else {
+        price = props.configuration.price;
     }
 
     return (
         <div className="panel panel-default">
             <div className="panel-heading">{props.configuration.label}</div>
+
             <div className="panel-body">
                 {props.configuration.content}
+                <br/>
+                <br/>
+                <ul className="list-unstyled">
+                    {(label) ? (<li><b><FormattedMessage id='label' defaultMessage="Label"/>: </b> <span>{label}</span>
+                    </li>) : ''}
+                    <SelectedOption options={os} input={props.os} label='os'/>
+                    <SelectedOption options={administration} input={props.administration} label='administration'/>
+                    <SelectedOption options={softpack} input={props.softpack} label='softpack'/>
+                </ul>
                 <hr/>
-                <div className="text-center text-muted">$ 100.00</div>
+                <div className="text-center text-muted">{price.toLocaleString('ru', {
+                    style: 'currency',
+                    currency: currency
+                })}</div>
             </div>
             <div className="panel-footer">
                 {isSideBar ? (
                     <button type="submit" className="btn btn-success btn-block"
-                            disabled={!props.isOrderActive}>Order</button>
+                            disabled={!props.isOrderActive}><FormattedMessage id='order' defaultMessate='Order'/>
+                    </button>
                 ) : (
                     <button type="button" className="btn btn-primary btn-block"
                             data-configuration={props.configuration.id}
-                            onClick={handleSelect}>Select</button>
+                            onClick={handleSelect}><FormattedMessage id='select' defaultMessate='Select'/></button>
                 )}
             </div>
         </div>
@@ -276,9 +333,20 @@ function RadioList(props) {
 
     return (
         <div className="form-group">
-            <label>{props.label}</label>
+            <label><FormattedMessage id={props.label} defaultMessage={props.label}/></label>
             {options}
         </div>
+    );
+}
+
+function SelectedOption(props) {
+    if (!props.input) {
+        return null;
+    }
+    const item = props.options.find(item => item.name === props.input), label = props.label;
+
+    return (
+        <li><b><FormattedMessage id={props.label} defaultMessage={label}/>: </b> <span>{item.label}</span></li>
     );
 }
 

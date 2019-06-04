@@ -10,13 +10,11 @@ class ServerOrderAsset extends AssetBundle
     public $sourcePath = '@hipanel/server/order/dist';
 
     public $js = [
-        'vendor.ecc6ffc9.js',
-        'app.675b1a0a.js',
+        'vendor.bb446716.js',
+        'app.51d60a16.js',
     ];
 
-    public $css = [
-        'app.bed58901.css',
-    ];
+    public $css = [];
 
     public $depends = [
         BootstrapPluginAsset::class,
