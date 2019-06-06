@@ -25,7 +25,6 @@ nbproject
 # JS package internals
 /node_modules
 /coverage
-/dist
 
 # php-cs-fixer cache
 .php_cs.cache

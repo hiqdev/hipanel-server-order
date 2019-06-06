@@ -5,13 +5,12 @@ namespace hipanel\server\order\yii;
 use yii\bootstrap\BootstrapPluginAsset;
 use yii\web\AssetBundle;
 
-class ServerOrderAsset extends AssetBundle
+class ServerOrderAdvancedhostingThemeAsset extends AssetBundle
 {
-    public $sourcePath = '@hipanel/server/order/dist';
+    public $sourcePath = '@hipanel/server/order/yii/assets';
 
-    public $js = [
-        'vendor.2bd43bdd.js',
-        'app.2d9d7078.js',
+    public $css = [
+        'css/advancedhosting.theme.css',
     ];
 
     public $depends = [

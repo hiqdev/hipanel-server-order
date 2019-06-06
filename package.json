@@ -1,7 +1,7 @@
 {
-  "name": "hso",
+  "name": "hipanel-server-oorder",
   "version": "1.0.0",
-  "description": "Describe hso here",
+  "description": "Server Order Page for HiQDev HiPanel",
   "private": true,
   "scripts": {
     "build": "nwb build-react-app",
@@ -12,6 +12,7 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-intl": "^2.9.0"
@@ -19,7 +20,7 @@
   "devDependencies": {
     "nwb": "0.23.x"
   },
-  "author": "",
+  "author": "Andrii Klochok",
   "license": "MIT",
   "repository": ""
 }

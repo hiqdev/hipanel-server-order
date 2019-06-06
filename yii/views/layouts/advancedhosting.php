@@ -5,6 +5,9 @@
 
 use yii\helpers\Html;
 use yii\web\View;
+use \hipanel\server\order\yii\ServerOrderAdvancedhostingThemeAsset;
+
+ServerOrderAdvancedhostingThemeAsset::register($this);
 
 ?>
 <?php $this->beginPage() ?>
