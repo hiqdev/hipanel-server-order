@@ -11,9 +11,13 @@ addLocaleData([...en, ...ru]);
 //     initialStates: {
 //         action: 'http://local.hipanel-demo.hipanel.com/server/order/add-to-cart-dedicated',
 //         location: 'us',
-//         language: 'ru',
+//         language: 'en',
 //     },
-//     configOptions: {
+//     token: {
+//         name: '_csrf',
+//         value: '123',
+//     },
+//     configs: {
 //         nl: [
 //             {
 //                 id: 1,
@@ -46,52 +50,119 @@ addLocaleData([...en, ...ru]);
 //             },
 //         ],
 //     },
-//     imageOptions: [
-//         {
-//             name: 'centos',
-//             label: 'Centos zz.zz'
+//     osImages: {
+//         ubuntu_1810_clean: {
+//             name: "ubuntu_1810_clean",
+//             title: "Ubuntu 18.10 Clean installation (demo)",
+//             os: "Ubuntu",
+//             version: 18.1,
+//             panel: null,
+//             deprecated: false,
+//             softpack: null,
+//             osimage: "ubuntu_1810_clean"
 //         },
-//         {
-//             name: 'ubuntu',
-//             label: 'Ubuntu vv.vv'
+//         ubuntu_1804_lemp: {
+//             name: "ubuntu_1804_lemp",
+//             title: "Ubuntu 18.04 LTS x64 with LEMP stack (demo)",
+//             os: "Ubuntu",
+//             version: "18.04 LTS",
+//             panel: null,
+//             deprecated: false,
+//             softpack: {
+//                 name: "lemp",
+//                 panel: null,
+//                 packages: [
+//                     {
+//                         name: "Nginx",
+//                         version: "1.15.0"
+//                     },
+//                     {
+//                         name: "MySQL",
+//                         version: 8
+//                     },
+//                     {
+//                         name: "PHP-FPM",
+//                         version: "7.3.0"
+//                     }
+//                 ]
+//             },
+//             osimage: "ubuntu_1804_lemp"
 //         },
-//     ],
-//     administrationOptions: [
-//         {
-//             name: 'managed',
-//             label: 'Managed'
+//         centos_7_clean: {
+//             name: "centos_7_clean",
+//             title: "CentOS 7 (demo)",
+//             os: "CentOS",
+//             version: 7,
+//             panel: null,
+//             deprecated: false,
+//             softpack: null,
+//             osimage: "centos_7_clean"
 //         },
-//         {
-//             name: 'unmanaged',
-//             label: 'Unmanaged'
+//         freebsd_11_lamp: {
+//             name: "freebsd_11_lamp",
+//             title: "FreeBSD 11 LEMP stack (demo)",
+//             os: "FreeBSD",
+//             version: 11,
+//             panel: null,
+//             deprecated: false,
+//             softpack: {
+//                 name: "lamp",
+//                 panel: "HiPanel",
+//                 packages: [
+//                     {
+//                         name: "Apache",
+//                         version: 2.2
+//                     },
+//                     {
+//                         name: "MySQL",
+//                         version: 8
+//                     },
+//                     {
+//                         name: "PHP-FPM",
+//                         version: "7.3.0"
+//                     }
+//                 ]
+//             },
+//             osimage: "freebsd_11_lamp"
 //         },
-//     ],
-//     softpackOptions: [
-//         {
-//             name: 'hipanel',
-//             label: 'HiPanel (fully free)'
+//         windows_10_clean: {
+//             name: "windows_10_clean",
+//             title: "Windows 10 (demo)",
+//             os: "Windows",
+//             version: 10.1,
+//             panel: null,
+//             deprecated: false,
+//             softpack: null,
+//             osimage: "windows_10_clean"
 //         },
-//         {
-//             name: 'fresh',
-//             label: 'Fresh (root)'
-//         },
-//         {
-//             name: 'lamp',
-//             label: 'LAMP (root)'
-//         },
-//         {
-//             name: 'branini',
-//             label: 'Braini CP (Fully free)'
-//         },
-//         {
-//             name: 'cpanel',
-//             label: 'cPanel (Trial)'
-//         },
-//         {
-//             name: 'sipmanager',
-//             label: ' ISPManager (Trial)'
-//         },
-//     ]
+//         centos_6_lamp: {
+//             name: "centos_6_lamp",
+//             title: "CentOS 6 x64 with LAMP stack (demo)",
+//             os: "CentOS",
+//             version: 6,
+//             panel: null,
+//             deprecated: true,
+//             softpack: {
+//                 name: "lamp",
+//                 panel: null,
+//                 packages: [
+//                     {
+//                         name: "Apache",
+//                         version: "2.0.1"
+//                     },
+//                     {
+//                         name: "MySQL",
+//                         version: 5.5
+//                     },
+//                     {
+//                         name: "PHP-FPM",
+//                         version: "5.6.0"
+//                     }
+//                 ]
+//             },
+//             osimage: "centos_6_lamp"
+//         }
+//     }
 // };
 
 const messages = {
@@ -115,6 +186,7 @@ const messages = {
         'select': 'Выбрать',
         'select_locaction': 'Выбирите локацию',
         'no_configurations': 'Нет конфигураций',
+        'software': 'Программное обеспечение'
     }
 };
 

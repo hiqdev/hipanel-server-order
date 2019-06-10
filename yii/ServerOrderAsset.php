@@ -11,7 +11,7 @@ class ServerOrderAsset extends AssetBundle
 
     public $js = [
         'vendor.2bd43bdd.js',
-        'app.2d9d7078.js',
+        'app.f8419195.js',
     ];
 
     public $depends = [

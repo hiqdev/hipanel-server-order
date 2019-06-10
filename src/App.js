@@ -1,6 +1,6 @@
 'use strict';
 
-import React, {Component} from 'react'
+import React, {Component, useEffect} from 'react'
 import {FormattedMessage} from 'react-intl';
 
 const locationOptions = [
@@ -14,6 +14,21 @@ const locationOptions = [
     },
 ];
 
+const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1);
+
+const describeSoftpack = pack => {
+    let title = '';
+    if (!pack) {
+        return null;
+    }
+
+    pack.packages.map(item => {
+        title += `${item.name} ${item.version} + `;
+    });
+
+    return title.replace(new RegExp("[\\s+]*$"), '');
+};
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -26,8 +41,99 @@ class App extends Component {
             administration: null,
             softpack: null,
             isOrderActive: false,
-            total: 0
+            total: 0,
+            configOptions: [],
+            imageOptions: [],
+            administrationOptions: [],
+            softpackOptions: [],
         }, props.initialStates);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.osimage != this.state.osimage) {
+            this.buildAdministration();
+            this.buildSoftpacks();
+        }
+    }
+
+    componentDidMount(prevProps, prevState, snapshot) {
+        let images = Object.keys(this.props.osImages).map(key => {
+            const image = this.props.osImages[key];
+
+            return {
+                name: image.name,
+                title: image.title,
+                disabled: false
+            };
+        });
+        this.setState({
+            configOptions: this.props.configs,
+            imageOptions: images,
+        }, () => {
+            this.buildAdministration();
+            this.buildSoftpacks();
+        });
+    }
+
+    getCurrentImage() {
+        let image = null;
+        if (this.state.osimage) {
+            Object.values(this.props.osImages).forEach(item => {
+                if (item.name === this.state.osimage) {
+                    image = item;
+                }
+            });
+        }
+
+        return image;
+    }
+
+    buildAdministration() {
+        const image = this.getCurrentImage();
+        let administrations = [
+            {
+                name: 'managed',
+                title: 'Managed',
+                disabled: image === null ? false : image.softpack && image.softpack.panel === 'HiPanel'
+            },
+            {
+                name: 'unmanaged',
+                title: 'Unmanaged',
+                disabled: image === null ? false : image.softpack === null || image.softpack.panel !== 'HiPanel'
+            },
+        ];
+        this.setState({
+            administrationOptions: administrations,
+        });
+    }
+
+    buildSoftpacks() {
+        let rawSoftpacks = [];
+        for (let imageName in this.props.osImages) {
+            const image = this.props.osImages.hasOwnProperty(imageName) ? this.props.osImages[imageName] : null,
+                currentImage = this.getCurrentImage();
+            if (image && image.softpack) {
+                rawSoftpacks.push({
+                    name: image.softpack.name,
+                    title: image.softpack.name.toUpperCase(),
+                    disabled: !(currentImage && currentImage.softpack && currentImage.softpack.name === image.softpack.name),
+                })
+            } else {
+                rawSoftpacks.push({
+                    name: 'clear',
+                    title: 'No softpack',
+                    disabled: false,
+                })
+            }
+        }
+        const unionPacks = rawSoftpacks.filter((item, index, self) => index === self.findIndex((t) => (
+                t.place === item.place && t.name === item.name
+            ))
+        );
+
+        this.setState({
+            softpackOptions: Object.assign(unionPacks),
+        });
     }
 
     handleLocationChange(location) {
@@ -50,30 +156,27 @@ class App extends Component {
             administration: null,
             softpack: null,
             isOrderActive: false,
-            total: this.props.configOptions[this.state.location].find(conf => parseInt(conf.id) === parseInt(configId)).price,
+            total: this.state.configOptions[this.state.location].find(conf => parseInt(conf.id) === parseInt(configId)).price,
         });
     }
 
-    handleImage(value) {
-        this.setState({osimage: value});
+    handleImage(osimage) {
+        this.setState({osimage});
     }
 
-    handleAdministration(value) {
+    handleAdministration(administration) {
         let total = this.state.total;
         const currentState = this.state.administration;
-        if (value === 'managed' && (currentState === 'unmanaged' || currentState == null)) {
+        if (administration === 'managed' && (currentState === 'unmanaged' || currentState == null)) {
             total += 100;
-        } else if (value === 'unmanaged' && currentState === 'managed') {
+        } else if (administration === 'unmanaged' && currentState === 'managed') {
             total -= 100;
         }
-        this.setState({
-            administration: value,
-            total: total
-        });
+        this.setState({administration, total});
     }
 
-    handleSoftPack(value) {
-        this.setState({softpack: value});
+    handleSoftPack(softpack) {
+        this.setState({softpack});
     }
 
     handleLabelChange(evt) {
@@ -81,15 +184,16 @@ class App extends Component {
     }
 
     render() {
+        const sideMargin = {marginTop: '1em'};
         let main = (<div className="alert alert-warning text-center"><FormattedMessage id='select_locaction'
                                                                                        defaultMessage='Select location'/>
-            </div>), orderPanel = '',
-            location = this.state.location, configId = this.state.configId,
-            sideMargin = {marginTop: '1em'}, isOrderActive = this.state.isOrderActive;
+            </div>),
+            orderPanel = '',
+            location = this.state.location, configId = this.state.configId, isOrderActive = this.state.isOrderActive;
 
         if (location) {
-            if (this.props.configOptions[location].length > 0) {
-                main = (this.props.configOptions[location].map((config, idx) => (
+            if (Object.keys(this.state.configOptions).length && this.state.configOptions[location].length) {
+                main = (this.state.configOptions[location].map((config, idx) => (
                     <div className="col-md-4" key={idx}>
                         <ConfigCard config={config} {...this.state} location={location}
                                     onSelectConfig={evt => this.handleSelectConfig(evt)}/>
@@ -97,7 +201,7 @@ class App extends Component {
                 )));
             } else {
                 main = (<div className="alert alert-warning text-center">
-                    <FormattedMessage id='no_configurations' defaultMessage='No configurations'/>
+                    <FormattedMessage id='no_configurations' defaultMessage='No configurations found'/>
                 </div>);
             }
         }
@@ -107,7 +211,7 @@ class App extends Component {
         }
 
         if (location && configId) {
-            const fullConfig = this.props.configOptions[location].find(item => parseInt(item.id) === parseInt(configId));
+            const fullConfig = this.state.configOptions[location].find(item => parseInt(item.id) === parseInt(configId));
             main = <fieldset className="col-md-9">
 
                 <h3>
@@ -117,15 +221,14 @@ class App extends Component {
                     <FormattedMessage id='text.paragraph'/>
                 </p>
 
-                <div
-                    className="row">
+                <div className="row">
                     <div
                         className="col-md-9">
                         <div
                             className="form-group">
                             <label
                                 htmlFor="label"><FormattedMessage id='label'
-                                                                               defaultMessage='Label'/></label>
+                                                                  defaultMessage='Label'/></label>
                             <input type="text" className="form-control" name='label' id="label"
                                    value={this.state.value}
                                    onChange={evt => this.handleLabelChange(evt)}/>
@@ -133,31 +236,42 @@ class App extends Component {
                     </div>
                 </div>
 
+                <input type="hidden" id={this.props.token.name} name={this.props.token.name} value={this.props.token.value}/>
+
                 <input type="hidden" id="object_id" name="object_id" value={configId}/>
 
-                <RadioList label="osimage" options={this.props.imageOptions}
-                           onInputChange={evt => this.handleImage(evt)}/>
+                <RadioList label="osimage" options={this.state.imageOptions}
+                           current={this.state.osimage}
+                           onInputChange={value => this.handleImage(value)}/>
 
-                <RadioList label="administration" options={this.props.administrationOptions}
-                           onInputChange={evt => this.handleAdministration(evt)}/>
+                <RadioList label="administration" options={this.state.administrationOptions}
+                           current={this.state.administration}
+                           onInputChange={value => this.handleAdministration(value)}/>
 
-                <RadioList label="softpack" options={this.props.softpackOptions}
-                           onInputChange={evt => this.handleSoftPack(evt)}/>
+                <RadioList label="softpack" options={this.state.softpackOptions}
+                           current={this.state.softpack}
+                           onInputChange={value => this.handleSoftPack(value)}/>
 
             </fieldset>;
-            orderPanel = <ConfigCard config={fullConfig} isSideBar={true}
-                                     isOrderActive={isOrderActive} currency={this.state.currency}
-                                     language={this.state.language} {...this.props}
+            orderPanel = <ConfigCard config={fullConfig}
+                                     imageOptions={this.state.imageOptions}
+                                     administrationOptions={this.state.administrationOptions}
+                                     softpackOptions={this.state.softpackOptions}
+                                     isSideBar={true}
+                                     isOrderActive={isOrderActive}
+                                     currency={this.state.currency}
+                                     language={this.state.language}
                                      label={this.state.label}
                                      osimage={this.state.osimage}
                                      administration={this.state.administration}
                                      softpack={this.state.softpack}
                                      location={location}
-                                     total={this.state.total}/>;
+                                     total={this.state.total}
+                                     currentImage={this.getCurrentImage()}/>;
         }
 
         return (
-            <form action={this.state.action} method="POST">
+            <form id="hipanel-server-order" action={this.state.action} method="POST">
                 <div className="row">
                     <div className="col-md-9">
                         <div className="row">
@@ -219,7 +333,8 @@ function ConfigCard(props) {
                 {props.config.descr}
                 <br/>
                 <br/>
-                <input type="hidden" id="tariff_id" name="tariff_id" value={props.config[`${props.location}_tariff_id`]}/>
+                <input type="hidden" id="tariff_id" name="tariff_id"
+                       value={props.config[`${props.location}_tariff_id`]}/>
                 <ul className="list-unstyled">
                     {(label) ? (<li><b><FormattedMessage id='label' defaultMessage="Label"/>: </b> <span>{label}</span>
                     </li>) : ''}
@@ -227,6 +342,7 @@ function ConfigCard(props) {
                     <SelectedOption options={props.administrationOptions} input={props.administration}
                                     label='administration'/>
                     <SelectedOption options={props.softpackOptions} input={props.softpack} label='softpack'/>
+                    <Software {...props}/>
                 </ul>
                 <hr/>
                 <div className="text-center text-muted">{price.toLocaleString(props.language, {
@@ -249,21 +365,53 @@ function ConfigCard(props) {
     );
 }
 
-function RadioList(props) {
+function Software({softpack, currentImage}) {
+    if (softpack === null || softpack === 'clear') {
+        return null;
+    }
+    const software = describeSoftpack(currentImage.softpack);
+
+    return (
+        <li>
+            <b><FormattedMessage id='software' defaultMessage="Software"/>:</b> <span>{software}</span>
+        </li>
+    );
+}
+
+function RadioList({current, ...props}) {
     const handleChange = evt => {
         props.onInputChange(evt.target.value)
     };
-
+    const isCurrentOptionDisabled = props.options.map((option) => {
+        return option.disabled ? null : option.name
+    }).indexOf(current) === -1;
+    if (isCurrentOptionDisabled) {
+        current = null;
+    }
+    if (current === null) {
+        current = props.options.reduce((accumulator, option) => {
+            return accumulator === null && !option.disabled
+                ? option.name
+                : accumulator;
+        }, null);
+        useEffect(() => {
+            props.onInputChange(current);
+        });
+    }
     const options = props.options.map((option, idx) => (
-        <div className="radio" key={idx}>
-            <label><input type="radio" name={props.label.toLowerCase()} value={option.name}
-                          onChange={handleChange}/>{option.label}</label>
+        <div className={'radio radio-' + props.label + (option.disabled === true ? ' disabled' : '')} key={idx}>
+            <label>
+                <input type="radio" name={props.label.toLowerCase()} value={option.name} onChange={handleChange}
+                       checked={current === option.name}
+                       disabled={(option.disabled === true) ? 'disabled' : ''}/>
+                {option.title}
+            </label>
         </div>
     ));
 
     return (
         <div className="form-group">
-            <label><FormattedMessage id={props.label} defaultMessage={props.label.toUpperCase()}/></label>
+            <label><FormattedMessage id={props.label} defaultMessage={capitalize(props.label)}/></label>
             {options}
         </div>
     );
@@ -280,7 +428,7 @@ function SelectedOption({input, options, label}) {
 
     return (
         <li>
-            <b><FormattedMessage id={label} defaultMessage={label.toUpperCase()}/>: </b> <span>{item.label}</span>
+            <b><FormattedMessage id={label} defaultMessage={capitalize(label)}/>: </b> <span>{item.title}</span>
         </li>
     );
 }
