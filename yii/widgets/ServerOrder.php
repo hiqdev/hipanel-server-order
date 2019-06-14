@@ -20,7 +20,7 @@ class ServerOrder extends Widget
     /**
      * @var array
      */
-    public $osImages = [];
+    public $osimages = [];
 
     /**
      * {@inheritDoc}
@@ -53,7 +53,7 @@ class ServerOrder extends Widget
                 'value' => $request->getCsrfToken(),
             ],
             'configs' => $this->buildConfigs(),
-            'osImages' => $this->osImages,
+            'osImages' => $this->osimages,
         ]);
     }
 
