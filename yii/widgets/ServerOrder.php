@@ -7,7 +7,6 @@ use hipanel\server\order\yii\ServerOrderAsset;
 use Yii;
 use yii\base\Widget;
 use yii\bootstrap\Progress;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\View;
 
@@ -53,34 +52,25 @@ class ServerOrder extends Widget
                 'name' => $request->csrfParam,
                 'value' => $request->getCsrfToken(),
             ],
-            'configs' => $this->configOptions(),
-            'osImages' => $this->osImageOptions(),
+            'configs' => $this->buildConfigs(),
+            'osImages' => $this->osImages,
         ]);
-    }
-
-    private function configOptions()
-    {
-        return $this->buildConfigs();
     }
 
     private function buildConfigs()
     {
         foreach ($this->configs as $config) {
-            foreach ($config->plans as $location => $plan) {
-//                if ($config->{$location . '_server_ids'}) {
-                yield $location => [array_merge(ArrayHelper::toArray($config), [
-                    'price' => mt_rand(100, 700),
-                    'currency' => $plan->currency,
-                ])];
-//                }
+            foreach ($config->prices as $location => $price) {
+                if ($config->{$location . '_server_ids'}) {
+                    yield $location => [array_merge($config->toArray(), [
+                        'price' => $price->firstAvailable->value,
+                        'currency' => $price->firstAvailable->currency,
+                    ])];
+                } else {
+                    yield $location => [];
+                }
 
-//                yield $location => [];
             }
         }
-    }
-
-    private function osImageOptions()
-    {
-        return $this->osImages;
     }
 }

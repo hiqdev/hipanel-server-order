@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use yii\web\View;
 use \hipanel\server\order\yii\ServerOrderAdvancedhostingThemeAsset;
+use hiqdev\thememanager\widgets\Flashes;
 
 ServerOrderAdvancedhostingThemeAsset::register($this);
 
@@ -23,10 +24,10 @@ ServerOrderAdvancedhostingThemeAsset::register($this);
 </head>
 <body style="padding: 5em 0 2em 0">
 <?php $this->beginBody() ?>
-
 <main class="container">
     <?= $content ?>
 </main>
+<?= Flashes::widget() ?>
 <?php $this->endBody() ?>
 </body>
 </html>
