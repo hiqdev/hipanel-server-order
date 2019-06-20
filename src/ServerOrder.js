@@ -74,8 +74,6 @@ class ServerOrder extends Component {
             configOptions: this.props.configs,
             osImages: this.props.osImages,
             osOptions: this.getOsOptions(),
-            administrationOptions: this.getAdministrationOptions(),
-            softpackOptions: this.getSoftpackOptions(),
         }, () => {
             this.setPossibleOsImages();
         });
@@ -154,7 +152,7 @@ class ServerOrder extends Component {
     }
 
     getAdministrationOptions() {
-        let administrations = [
+        return [
             {
                 name: 'managed',
                 title: <FormattedMessage id='managed' defaultMessage='Managed'/>,
@@ -166,8 +164,6 @@ class ServerOrder extends Component {
                 disabled: !this.checkAdministration('unmanaged')
             },
         ];
-
-        return administrations;
     }
 
     checkSoftpack(softpack) {
@@ -262,17 +258,16 @@ class ServerOrder extends Component {
     render() {
         let mainSection = <Alert msgId='select_location'/>, sidebarCard = '';
         const {
-            location, configId, os, osOptions, administration, softpack, // softpackOptions, administrationOptions,
-            action, configOptions, label, osImage
+            location, configId, os, osOptions, administration, softpack, action, configOptions, label, osImage
         } = this.state;
-        const administrationOptions = this.getAdministrationOptions();
-        const softpackOptions = this.getSoftpackOptions();
         const {token} = this.props;
 
         if (location && configId) {
+            const administrationOptions = this.getAdministrationOptions();
+            const softpackOptions = this.getSoftpackOptions();
             const fullConfig = configOptions[location].find(item => parseInt(item.id) === parseInt(configId));
             sidebarCard = (location && configId) ?
-                <ConfigCard config={fullConfig} isSideBar={true} {...this.state}/> : '';
+                <ConfigCard config={fullConfig} isSideBar={true} {...this.state} administrationOptions={administrationOptions} softpackOptions={softpackOptions}/> : '';
             mainSection = <fieldset className="col-md-9">
                 <h3>
                     <FormattedMessage id='text.header'/>
