@@ -61,7 +61,7 @@ class ServerOrder extends Widget
     {
         foreach ($this->configs as $config) {
             foreach ($config->prices as $location => $price) {
-                if ($config->{$location . '_server_ids'}) {
+                if (!empty($config->{$location . '_server_ids'})) {
                     yield $location => [array_merge($config->toArray(), [
                         'price' => $price->firstAvailable->value,
                         'currency' => $price->firstAvailable->currency,
