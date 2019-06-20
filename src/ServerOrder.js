@@ -69,15 +69,6 @@ class ServerOrder extends Component {
         }, props.initialStates);
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevState.os != this.state.os) {
-            this.setPossibleOsImages();
-        }
-        if (prevState.configId != this.state.configId) {
-            this.setOsImage();
-        }
-    }
-
     componentDidMount(prevProps, prevState, snapshot) {
         this.setState({
             configOptions: this.props.configs,
@@ -92,7 +83,7 @@ class ServerOrder extends Component {
 
     setOsImage() {
         this.setState((state, props) => {
-            if (state.possibleOsImages) {
+            if (state.possibleOsImages.length) {
                 let osImage = state.possibleOsImages.find(image => {
                     let osValid = getOs(image) === this.state.os, softpackValid = false, administrationValid = true;
                     if (state.softpack) {
@@ -113,30 +104,11 @@ class ServerOrder extends Component {
         });
     }
 
-    checkOs(osImage) {
-        return getOs(osImage) === this.state.os;
-    }
-
-    checkSoftpack(softpack) {
-        let check = false;
-        if (this.state.possibleOsImages.length && softpack) {
-            Object.values(this.state.possibleOsImages).forEach(osImage => {
-                if (osImage.softpack === null && softpack.name === 'clear') {
-                    check = true;
-                } else if (osImage.softpack && osImage.softpack.name === softpack.name) {
-                    check = true;
-                }
-            });
-        }
-
-        return check;
-    }
-
     setPossibleOsImages() {
         let osImages = [];
-        Object.values(this.props.osImages).map(image => {
-            if (this.state.os === getOs(image)) {
-                osImages.push(image);
+        Object.values(this.props.osImages).map(osImage => {
+            if (this.checkOs(osImage)) {
+                osImages.push(osImage);
             }
         });
 
@@ -161,20 +133,8 @@ class ServerOrder extends Component {
         return osImages.filter((item, index, self) => index === self.findIndex((t) => t.title === item.title));
     }
 
-    buildOsImages() {
-        const osImages = Object.keys(this.props.osImages).map(key => {
-            const osImage = this.props.osImages[key];
-
-            return {
-                name: osImage.name,
-                title: getOs(osImage),
-                disabled: false
-            };
-        });
-        const filteredOsImages = osImages.filter((item, index, self) => index === self.findIndex((t) => t.title === item.title)
-        );
-
-        return filteredOsImages;
+    checkOs(osImage) {
+        return getOs(osImage) === this.state.os;
     }
 
     checkAdministration(administration) {
@@ -208,6 +168,21 @@ class ServerOrder extends Component {
         ];
 
         return administrations;
+    }
+
+    checkSoftpack(softpack) {
+        let check = false;
+        if (this.state.possibleOsImages.length && softpack) {
+            Object.values(this.state.possibleOsImages).forEach(osImage => {
+                if (osImage.softpack === null && softpack.name === 'clear') {
+                    check = true;
+                } else if (osImage.softpack && osImage.softpack.name === softpack.name) {
+                    check = true;
+                }
+            });
+        }
+
+        return check;
     }
 
     getSoftpackOptions() {
@@ -260,7 +235,9 @@ class ServerOrder extends Component {
     }
 
     handleOSChange(os) {
-        this.setState({os});
+        this.setState({os}, () => {
+            this.setPossibleOsImages();
+        });
     }
 
     handleAdministrationChange(administration) {
@@ -419,9 +396,9 @@ function ConfigCard(props) {
                 <br/>
                 <br/>
                 <ul className="list-unstyled">
-                    {stringifyConfiguration(props.config)}
                     {(label) ? (<li><b><FormattedMessage id='label' defaultMessage="Label"/>: </b> <span>{label}</span>
                     </li>) : ''}
+                    {stringifyConfiguration(props.config)}
                     <SelectedOption options={props.osOptions} input={props.os} label='os'/>
                     <SelectedOption options={props.administrationOptions} input={props.administration}
                                     label='administration'/>
