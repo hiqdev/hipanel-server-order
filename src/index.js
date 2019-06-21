@@ -10,7 +10,7 @@ addLocaleData([...en, ...ru]);
 if (!window.hipanel_order_server) {
     window.hipanel_order_server = {
         initialStates: {
-            action: 'http://local.hipanel-demo.hipanel.com/server/order/add-to-cart-dedicated',
+            action: '/server/order/add-to-cart-dedicated',
             location: 'us',
             language: 'en',
         },
