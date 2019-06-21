@@ -53,6 +53,7 @@ class ServerOrder extends Component {
             actions: null,
             location: 'usa',
             configId: null,
+            configObj: {},
             configOptions: [],
             label: '',
             os: null,
@@ -73,52 +74,54 @@ class ServerOrder extends Component {
         this.setState({
             configOptions: this.props.configs,
             osImages: this.props.osImages,
-            osOptions: this.getOsOptions(),
-        }, () => {
-            this.setPossibleOsImages();
-        });
+            administration: 'managed',
+            possibleOsImages: this.props.osImages,
+        }, this.setPossibleOsImages);
     }
 
     setOsImage() {
         this.setState((state, props) => {
-            if (state.possibleOsImages.length) {
-                let osImage = state.possibleOsImages.find(image => {
-                    let osValid = getOs(image) === this.state.os, softpackValid = false, administrationValid = true;
-                    if (state.softpack) {
-                        const softpack = state.softpack === 'clear' ? null : state.softpack;
-                        if (image.softpack === null && softpack === null) {
-                            softpackValid = true;
-                        } else if (image.softpack && image.softpack.name === softpack) {
-                            softpackValid = true;
-                        }
+            if (state.possibleOsImages.length && state.softpack) {
+                let osImage = null;
+                const images = state.possibleOsImages.filter(image => getOs(image) === state.os);
+                for (let i = 0; i < images.length; i++) {
+                    const image = images[i];
+                    if (image.softpack === null) {
+                        osImage = image;
+                        break;
                     }
+                    if (state.softpack === image.softpack.name) {
+                        osImage = image;
+                        break;
+                    }
+                }
 
-                    return osValid && softpackValid;
-                });
                 return {
-                    osImage: osImage ? osImage.name : state.osImage,
+                    osImage: osImage,
                 }
             }
         });
     }
 
     setPossibleOsImages() {
-        let osImages = [];
-        Object.values(this.props.osImages).map(osImage => {
-            if (this.checkOs(osImage)) {
-                osImages.push(osImage);
-            }
-        });
+        let osImages = this.props.osImages;
+        if (this.state.administration) {
+            osImages = osImages.filter(image => {
+                if (this.state.administration === 'managed') {
+                    return image.softpack && typeof image.softpack.panel === 'string';
+                } else {
+                    return image.softpack === null || image.softpack.panel === null;
+                }
+            })
+        }
 
         this.setState({
             possibleOsImages: osImages,
-        }, () => {
-            this.setOsImage();
-        });
+        }, this.setOsImage);
     }
 
     getOsOptions() {
-        const osImages = Object.keys(this.props.osImages).map(key => {
+        let osOptions = Object.keys(this.props.osImages).map(key => {
             const image = this.props.osImages[key];
 
             return {
@@ -128,27 +131,13 @@ class ServerOrder extends Component {
             };
         });
 
-        return osImages.filter((item, index, self) => index === self.findIndex((t) => t.title === item.title));
-    }
+        osOptions = osOptions.filter((item, index, self) => index === self.findIndex((t) => t.title === item.title));
 
-    checkOs(osImage) {
-        return getOs(osImage) === this.state.os;
-    }
+        osOptions.map(os => {
+            os.disabled = !this.state.possibleOsImages.some(image => getOs(image) === os.name);
+        });
 
-    checkAdministration(administration) {
-        let check = false;
-        if (this.state.possibleOsImages.length) {
-            Object.values(this.state.possibleOsImages).forEach(osImage => {
-                if (administration === 'managed') {
-                    check = !!(osImage.softpack && typeof osImage.softpack.panel === 'string');
-                }
-                if (check === false && administration === 'unmanaged') {
-                    check = !!(osImage.softpack === null || osImage.softpack.panel === null);
-                }
-            });
-        }
-
-        return check;
+        return osOptions;
     }
 
     getAdministrationOptions() {
@@ -156,12 +145,12 @@ class ServerOrder extends Component {
             {
                 name: 'managed',
                 title: <FormattedMessage id='managed' defaultMessage='Managed'/>,
-                disabled: !this.checkAdministration('managed'),
+                disabled: !this.props.osImages.some(image => (image.softpack !== null && typeof image.softpack.panel === 'string'))
             },
             {
                 name: 'unmanaged',
                 title: <FormattedMessage id='unmanaged' defaultMessage='Unmanaged'/>,
-                disabled: !this.checkAdministration('unmanaged')
+                disabled: !this.props.osImages.some(image => (image.softpack === null || image.softpack.panel === null))
             },
         ];
     }
@@ -189,21 +178,43 @@ class ServerOrder extends Component {
                 rawSoftpacks.push({
                     name: image.softpack.name,
                     title: image.softpack.name.toUpperCase(),
-                    disabled: !this.checkSoftpack(image.softpack),
+                    disabled: false,
                 })
             }
         }
         rawSoftpacks.unshift({
             name: 'clear',
             title: <FormattedMessage id='no_softpack' defaultMessage='No softpack'/>,
-            disabled: !this.checkSoftpack({name: 'clear'}),
+            disabled: false,
         });
-        const unionPacks = rawSoftpacks.filter((item, index, self) => index === self.findIndex((t) => (
+        let unionPacks = rawSoftpacks.filter((item, index, self) => index === self.findIndex((t) => (
                 t.place === item.place && t.name === item.name
             ))
         );
 
-        return Object.assign(unionPacks);
+        unionPacks = Object.assign(unionPacks);
+
+        unionPacks.map(pack => {
+            let canOption = false;
+            const images = this.state.possibleOsImages.filter(image => getOs(image) === this.state.os);
+
+            for (let i = 0; i < images.length; i++) {
+                const img = images[i];
+
+                if (img.softpack && img.softpack.name === pack.name) {
+                    canOption = true;
+                    break;
+                }
+                if (pack.name === 'clear' && img.softpack === null) {
+                    canOption = true;
+                    break;
+                }
+            }
+
+            pack.disabled = !canOption;
+        });
+
+        return unionPacks;
     }
 
     handleLocationChange(location) {
@@ -211,7 +222,6 @@ class ServerOrder extends Component {
             location: location,
             configId: null,
             label: '',
-            os: null,
             osImage: null,
             administration: null,
             softpack: null,
@@ -220,35 +230,35 @@ class ServerOrder extends Component {
     }
 
     handleSelectConfig(configId) {
+        const config = this.state.configOptions[this.state.location].find(conf => parseInt(conf.id) === parseInt(configId));
         this.setState({
             configId: configId,
+            configObj: config,
             label: '',
             administration: null,
             softpack: null,
             isOrderActive: false,
-            total: this.state.configOptions[this.state.location].find(conf => parseInt(conf.id) === parseInt(configId)).price,
+            total: config.price,
         });
     }
 
     handleOSChange(os) {
-        this.setState({os}, () => {
-            this.setPossibleOsImages();
-        });
+        this.setState({os}, this.setPossibleOsImages);
     }
 
     handleAdministrationChange(administration) {
         let total = this.state.total;
         const currentState = this.state.administration;
         if (administration === 'managed' && (currentState === 'unmanaged' || currentState == null)) {
-            total += 100;
+            total += this.state.configObj.support_price;
         } else if (administration === 'unmanaged' && currentState === 'managed') {
-            total -= 100;
+            total -= this.state.configObj.support_price;
         }
-        this.setState({administration, total}, this.setOsImage);
+        this.setState({administration, total}, this.setPossibleOsImages);
     }
 
     handleSoftpackChange(softpack) {
-        this.setState({softpack}, this.setOsImage);
+        this.setState({softpack}, this.setPossibleOsImages);
     }
 
     handleLabelChange(evt) {
@@ -258,16 +268,18 @@ class ServerOrder extends Component {
     render() {
         let mainSection = <Alert msgId='select_location'/>, sidebarCard = '';
         const {
-            location, configId, os, osOptions, administration, softpack, action, configOptions, label, osImage
+            location, configId, os, administration, softpack, action, configOptions, label, osImage
         } = this.state;
         const {token} = this.props;
 
         if (location && configId) {
             const administrationOptions = this.getAdministrationOptions();
+            const osOptions = this.getOsOptions();
             const softpackOptions = this.getSoftpackOptions();
             const fullConfig = configOptions[location].find(item => parseInt(item.id) === parseInt(configId));
             sidebarCard = (location && configId) ?
-                <ConfigCard config={fullConfig} isSideBar={true} {...this.state} administrationOptions={administrationOptions} softpackOptions={softpackOptions}/> : '';
+                <ConfigCard config={fullConfig} isSideBar={true} {...this.state} osOptions={osOptions}
+                            administrationOptions={administrationOptions} softpackOptions={softpackOptions}/> : '';
             mainSection = <fieldset className="col-md-9">
                 <h3>
                     <FormattedMessage id='text.header'/>
@@ -286,7 +298,7 @@ class ServerOrder extends Component {
                     </div>
                 </div>
 
-                <input type="hidden" id="tariff_id" name="tariff_id" value={fullConfig[`${location}_tariff_id`]}/>
+                <input type="hidden" id="tariff_id" name="tariff_id" value={fullConfig[location + '_tariff_id']}/>
 
                 <input type="hidden" id={token.name} name={token.name} value={token.value}/>
 
@@ -294,13 +306,13 @@ class ServerOrder extends Component {
 
                 <input type="hidden" id="location" name="location" value={location}/>
 
-                <input type="hidden" id="osimage" name="osimage" value={(osImage ? osImage : '')}/>
-
-                <RadioList label="os" options={osOptions} current={os}
-                           onInputChange={value => this.handleOSChange(value)}/>
+                <input type="hidden" id="osimage" name="osimage" value={(osImage ? osImage.name : '')}/>
 
                 <RadioList label="administration" options={administrationOptions} current={administration}
                            onInputChange={value => this.handleAdministrationChange(value)}/>
+
+                <RadioList label="os" options={osOptions} current={os}
+                           onInputChange={value => this.handleOSChange(value)}/>
 
                 <RadioList label="softpack" options={softpackOptions} current={softpack}
                            onInputChange={value => this.handleSoftpackChange(value)}/>
@@ -398,7 +410,7 @@ function ConfigCard(props) {
                     <SelectedOption options={props.administrationOptions} input={props.administration}
                                     label='administration'/>
                     <SelectedOption options={props.softpackOptions} input={props.softpack} label='softpack'/>
-                    <Software {...props}/>
+                    <Software osImage={props.osImage}/>
                 </ul>
                 <hr/>
                 <div className="text-center text-muted">{price.toLocaleString(props.language, {
@@ -421,11 +433,14 @@ function ConfigCard(props) {
     );
 }
 
-function Software({softpack, osImage, osImages}) {
-    if (softpack === null || softpack === 'clear') {
+function Software({osImage}) {
+    if (osImage === null) {
         return null;
     }
-    const software = describeSoftpack(osImages.find(image => image.name === osImage).softpack);
+    if (osImage.softpack === null) {
+        return null;
+    }
+    const software = describeSoftpack(osImage.softpack);
 
     return (
         <li>
@@ -479,6 +494,9 @@ function RadioList({current, ...props}) {
 function SelectedOption({input, options, label}) {
     if (input && options && label) {
         const item = options.find(item => item.name === input);
+        if (!item) {
+            return null
+        }
 
         return (
             <li>

@@ -65,6 +65,7 @@ class ServerOrder extends Widget
                     yield $location => [array_merge($config->toArray(), [
                         'price' => $price->firstAvailable->value,
                         'currency' => $price->firstAvailable->currency,
+                        'support_price' => $price->supportPrice,
                     ])];
                 } else {
                     yield $location => [];

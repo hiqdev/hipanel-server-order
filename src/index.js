@@ -31,6 +31,7 @@ if (!window.hipanel_order_server) {
                     cpu: "1 x W-2123",
                     hdd: "2 x 2 TB",
                     ram: '16 GB',
+                    support_price: 3,
                 },
             ],
             us: [
@@ -45,6 +46,7 @@ if (!window.hipanel_order_server) {
                     cpu: '1 х W-2125 CPU',
                     hdd: '2 х 2 TB HDD',
                     ram: '2 x 2 TB',
+                    support_price: 1.7,
                 },
                 {
                     id: 3,
@@ -57,6 +59,7 @@ if (!window.hipanel_order_server) {
                     cpu: '1 х W-2133 CPU',
                     hdd: '2 х 2 TB HDD',
                     ram: '64 GB DDR4',
+                    support_price: 0.7,
                 },
             ],
         },
@@ -70,6 +73,33 @@ if (!window.hipanel_order_server) {
                 deprecated: false,
                 softpack: null,
                 osimage: "freebsd_11_clear"
+            },
+            {
+                name: "freebsd_11_lamp",
+                title: "FreeBSD 11 LEMP stack (demo)",
+                os: "FreeBSD",
+                version: 11,
+                panel: null,
+                deprecated: false,
+                softpack: {
+                    name: "lamp",
+                    panel: "HiPanel",
+                    packages: [
+                        {
+                            name: "Apache",
+                            version: 2.2
+                        },
+                        {
+                            name: "MySQL",
+                            version: 8
+                        },
+                        {
+                            name: "PHP-FPM",
+                            version: "7.3.0"
+                        }
+                    ]
+                },
+                osimage: "freebsd_11_lamp"
             },
             {
                 name: "ubuntu_1810_clean",
@@ -144,33 +174,6 @@ if (!window.hipanel_order_server) {
                     ]
                 },
                 osimage: "ubuntu_1804_lemp_hipanel"
-            },
-            {
-                name: "freebsd_11_lamp",
-                title: "FreeBSD 11 LEMP stack (demo)",
-                os: "FreeBSD",
-                version: 11,
-                panel: null,
-                deprecated: false,
-                softpack: {
-                    name: "lamp",
-                    panel: "HiPanel",
-                    packages: [
-                        {
-                            name: "Apache",
-                            version: 2.2
-                        },
-                        {
-                            name: "MySQL",
-                            version: 8
-                        },
-                        {
-                            name: "PHP-FPM",
-                            version: "7.3.0"
-                        }
-                    ]
-                },
-                osimage: "freebsd_11_lamp"
             },
             {
                 name: "windows_10_clean",
