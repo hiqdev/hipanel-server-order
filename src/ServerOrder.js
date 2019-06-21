@@ -250,9 +250,9 @@ class ServerOrder extends Component {
         let total = this.state.total;
         const currentState = this.state.administration;
         if (administration === 'managed' && (currentState === 'unmanaged' || currentState == null)) {
-            total += this.state.configObj.support_price;
+            total += parseFloat(this.state.configObj.support_price);
         } else if (administration === 'unmanaged' && currentState === 'managed') {
-            total -= this.state.configObj.support_price;
+            total -= parseFloat(this.state.configObj.support_price);
         }
         this.setState({administration, total}, this.setPossibleOsImages);
     }
