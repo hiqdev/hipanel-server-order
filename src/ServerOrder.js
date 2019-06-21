@@ -17,17 +17,14 @@ const sideMargin = {marginTop: '1em'};
 const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1);
 
 const stringifyConfiguration = config => {
+    const cpu = config.cpu ? (<li><b>CPU:</b> <span>{config.cpu}</span></li>) : '',
+        ram = config.ram ? (<li><b>RAM:</b> <span>{config.ram}</span></li>) : '',
+        hdd = config.hdd ? (<li><b>HDD:</b> <span>{config.hdd}</span></li>) : '';
     return (
         <Fragment>
-            <li>
-                <b>CPU:</b> <span>{config.cpu}</span>
-            </li>
-            <li>
-                <b>RAM:</b> <span>{config.ram}</span>
-            </li>
-            <li>
-                <b>HDD:</b> <span>{config.hdd}</span>
-            </li>
+            {cpu}
+            {ram}
+            {hdd}
         </Fragment>
     );
 };
@@ -80,7 +77,7 @@ class ServerOrder extends Component {
     }
 
     setOsImage() {
-        this.setState((state, props) => {
+        this.setState(state => {
             if (state.possibleOsImages.length && state.softpack) {
                 let osImage = null;
                 const images = state.possibleOsImages.filter(image => getOs(image) === state.os);
@@ -153,21 +150,6 @@ class ServerOrder extends Component {
                 disabled: !this.props.osImages.some(image => (image.softpack === null || image.softpack.panel === null))
             },
         ];
-    }
-
-    checkSoftpack(softpack) {
-        let check = false;
-        if (this.state.possibleOsImages.length && softpack) {
-            Object.values(this.state.possibleOsImages).forEach(osImage => {
-                if (osImage.softpack === null && softpack.name === 'clear') {
-                    check = true;
-                } else if (osImage.softpack && osImage.softpack.name === softpack.name) {
-                    check = true;
-                }
-            });
-        }
-
-        return check;
     }
 
     getSoftpackOptions() {
