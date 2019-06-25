@@ -300,7 +300,7 @@ class ServerOrder extends Component {
                            onInputChange={value => this.handleSoftpackChange(value)}/>
             </fieldset>;
         } else if (location) {
-            if (Object.keys(this.state.configOptions).length && this.state.configOptions[location].length) {
+            if (Object.keys(this.state.configOptions).length && this.state.configOptions.hasOwnProperty(location)) {
                 mainSection = (this.state.configOptions[location].map((config, idx) => (
                     <div className="col-md-4" key={idx}>
                         <ConfigCard config={config} {...this.state} location={location}
@@ -366,13 +366,16 @@ function ConfigCard(props) {
     const handleSelect = evt => {
         props.onSelectConfig(evt.currentTarget.dataset.configId);
     };
-    let isSideBar = false, price = null, label = null;
+    let isSideBar = false, price = null, oldPrice = null, label = null;
     if (props.isSideBar) {
         isSideBar = true;
-        price = props.total;
+        price = props.total.toLocaleString(props.language, {style: 'currency', currency: props.config.currency});
         label = props.label;
     } else {
-        price = props.config.price;
+        price = props.config.price.toLocaleString(props.language, {style: 'currency', currency: props.config.currency});
+        if (props.config[props.location + '_old_price']) {
+            oldPrice = parseFloat(props.config[props.location + '_old_price']).toLocaleString(props.language, {style: 'currency', currency: props.config.currency});
+        }
     }
     const isOrderButtonActive = (props.os && props.administration && props.softpack && props.osImage);
 
@@ -395,10 +398,10 @@ function ConfigCard(props) {
                     <Software osImage={props.osImage}/>
                 </ul>
                 <hr/>
-                <div className="text-center text-muted">{price.toLocaleString(props.language, {
-                    style: 'currency',
-                    currency: props.config.currency
-                })}</div>
+                <div className="text-center text-muted">
+                    {oldPrice ? (<Fragment><strike>{oldPrice}</strike><br/></Fragment>) : ''}
+                    {price}
+                </div>
             </div>
             <div className="panel-footer">
                 {isSideBar ? (

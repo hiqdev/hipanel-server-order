@@ -32,6 +32,8 @@ if (!window.hipanel_order_server) {
                     hdd: "2 x 2 TB",
                     ram: '16 GB',
                     support_price: "0.07",
+                    nl_old_price: "17.55",
+                    us_old_price: "12.33"
                 },
             ],
             us: [
@@ -47,6 +49,8 @@ if (!window.hipanel_order_server) {
                     hdd: '2 х 2 TB HDD',
                     ram: '2 x 2 TB',
                     support_price: 1.7,
+                    nl_old_price: "11.14",
+                    us_old_price: "0.83"
                 },
                 {
                     id: 3,
