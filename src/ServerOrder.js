@@ -83,11 +83,11 @@ class ServerOrder extends Component {
                 const images = state.possibleOsImages.filter(image => getOs(image) === state.os);
                 for (let i = 0; i < images.length; i++) {
                     const image = images[i];
-                    if (image.softpack === null) {
+                    if (image.softpack === null && state.softpack === 'clear') {
                         osImage = image;
                         break;
                     }
-                    if (state.softpack === image.softpack.name) {
+                    if (image.softpack !== null && image.softpack.name === state.softpack) {
                         osImage = image;
                         break;
                     }

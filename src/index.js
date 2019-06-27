@@ -79,33 +79,6 @@ if (!window.hipanel_order_server) {
                 osimage: "freebsd_11_clear"
             },
             {
-                name: "freebsd_11_lamp",
-                title: "FreeBSD 11 LEMP stack (demo)",
-                os: "FreeBSD",
-                version: 11,
-                panel: null,
-                deprecated: false,
-                softpack: {
-                    name: "lamp",
-                    panel: "HiPanel",
-                    packages: [
-                        {
-                            name: "Apache",
-                            version: 2.2
-                        },
-                        {
-                            name: "MySQL",
-                            version: 8
-                        },
-                        {
-                            name: "PHP-FPM",
-                            version: "7.3.0"
-                        }
-                    ]
-                },
-                osimage: "freebsd_11_lamp"
-            },
-            {
                 name: "ubuntu_1810_clean",
                 title: "Ubuntu 18.10 Clean installation (demo)",
                 os: "Ubuntu",
@@ -178,6 +151,43 @@ if (!window.hipanel_order_server) {
                     ]
                 },
                 osimage: "ubuntu_1804_lemp_hipanel"
+            },
+            {
+                name: "freebsd_11_lamp",
+                title: "FreeBSD 11 LEMP stack (demo)",
+                os: "FreeBSD",
+                version: 11,
+                panel: null,
+                deprecated: false,
+                softpack: {
+                    name: "lamp",
+                    panel: "HiPanel",
+                    packages: [
+                        {
+                            name: "Apache",
+                            version: 2.2
+                        },
+                        {
+                            name: "MySQL",
+                            version: 8
+                        },
+                        {
+                            name: "PHP-FPM",
+                            version: "7.3.0"
+                        }
+                    ]
+                },
+                osimage: "freebsd_11_lamp"
+            },
+            {
+                name: "ubuntu_1804_clean",
+                title: "Ubuntu 18.04 LTS x64",
+                os: "Ubuntu",
+                version: "18.04 LTS",
+                panel: null,
+                deprecated: false,
+                softpack: null,
+                osimage: "ubuntu_1804_clean"
             },
             {
                 name: "windows_10_clean",
