@@ -12,13 +12,16 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {
+    "classnames": "^2.2.6",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-intl": "^2.9.0"
+    "react-intl": "^2.9.0",
+    "styled-components": "^4.3.2"
   },
   "devDependencies": {
-    "nwb": "0.23.x"
+    "nwb": "0.23.x",
+    "styled-components.macro": "^1.0.0"
   },
   "author": "Andrii Klochok",
   "license": "MIT",

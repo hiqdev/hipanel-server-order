@@ -22,11 +22,9 @@ ServerOrderAdvancedhostingThemeAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body style="padding: 5em 0 2em 0">
+<body>
 <?php $this->beginBody() ?>
-<main class="container">
-    <?= $content ?>
-</main>
+<?= $content ?>
 <?= Flashes::widget() ?>
 <?php $this->endBody() ?>
 </body>

@@ -23,7 +23,7 @@ if (!window.hipanel_order_server) {
                 {
                     id: 1,
                     name: 'Single Start',
-                    descr: 'The Test Config Description Single Start',
+                    descr: 'The Test Config Description',
                     price: 127,
                     currency: 'EUR',
                     nl_tariff_id: '123',
@@ -40,7 +40,7 @@ if (!window.hipanel_order_server) {
                 {
                     id: 2,
                     name: 'Single Business',
-                    descr: 'The Test Config Description Single Business',
+                    descr: 'The Test Config Description',
                     price: 175,
                     currency: 'USD',
                     nl_tariff_id: '123',
@@ -55,7 +55,7 @@ if (!window.hipanel_order_server) {
                 {
                     id: 3,
                     name: 'Single Advanced',
-                    descr: 'The Test Config Description Single Advanced',
+                    descr: 'The Test Config Description',
                     price: 202,
                     currency: 'USD',
                     nl_tariff_id: '123',
@@ -64,6 +64,19 @@ if (!window.hipanel_order_server) {
                     hdd: '2 х 2 TB HDD',
                     ram: '64 GB DDR4',
                     support_price: 0.7,
+                },
+                {
+                    id: 4,
+                    name: 'Single Start 2',
+                    descr: 'SUPERMICRO 1U CHASSIS',
+                    price: 155,
+                    currency: 'USD',
+                    nl_tariff_id: '123',
+                    us_tariff_id: '321',
+                    cpu: '1 х W-2123',
+                    hdd: '2 х 240 ГБ SSD',
+                    ram: '16 ГБ DDR4',
+                    support_price: 100,
                 },
             ],
         },
@@ -296,14 +309,19 @@ const messages = {
         'no_configurations': 'No configurations found',
         'select': ' Select',
         'order': 'Order',
+        'featured_dedicated_servers': 'Featured dedicated servers',
+        'configuration_setting': 'Make your server even more powerful',
+        'server_label': "Server label",
     },
     'ru': {
+        'featured_dedicated_servers': 'Примеры конфигураций выделенных серверов',
+        'configuration_setting': 'Сделайте ваш сервер еще мощнее',
         'text.header': 'Сделайте ваш сервер еще мощнее',
         'text.paragraph': 'Выберите технические детали и тип обслуживания выделенного сервера. ' +
             'Сразу после размещения заказа мы свяжемся с вами для подтверждения и подключения вашего проекта к услуге.',
         'nl': 'Нидерланды',
         'us': 'США',
-        'label': "Заметка",
+        'server_label': "Заметка",
         'administration': 'Администрирование',
         'softpack': 'Софт',
         'os': 'ОС',
@@ -315,6 +333,8 @@ const messages = {
         'no_softpack': 'отсутствует',
         'managed': 'Управляемое',
         'unmanaged': 'Неуправляемое',
+        'form_month': 'От {oldPrice} {price}/месяц',
+        'per_month': '{price}/месяц'
     }
 };
 

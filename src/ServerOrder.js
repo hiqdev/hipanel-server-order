@@ -1,49 +1,31 @@
-import React, {Component, Fragment, useEffect} from 'react'
-import {FormattedMessage} from 'react-intl';
+import React, {Fragment} from 'react'
+import {FormattedMessage} from 'react-intl'
+import styled from 'styled-components'
+import LocationSwitcher from './components/LocationSwitcher'
+import ConfigCard from './components/ConfigCard'
+import RadioList from './components/RadioList'
+import ServerOrderWrapper from './components/ServerOrderWrapper'
+import Breadcrumbs from './components/Breadcrumbs'
 
-const locationOptions = [
-    {
-        name: 'nl',
-        label: <FormattedMessage id='nl' defaultMessage='Netherlands'/>
-    },
-    {
-        name: 'us',
-        label: <FormattedMessage id='us' defaultMessage='USA'/>
-    },
-];
-
-const sideMargin = {marginTop: '1em'};
-
-const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1);
-
-const stringifyConfiguration = config => {
-    const cpu = config.cpu ? (<li><b>CPU:</b> <span>{config.cpu}</span></li>) : '',
-        ram = config.ram ? (<li><b>RAM:</b> <span>{config.ram}</span></li>) : '',
-        hdd = config.hdd ? (<li><b>HDD:</b> <span>{config.hdd}</span></li>) : '';
-    return (
-        <Fragment>
-            {cpu}
-            {ram}
-            {hdd}
-        </Fragment>
-    );
-};
+const FeaturedHeader = styled.h2`
+  display: inline-block;
+  line-height: 45px;
+  padding: 5px 0 13px 0;
+  font-size: 36px;
+  font-weight: 300;
+`;
 
 const getOs = obj => `${obj.os} ${obj.version}`;
 
-const describeSoftpack = pack => {
-    let title = '';
-    if (!pack) {
-        return null;
-    }
-    pack.packages.map(item => {
-        title += `${item.name} ${item.version} + `;
-    });
-
-    return title.replace(new RegExp("[\\s+]*$"), '');
+const Alert = ({msgId}) => {
+    return (
+        <div className="alert alert-warning text-center">
+            <FormattedMessage id={msgId}/>
+        </div>
+    );
 };
 
-class ServerOrder extends Component {
+class ServerOrder extends React.Component {
     constructor(props) {
         super(props);
         this.state = Object.assign({}, {
@@ -64,6 +46,16 @@ class ServerOrder extends Component {
             isOrderActive: false,
             total: 0,
             possibleOsImages: [],
+            locationOptions: [
+                {
+                    name: 'nl',
+                    label: <FormattedMessage id='nl' defaultMessage='Netherlands'/>
+                },
+                {
+                    name: 'us',
+                    label: <FormattedMessage id='us' defaultMessage='USA'/>
+                },
+            ],
         }, props.initialStates);
     }
 
@@ -248,9 +240,10 @@ class ServerOrder extends Component {
     }
 
     render() {
-        let mainSection = <Alert msgId='select_location'/>, sidebarCard = '';
+        let mainSection = <Alert msgId='select_location'/>, sidebarCard = '',
+            headerTextId = 'featured_dedicated_servers';
         const {
-            location, configId, os, administration, softpack, action, configOptions, label, osImage
+            location, configId, os, administration, softpack, action, configOptions, label, osImage, locationOptions
         } = this.state;
         const {token} = this.props;
 
@@ -259,25 +252,16 @@ class ServerOrder extends Component {
             const osOptions = this.getOsOptions();
             const softpackOptions = this.getSoftpackOptions();
             const fullConfig = configOptions[location].find(item => parseInt(item.id) === parseInt(configId));
+            headerTextId = 'configuration_setting';
             sidebarCard = (location && configId) ?
                 <ConfigCard config={fullConfig} isSideBar={true} {...this.state} osOptions={osOptions}
                             administrationOptions={administrationOptions} softpackOptions={softpackOptions}/> : '';
-            mainSection = <fieldset className="col-md-9">
-                <h3>
-                    <FormattedMessage id='text.header'/>
-                </h3>
-                <p>
-                    <FormattedMessage id='text.paragraph'/>
-                </p>
+            mainSection = <fieldset>
 
-                <div className="row">
-                    <div className="col-md-9">
-                        <div className="form-group">
-                            <label htmlFor="label"><FormattedMessage id='label' defaultMessage='Label'/></label>
-                            <input type="text" className="form-control" name='label' id="label"
-                                   value={label} onChange={evt => this.handleLabelChange(evt)}/>
-                        </div>
-                    </div>
+                <div className="form-group">
+                    <label htmlFor="label" className='sr-only'><FormattedMessage id='server_label'/></label>
+                    <input type="text" className="form-control" name='label' id="label"
+                           value={label} onChange={evt => this.handleLabelChange(evt)}/>
                 </div>
 
                 <input type="hidden" id="tariff_id" name="tariff_id" value={fullConfig[location + '_tariff_id']}/>
@@ -307,190 +291,45 @@ class ServerOrder extends Component {
                                     onSelectConfig={evt => this.handleSelectConfig(evt)}/>
                     </div>
                 )));
+                mainSection = (<div className='row'>{mainSection}</div>);
             } else {
                 mainSection = <Alert msgId='no_configurations'/>;
             }
         }
 
         return (
-            <form id="hipanel-server-order" action={action} method="POST">
-                <div className="row">
-                    <div className="col-md-9">
-                        <div className="row">
-                            {mainSection}
-                        </div>
-                    </div>
-                    <div className="col-md-3">
-                        <div className="row">
-                            <div className="col-md-12">
-                                <LocationSwitcher locations={locationOptions} currentLocation={location}
-                                                  onLocationChange={loc => this.handleLocationChange(loc)}/>
+            <Fragment>
+                <Breadcrumbs currentLocation={location} configId={configId} onBack={location => this.handleLocationChange(location)}/>
+                <ServerOrderWrapper configId={configId}>
+                    <div className="container">
+                        <form id="hipanel-server-order" action={action} method="POST">
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <div className="row">
+                                        <div className="col-md-8">
+                                            <FeaturedHeader><FormattedMessage id={headerTextId}/></FeaturedHeader>
+                                        </div>
+                                        <div className="col-md-4">
+                                            <LocationSwitcher locations={locationOptions} currentLocation={location}
+                                                              onLocationChange={loc => this.handleLocationChange(loc)}/>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="col-md-12" style={sideMargin}>
-                                {sidebarCard}
+                            <div className="row">
+                                <div className={sidebarCard === '' ? "col-md-12" : "col-md-8"}>
+                                    {mainSection}
+                                </div>
+                                <div className="col-md-4">
+                                    {sidebarCard}
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
-                </div>
-            </form>
+                </ServerOrderWrapper>
+            </Fragment>
         );
     }
-}
-
-function Alert({msgId}) {
-    return (
-        <div className="alert alert-warning text-center">
-            <FormattedMessage id={msgId}/>
-        </div>
-    );
-}
-
-function LocationSwitcher(props) {
-    const handleChange = evt => {
-        props.onLocationChange(evt.currentTarget.dataset.location);
-    };
-
-    return (
-        <div className="btn-group btn-group-justified">
-            {props.locations.map((location, idx) => (
-                <label className={"btn btn-default " + (location.name === props.currentLocation ? 'active' : '')}
-                       key={idx} data-location={location.name} onClick={handleChange}>
-                    {location.label}
-                </label>
-            ))}
-        </div>
-    );
-}
-
-function ConfigCard(props) {
-    const handleSelect = evt => {
-        props.onSelectConfig(evt.currentTarget.dataset.configId);
-    };
-    let isSideBar = false, price = null, oldPrice = null, label = null;
-    if (props.isSideBar) {
-        isSideBar = true;
-        price = props.total.toLocaleString(props.language, {style: 'currency', currency: props.config.currency});
-        label = props.label;
-    } else {
-        price = props.config.price.toLocaleString(props.language, {style: 'currency', currency: props.config.currency});
-        if (props.config[props.location + '_old_price']) {
-            oldPrice = parseFloat(props.config[props.location + '_old_price']).toLocaleString(props.language, {style: 'currency', currency: props.config.currency});
-        }
-    }
-    const isOrderButtonActive = (props.os && props.administration && props.softpack && props.osImage);
-
-    return (
-        <div className="panel panel-default">
-            <div className="panel-heading">{props.config.name}</div>
-
-            <div className="panel-body">
-                {props.config.descr}
-                <br/>
-                <br/>
-                <ul className="list-unstyled">
-                    {(label) ? (<li><b><FormattedMessage id='label' defaultMessage="Label"/>: </b> <span>{label}</span>
-                    </li>) : ''}
-                    {stringifyConfiguration(props.config)}
-                    <SelectedOption options={props.osOptions} input={props.os} label='os'/>
-                    <SelectedOption options={props.administrationOptions} input={props.administration}
-                                    label='administration'/>
-                    <SelectedOption options={props.softpackOptions} input={props.softpack} label='softpack'/>
-                    <Software osImage={props.osImage}/>
-                </ul>
-                <hr/>
-                <div className="text-center text-muted">
-                    {oldPrice ? (<Fragment><strike>{oldPrice}</strike><br/></Fragment>) : ''}
-                    {price}
-                </div>
-            </div>
-            <div className="panel-footer">
-                {isSideBar ? (
-                    <button type="submit" className="btn btn-success btn-block"
-                            disabled={!isOrderButtonActive}><FormattedMessage id='order'/>
-                    </button>
-                ) : (
-                    <button type="button" className="btn btn-primary btn-block"
-                            data-config-id={props.config.id}
-                            onClick={handleSelect}><FormattedMessage id='select'/></button>
-                )}
-            </div>
-        </div>
-    );
-}
-
-function Software({osImage}) {
-    if (osImage === null) {
-        return null;
-    }
-    if (osImage.softpack === null) {
-        return null;
-    }
-    const software = describeSoftpack(osImage.softpack);
-
-    return (
-        <li>
-            <b><FormattedMessage id='software' defaultMessage="Software"/>:</b> <span>{software}</span>
-        </li>
-    );
-}
-
-function RadioList({current, ...props}) {
-    const handleChange = evt => {
-        props.onInputChange(evt.target.value)
-    };
-    const isCurrentOptionDisabled = props.options.map((option) => {
-        return option.disabled ? null : option.name
-    }).indexOf(current) === -1;
-    if (isCurrentOptionDisabled) {
-        current = null;
-    }
-    if (current === null) {
-        current = props.options.reduce((accumulator, option) => {
-            return accumulator === null && !option.disabled
-                ? option.name
-                : accumulator;
-        }, null);
-        useEffect(() => {
-            props.onInputChange(current);
-        });
-    }
-    const options = props.options.map((option, idx) => (
-        <div className={'radio radio-' + props.label + (option.disabled === true ? ' disabled' : '')} key={idx}>
-            <label>
-                <input type="radio" name={props.label.toLowerCase()} value={option.name} onChange={handleChange}
-                       checked={current === option.name}
-                       disabled={(option.disabled === true) ? 'disabled' : ''}/>
-                {option.title}
-            </label>
-        </div>
-    ));
-
-    return (
-        <div className="form-group">
-            <label><FormattedMessage id={props.label}/></label>
-            {options}
-        </div>
-    );
-}
-
-/**
- * @return {null}
- */
-function SelectedOption({input, options, label}) {
-    if (input && options && label) {
-        const item = options.find(item => item.name === input);
-        if (!item) {
-            return null
-        }
-
-        return (
-            <li>
-                <b><FormattedMessage id={label} defaultMessage={capitalize(label)}/>: </b> <span>{item.title}</span>
-            </li>
-        );
-    }
-
-    return null;
 }
 
 export default ServerOrder
