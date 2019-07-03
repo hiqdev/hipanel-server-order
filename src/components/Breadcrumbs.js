@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import {FormattedMessage} from 'react-intl'
 import classnames from 'classnames'
 
 const BreadcrumbsWrapper = styled.div`
@@ -29,6 +30,10 @@ const BreadcrumbsWrapper = styled.div`
     padding-left: 0;
   }
   
+  & span:first-child a:hover {
+    cursor: pointer;
+  }
+  
   span {
     z-index: 12;
     padding: 0;
@@ -40,7 +45,7 @@ const BreadcrumbsWrapper = styled.div`
   span a, span.active {
     color: white;
     z-index: 1;
-    line-height: 43px;
+    line-height: 44px;
     display: inline-block;
     position: relative;
     padding: 0 18px;
@@ -73,16 +78,17 @@ const BreadcrumbsWrapper = styled.div`
 `;
 
 const Breadcrumbs = props => {
-    const handleChange = () => {
+    const handleChange = evt => {
+        evt.preventDefault();
         props.onBack(props.currentLocation);
     };
 
     return (
         <BreadcrumbsWrapper className="breadcrumbs">
             <div className="container">
-                <span className={classnames({active: props.configId === null})}><a href="#" onClick={handleChange}>1. Dedicated servers</a></span>
-                <span className={classnames({active: props.configId !== null})}><a href="#">2. Server configuration</a></span>
-                <span><a>3. Checkout</a></span>
+                <span className={classnames({active: props.configId === null})}><a onClick={handleChange}>1. <FormattedMessage id='dedicated_server'/></a></span>
+                <span className={classnames({active: props.configId !== null})}><a>2. <FormattedMessage id='server_configuration'/></a></span>
+                <span><a>3. <FormattedMessage id='checkout'/></a></span>
             </div>
         </BreadcrumbsWrapper>
     );

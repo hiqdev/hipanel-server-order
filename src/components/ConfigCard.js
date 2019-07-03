@@ -12,10 +12,11 @@ const SelectButton = styled.button`
     background-color: #4db6ac;
     border-color: #4db6ac;
     
-    &:hover {
-        color: white;
-        background-color: #61cbc1;
-        border-color: #61cbc1;
+    &:hover, &:focus, &:active {
+      outline: none;
+      color: white;
+      background-color: #61cbc1;
+      border-color: #61cbc1;
     }
 `;
 
@@ -45,6 +46,7 @@ const OrderButton = styled(SelectButton)`
   border-color: #ff5252;
   
   &:hover, &:focus, &:active {
+    outline: none;
     color: white;
     background-color: #ff6e67;
     border-color: #ff6e67;
@@ -148,7 +150,7 @@ export default function ConfigCard(props) {
                 ) : (
                     <SelectButton type="button" className="btn btn-block"
                                   data-config-id={props.config.id}
-                                  onClick={handleSelect}><FormattedMessage id='order'/></SelectButton>
+                                  onClick={handleSelect}><FormattedMessage id='select'/></SelectButton>
                 )}
             </div>
         </ConfigCardWrapper>

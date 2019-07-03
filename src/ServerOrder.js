@@ -1,4 +1,5 @@
-import React, {Fragment} from 'react'
+import React from 'react'
+import classnames from 'classnames'
 import {FormattedMessage} from 'react-intl'
 import styled from 'styled-components'
 import LocationSwitcher from './components/LocationSwitcher'
@@ -7,12 +8,60 @@ import RadioList from './components/RadioList'
 import ServerOrderWrapper from './components/ServerOrderWrapper'
 import Breadcrumbs from './components/Breadcrumbs'
 
+const FontWrapper = styled.div`
+  font-family: 'Open Sans', sans-serif;
+`;
+
 const FeaturedHeader = styled.h2`
   display: inline-block;
   line-height: 45px;
-  padding: 5px 0 13px 0;
+  padding: 0 0 13px 0;
   font-size: 36px;
   font-weight: 300;
+  margin: 0;
+`;
+
+const GroupHeader = styled.h4`
+  font-size: 22px;
+  color: #4db6ac;
+  padding-top: 77px;
+  padding-bottom: 40px;
+  line-height: 27px;
+   font-weight: 600;
+`;
+
+const LabelWrapper = styled.div`
+  margin-bottom: 30px;
+  padding-top: 72px;
+  padding-bottom: 43px;
+  
+  input:focus::-webkit-input-placeholder { color:transparent; }
+  input:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
+  input:focus::-moz-placeholder { color:transparent; } /* FF 19+ */
+  input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
+  .form-control:focus {
+    border-color: transparent;
+    outline: 0;
+    box-shadow: none;
+    border-bottom: 1px solid #bdbdbd;
+  }
+  input {
+    display: block;
+    height: 47px;
+    margin: auto;
+    background-color: transparent;
+    color: #38474e;
+    border: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid #bdbdbd;
+    border-top: none;
+    border-radius: 0;
+    text-align: left;
+    padding: 0 0;
+    font: 300 18px/36px 'Open Sans',Arial,sans-serif;
+    box-shadow: none;
+  }
 `;
 
 const getOs = obj => `${obj.os} ${obj.version}`;
@@ -28,6 +77,7 @@ const Alert = ({msgId}) => {
 class ServerOrder extends React.Component {
     constructor(props) {
         super(props);
+        this.cmpRef = React.createRef();
         this.state = Object.assign({}, {
             actions: null,
             location: 'usa',
@@ -57,6 +107,12 @@ class ServerOrder extends React.Component {
                 },
             ],
         }, props.initialStates);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.configId !== this.state.configId) {
+            this.cmpRef.current.scrollIntoView({behavior: 'smooth'});
+        }
     }
 
     componentDidMount(prevProps, prevState, snapshot) {
@@ -246,6 +302,7 @@ class ServerOrder extends React.Component {
             location, configId, os, administration, softpack, action, configOptions, label, osImage, locationOptions
         } = this.state;
         const {token} = this.props;
+        const serverLabel = <FormattedMessage id='server_label'/>;
 
         if (location && configId) {
             const administrationOptions = this.getAdministrationOptions();
@@ -258,11 +315,11 @@ class ServerOrder extends React.Component {
                             administrationOptions={administrationOptions} softpackOptions={softpackOptions}/> : '';
             mainSection = <fieldset>
 
-                <div className="form-group">
-                    <label htmlFor="label" className='sr-only'><FormattedMessage id='server_label'/></label>
-                    <input type="text" className="form-control" name='label' id="label"
-                           value={label} onChange={evt => this.handleLabelChange(evt)}/>
-                </div>
+                <LabelWrapper className="form-group">
+                    <label htmlFor="label" className='sr-only'>{serverLabel}</label>
+                    <input type="text" className="form-control" name='label' id="label" placeholder="Server Label"
+                           autoComplete="off" value={label} onChange={evt => this.handleLabelChange(evt)}/>
+                </LabelWrapper>
 
                 <input type="hidden" id="tariff_id" name="tariff_id" value={fullConfig[location + '_tariff_id']}/>
 
@@ -291,14 +348,14 @@ class ServerOrder extends React.Component {
                                     onSelectConfig={evt => this.handleSelectConfig(evt)}/>
                     </div>
                 )));
-                mainSection = (<div className='row'>{mainSection}</div>);
+                mainSection = (<div className='row'><GroupHeader className='col-xs-12'>“Quick Start” Server</GroupHeader>{mainSection}</div>);
             } else {
                 mainSection = <Alert msgId='no_configurations'/>;
             }
         }
 
         return (
-            <Fragment>
+            <FontWrapper ref={this.cmpRef}>
                 <Breadcrumbs currentLocation={location} configId={configId} onBack={location => this.handleLocationChange(location)}/>
                 <ServerOrderWrapper configId={configId}>
                     <div className="container">
@@ -306,10 +363,10 @@ class ServerOrder extends React.Component {
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="row">
-                                        <div className="col-md-8">
+                                        <div className={classnames({"col-md-8": configId === null,"col-md-12": configId !== null})}>
                                             <FeaturedHeader><FormattedMessage id={headerTextId}/></FeaturedHeader>
                                         </div>
-                                        <div className="col-md-4">
+                                        <div className={classnames({"col-md-4": configId === null,"hidden": configId !== null})}>
                                             <LocationSwitcher locations={locationOptions} currentLocation={location}
                                                               onLocationChange={loc => this.handleLocationChange(loc)}/>
                                         </div>
@@ -326,8 +383,9 @@ class ServerOrder extends React.Component {
                             </div>
                         </form>
                     </div>
+                    <div className="clearfix"></div>
                 </ServerOrderWrapper>
-            </Fragment>
+            </FontWrapper>
         );
     }
 }
