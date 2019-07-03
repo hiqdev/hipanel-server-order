@@ -86,12 +86,15 @@ const stringifyConfiguration = config => {
             id='cpu'/><ConfigValue>{config.cpu}</ConfigValue><ConfigLabel>CPU</ConfigLabel></ConfigItem>) : '',
         ram = config.ram ? (<ConfigItem><Icon
             id='memory'/><ConfigValue>{config.ram}</ConfigValue><ConfigLabel>DDR4</ConfigLabel></ConfigItem>) : '',
+        ssd = config.ssd ? (<ConfigItem><Icon
+            id='memory'/><ConfigValue>{config.ssd}</ConfigValue><ConfigLabel>SSD</ConfigLabel></ConfigItem>) : '',
         hdd = config.hdd ? (<ConfigItem><Icon
-            id='ssd'/><ConfigValue>{config.hdd}</ConfigValue><ConfigLabel>SSD</ConfigLabel></ConfigItem>) : '';
+            id='ssd'/><ConfigValue>{config.hdd}</ConfigValue><ConfigLabel>HDD</ConfigLabel></ConfigItem>) : '';
     return (
         <Fragment>
             {cpu}
             {ram}
+            {ssd}
             {hdd}
         </Fragment>
     );
@@ -122,8 +125,7 @@ export default function ConfigCard(props) {
             </div>
             <div className="panel-body">
                 <ul className="list-unstyled">
-                    {(label) ? (<ConfigItem><ConfigValue><FormattedMessage id='label'
-                                                                           defaultMessage="Label"/></ConfigValue><ConfigLabel>{label}</ConfigLabel></ConfigItem>) : ''}
+                    {(label) ? (<ConfigItem><Icon id='info'/><ConfigValue>{label}</ConfigValue><ConfigLabel><FormattedMessage id='label' defaultMessage="Label"/></ConfigLabel></ConfigItem>) : ''}
                     {stringifyConfiguration(props.config)}
                     <SelectedOption options={props.osOptions} input={props.os} label='os'/>
                     <SelectedOption options={props.administrationOptions} input={props.administration}

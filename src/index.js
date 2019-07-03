@@ -29,7 +29,7 @@ if (!window.hipanel_order_server) {
                     nl_tariff_id: '123',
                     us_tariff_id: '321',
                     cpu: "1 x W-2123",
-                    hdd: "2 x 2 TB",
+                    ssd: "2 x 2 TB",
                     ram: '16 GB',
                     support_price: "0.07",
                     nl_old_price: "17.55",
