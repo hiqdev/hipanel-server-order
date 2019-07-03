@@ -1,6 +1,7 @@
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
-import styled from 'styled-components'
+import {ConfigLabel, ConfigItem, ConfigValue} from './ConfigViewer'
+
 
 const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1);
 
@@ -19,9 +20,9 @@ export default function SelectedOption({input, options, label}) {
         }
 
         return (
-            <li>
-                <b><FormattedMessage id={label} defaultMessage={capitalize(label)}/>: </b> <span>{item.title}</span>
-            </li>
+            <ConfigItem>
+                <ConfigValue>{item.title}</ConfigValue><ConfigLabel><FormattedMessage id={label} defaultMessage={capitalize(label)}/></ConfigLabel>
+            </ConfigItem>
         );
     }
 

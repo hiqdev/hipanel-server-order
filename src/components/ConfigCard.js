@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import {FormattedMessage} from 'react-intl'
 import SoftwareDescriber from './SoftwareDesriber'
 import SelectedOption from './SelectedOption'
+import {ConfigLabel, ConfigItem, ConfigValue} from './ConfigViewer'
+import Icon from './Icon'
 
 const SelectButton = styled.button`
     height: 63px;
@@ -80,9 +82,12 @@ const ConfigCardWrapper = styled.div`
 `;
 
 const stringifyConfiguration = config => {
-    const cpu = config.cpu ? (<li><b>CPU:</b> <span>{config.cpu}</span></li>) : '',
-        ram = config.ram ? (<li><b>RAM:</b> <span>{config.ram}</span></li>) : '',
-        hdd = config.hdd ? (<li><b>HDD:</b> <span>{config.hdd}</span></li>) : '';
+    const cpu = config.cpu ? (<ConfigItem><Icon
+            id='cpu'/><ConfigValue>{config.cpu}</ConfigValue><ConfigLabel>CPU</ConfigLabel></ConfigItem>) : '',
+        ram = config.ram ? (<ConfigItem><Icon
+            id='memory'/><ConfigValue>{config.ram}</ConfigValue><ConfigLabel>DDR4</ConfigLabel></ConfigItem>) : '',
+        hdd = config.hdd ? (<ConfigItem><Icon
+            id='ssd'/><ConfigValue>{config.hdd}</ConfigValue><ConfigLabel>SSD</ConfigLabel></ConfigItem>) : '';
     return (
         <Fragment>
             {cpu}
@@ -117,8 +122,8 @@ export default function ConfigCard(props) {
             </div>
             <div className="panel-body">
                 <ul className="list-unstyled">
-                    {(label) ? (<li><b><FormattedMessage id='label' defaultMessage="Label"/>: </b> <span>{label}</span>
-                    </li>) : ''}
+                    {(label) ? (<ConfigItem><ConfigValue><FormattedMessage id='label'
+                                                                           defaultMessage="Label"/></ConfigValue><ConfigLabel>{label}</ConfigLabel></ConfigItem>) : ''}
                     {stringifyConfiguration(props.config)}
                     <SelectedOption options={props.osOptions} input={props.os} label='os'/>
                     <SelectedOption options={props.administrationOptions} input={props.administration}

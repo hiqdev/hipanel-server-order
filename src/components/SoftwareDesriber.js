@@ -1,5 +1,6 @@
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
+import {ConfigLabel, ConfigItem, ConfigValue} from './ConfigViewer'
 
 const describer = pack => {
     let title = '';
@@ -29,9 +30,9 @@ export default function Software({osImage}) {
     const software = describer(osImage.softpack);
 
     return (
-        <li>
-            <b><FormattedMessage id='software' defaultMessage="Software"/>:</b> <span>{software}</span>
-        </li>
+        <ConfigItem>
+            <ConfigValue>{software}</ConfigValue><ConfigLabel><FormattedMessage id='software' defaultMessage="Software"/></ConfigLabel>
+        </ConfigItem>
     );
 }
 

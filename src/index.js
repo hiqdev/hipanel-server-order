@@ -91,7 +91,7 @@ if (!window.hipanel_order_server) {
                     ram: '2 x 2 TB',
                     support_price: 1.7,
                     nl_old_price: "11.14",
-                    us_old_price: "0.83"
+                    us_old_price: "1.31"
                 },
                 {
                     id: 6,
