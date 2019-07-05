@@ -33,7 +33,7 @@ class ServerOrder extends Widget
             'label' => Yii::t('hipanel', 'loading...'),
             'percent' => 100,
             'barOptions' => ['class' => 'progress-bar-success'],
-            'options' => ['class' => 'active progress-striped', 'style' => 'width: 1024px; margin: 0 auto;'],
+            'options' => ['class' => 'active progress-striped', 'style' => 'width: 1024px; margin: 5em auto 0;'],
         ]), ['id' => 'server-order-app']);
     }
 
@@ -60,13 +60,16 @@ class ServerOrder extends Widget
     private function buildConfigs()
     {
         foreach ($this->configs as $config) {
-            foreach ($config->prices as $location => $price) {
-                if (!empty($config->{$location . '_server_ids'})) {
-                    yield $location => [array_merge($config->toArray(), [
-                        'price' => $price->firstAvailable->value,
-                        'currency' => $price->firstAvailable->currency,
-                        'support_price' => $price->supportPrice ?? 0,
-                    ])];
+            $config->profiles = $config->profiles ? array_map('trim', explode(',', $config->profiles)) : [];
+            if (!empty($config->profiles)) {
+                foreach ($config->prices as $location => $price) {
+                    if (!empty($config->{$location . '_server_ids'})) {
+                        yield $location => [array_merge($config->toArray(), [
+                            'price' => $price->firstAvailable->value,
+                            'currency' => $price->firstAvailable->currency,
+                            'support_price' => $price->supportPrice ?? 0,
+                        ])];
+                    }
                 }
             }
         }

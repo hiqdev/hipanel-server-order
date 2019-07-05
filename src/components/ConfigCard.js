@@ -7,19 +7,19 @@ import {ConfigLabel, ConfigItem, ConfigValue} from './ConfigViewer'
 import Icon from './Icon'
 
 const SelectButton = styled.button`
-    height: 63px;
-    font-size: 22px;
-    line-height: 43px;
+  height: 63px;
+  font-size: 22px;
+  line-height: 43px;
+  color: white;
+  background-color: #4db6ac;
+  border-color: #4db6ac;
+  
+  &:hover, &:focus, &:active {
+    outline: none;
     color: white;
-    background-color: #4db6ac;
-    border-color: #4db6ac;
-    
-    &:hover, &:focus, &:active {
-      outline: none;
-      color: white;
-      background-color: #61cbc1;
-      border-color: #61cbc1;
-    }
+    background-color: #61cbc1;
+    border-color: #61cbc1;
+  }
 `;
 
 const ConfigDescription = styled.div`
@@ -56,29 +56,29 @@ const OrderButton = styled(SelectButton)`
 `;
 
 const ConfigCardWrapper = styled.div`
-    padding: 14px 18px 18px;
-    background: white;
-    box-shadow: 0 1px 1.92px 1.08px rgba(0, 0, 0, 0.04), 0 4px 6px 0 rgba(0, 0, 0, 0.01), 0 2px 8px 0 rgba(0, 0, 0, 0.06);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border-radius: 2px;
-    box-sizing: border-box;
-    vertical-align: top;
-    margin-bottom: 18px;
-    
-    & > .panel-heading {
-      font-size: 22px;
-      line-height: 27px;
-      font-weight: 400;
-      border: none;
-      background-color: white;
-    }
-    
-    & > .panel-footer {
-      border: none;
-      background-color: white;
-    }
+  padding: 14px 18px 18px;
+  background: white;
+  box-shadow: 0 1px 1.92px 1.08px rgba(0, 0, 0, 0.04), 0 4px 6px 0 rgba(0, 0, 0, 0.01), 0 2px 8px 0 rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 2px;
+  box-sizing: border-box;
+  vertical-align: top;
+  margin-bottom: 18px;
+  
+  & > .panel-heading {
+    font-size: 22px;
+    line-height: 27px;
+    font-weight: 400;
+    border: none;
+    background-color: white;
+  }
+  
+  & > .panel-footer {
+    border: none;
+    background-color: white;
+  }
 `;
 
 const stringifyConfiguration = config => {

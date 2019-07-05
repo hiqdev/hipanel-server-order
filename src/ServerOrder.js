@@ -66,11 +66,15 @@ const LabelWrapper = styled.div`
 
 const getOs = obj => `${obj.os} ${obj.version}`;
 
+const AlertWrapper = styled.div`
+  margin-top: 5em;
+`;
+
 const Alert = ({msgId}) => {
     return (
-        <div className="alert alert-warning text-center">
+        <AlertWrapper className="alert alert-warning text-center">
             <FormattedMessage id={msgId}/>
-        </div>
+        </AlertWrapper>
     );
 };
 
@@ -342,13 +346,32 @@ class ServerOrder extends React.Component {
             </fieldset>;
         } else if (location) {
             if (Object.keys(this.state.configOptions).length && this.state.configOptions.hasOwnProperty(location)) {
-                mainSection = (this.state.configOptions[location].map((config, idx) => (
-                    <div className="col-md-4" key={idx}>
-                        <ConfigCard config={config} {...this.state} location={location}
-                                    onSelectConfig={evt => this.handleSelectConfig(evt)}/>
-                    </div>
-                )));
-                mainSection = (<div className='row'><GroupHeader className='col-xs-12'>“Quick Start” Server</GroupHeader>{mainSection}</div>);
+                let groups = {};
+                const groupByProfiles = (configs) => {
+                    for (let i = 0; i < configs.length; i++) {
+                        const config = configs[i];
+                        for (let i = 0; i < config.profiles.length; i++) {
+                            const profile = config.profiles[i];
+                            if (!groups[profile]) {
+                                groups[profile] = [];
+                            }
+                            groups[profile].push(config);
+                        }
+                    }
+                };
+                groupByProfiles(this.state.configOptions[location]);
+                mainSection = Object.keys(groups).map((groupName, idx) => {
+                    const configs = groups[groupName].map((config, idx) => (
+                        <div className="col-md-4" key={idx}>
+                            <ConfigCard config={config} {...this.state} location={location}
+                                        onSelectConfig={evt => this.handleSelectConfig(evt)}/>
+                            </div>
+                    ));
+                    return (<div className="row" key={idx}>
+                        <GroupHeader className='col-xs-12'>{groupName}</GroupHeader>
+                        {configs}
+                    </div>);
+                });
             } else {
                 mainSection = <Alert msgId='no_configurations'/>;
             }

@@ -33,7 +33,8 @@ if (!window.hipanel_order_server) {
                     ram: '16 GB',
                     support_price: "0.07",
                     nl_old_price: "17.55",
-                    us_old_price: "12.33"
+                    us_old_price: "12.33",
+                    profiles: ['“Profi plus” servers'],
                 },
             ],
             us: [
@@ -50,6 +51,7 @@ if (!window.hipanel_order_server) {
                     ram: '2 x 2 TB',
                     support_price: 1.7,
                     nl_old_price: "11.14",
+                    profiles: ['“Big data” servers'],
                     us_old_price: "0.83"
                 },
                 {
@@ -63,6 +65,7 @@ if (!window.hipanel_order_server) {
                     cpu: '1 х W-2133 CPU',
                     hdd: '2 х 2 TB HDD',
                     ram: '64 GB DDR4',
+                    profiles: ['“Profi plus” servers'],
                     support_price: 0.7,
                 },
                 {
@@ -76,6 +79,7 @@ if (!window.hipanel_order_server) {
                     cpu: '1 х W-2123',
                     hdd: '2 х 240 ГБ SSD',
                     ram: '16 ГБ DDR4',
+                    profiles: ['“Profi plus” servers'],
                     support_price: 100,
                 },
                 {
@@ -90,6 +94,7 @@ if (!window.hipanel_order_server) {
                     hdd: '2 х 2 TB HDD',
                     ram: '2 x 2 TB',
                     support_price: 1.7,
+                    profiles: ['“Big data” servers'],
                     nl_old_price: "11.14",
                     us_old_price: "1.31"
                 },
@@ -105,6 +110,7 @@ if (!window.hipanel_order_server) {
                     hdd: '2 х 2 TB HDD',
                     ram: '64 GB DDR4',
                     support_price: 0.7,
+                    profiles: ['“Big data” servers', '“Profi plus” servers'],
                 },
                 {
                     id: 7,
@@ -118,6 +124,7 @@ if (!window.hipanel_order_server) {
                     hdd: '2 х 240 ГБ SSD',
                     ram: '16 ГБ DDR4',
                     support_price: 100,
+                    profiles: ['“Big data” servers', '“Profi plus” servers'],
                 },
             ],
         },
