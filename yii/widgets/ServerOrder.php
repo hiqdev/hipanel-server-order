@@ -57,21 +57,24 @@ class ServerOrder extends Widget
         ]);
     }
 
-    private function buildConfigs()
+    private function buildConfigs(): array
     {
+        $configs = [];
         foreach ($this->configs as $config) {
-            $config->profiles = $config->profiles ? array_map('trim', explode(',', $config->profiles)) : [];
+            $config->profiles ? array_map('trim', explode(',', $config->profiles)) : [];
             if (!empty($config->profiles)) {
                 foreach ($config->prices as $location => $price) {
                     if (!empty($config->{$location . '_server_ids'})) {
-                        yield $location => [array_merge($config->toArray(), [
+                        $configs[$location][] = array_merge($config->toArray(), [
                             'price' => $price->firstAvailable->value,
                             'currency' => $price->firstAvailable->currency,
                             'support_price' => $price->supportPrice ?? 0,
-                        ])];
+                        ]);
                     }
                 }
             }
         }
+
+        return $configs;
     }
 }
