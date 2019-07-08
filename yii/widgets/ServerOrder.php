@@ -61,7 +61,7 @@ class ServerOrder extends Widget
     {
         $configs = [];
         foreach ($this->configs as $config) {
-            $config->profiles ? array_map('trim', explode(',', $config->profiles)) : [];
+            $config->profiles = $config->profiles ? array_map('trim', explode(',', $config->profiles)) : [];
             if (!empty($config->profiles)) {
                 foreach ($config->prices as $location => $price) {
                     if (!empty($config->{$location . '_server_ids'})) {
