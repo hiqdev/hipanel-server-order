@@ -121,7 +121,7 @@ export default function ConfigCard(props) {
         <ConfigCardWrapper className="panel panel-default">
             <div className="panel-heading">
                 {props.config.name}
-                <ConfigDescription>{props.config.descr}</ConfigDescription>
+                <ConfigDescription>{props.config.label}</ConfigDescription>
             </div>
             <div className="panel-body">
                 <ul className="list-unstyled">
