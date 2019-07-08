@@ -10,7 +10,11 @@ const Wrapper = styled.svg`
 `;
 
 export default function Icon({id}) {
-    const href = `icons.svg#${id}`;
+    let pathToIcons = '';
+    if (window.hipanel_order_server_path_to_icons) {
+        pathToIcons = window.hipanel_order_server_path_to_icons;
+    }
+    const href = `${pathToIcons}icons.svg#${id}`;
     return (
         <Wrapper viewBox="0 0 24 24">
             <use xlinkHref={href}></use>
