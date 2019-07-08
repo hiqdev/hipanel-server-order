@@ -22,9 +22,17 @@ const SelectButton = styled.button`
   }
 `;
 
-const ConfigDescription = styled.div`
+const ConfigSubname = styled.div`
   margin-top: -2px;
   color: #bdbdbd;
+  font-weight: 300;
+  padding: 7px 0 11px 0;
+  font-size: 18px;
+  line-height: 27px;
+`;
+
+const ConfigDescription = styled.p`
+  margin-top: -2px;
   font-weight: 300;
   padding: 7px 0 11px 0;
   font-size: 18px;
@@ -121,7 +129,8 @@ export default function ConfigCard(props) {
         <ConfigCardWrapper className="panel panel-default">
             <div className="panel-heading">
                 {props.config.name}
-                <ConfigDescription>{props.config.label}</ConfigDescription>
+                <ConfigSubname>{props.config.label}</ConfigSubname>
+                {(isSideBar) ? (<ConfigDescription>{props.config.descr}</ConfigDescription>) : ''}
             </div>
             <div className="panel-body">
                 <ul className="list-unstyled">

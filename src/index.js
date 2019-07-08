@@ -23,6 +23,7 @@ if (!window.hipanel_order_server) {
                 {
                     id: 1,
                     name: 'Single Start',
+                    label: 'SUPERMICRO 1U CHASSIS',
                     descr: 'The Test Config Description',
                     price: 127,
                     currency: 'EUR',
@@ -41,6 +42,8 @@ if (!window.hipanel_order_server) {
                 {
                     id: 2,
                     name: 'Single Business',
+                    label: 'SUPERMICRO 1U CHASSIS',
+                    descr: 'The Test Config Description',
                     descr: 'The Test Config Description',
                     price: 175,
                     currency: 'USD',
@@ -57,6 +60,8 @@ if (!window.hipanel_order_server) {
                 {
                     id: 3,
                     name: 'Single Advanced',
+                    label: 'SUPERMICRO 1U CHASSIS',
+                    descr: 'The Test Config Description',
                     descr: 'The Test Config Description',
                     price: 202,
                     currency: 'USD',
@@ -71,6 +76,8 @@ if (!window.hipanel_order_server) {
                 {
                     id: 4,
                     name: 'Single Start 2',
+                    label: 'SUPERMICRO 1U CHASSIS',
+                    descr: 'The Test Config Description',
                     descr: 'SUPERMICRO 1U CHASSIS',
                     price: 155,
                     currency: 'USD',
@@ -85,6 +92,8 @@ if (!window.hipanel_order_server) {
                 {
                     id: 5,
                     name: 'Single Business',
+                    label: 'SUPERMICRO 1U CHASSIS',
+                    descr: 'The Test Config Description',
                     descr: 'The Test Config Description',
                     price: 175,
                     currency: 'USD',
@@ -101,6 +110,8 @@ if (!window.hipanel_order_server) {
                 {
                     id: 6,
                     name: 'Single Advanced',
+                    label: 'SUPERMICRO 1U CHASSIS',
+                    descr: 'The Test Config Description',
                     descr: 'The Test Config Description',
                     price: 202,
                     currency: 'USD',
@@ -115,6 +126,8 @@ if (!window.hipanel_order_server) {
                 {
                     id: 7,
                     name: 'Single Start 2',
+                    label: 'SUPERMICRO 1U CHASSIS',
+                    descr: 'The Test Config Description',
                     descr: 'SUPERMICRO 1U CHASSIS',
                     price: 155,
                     currency: 'USD',
