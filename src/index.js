@@ -25,7 +25,7 @@ if (!window.hipanel_order_server) {
                     name: 'Single Start',
                     label: 'SUPERMICRO 1U CHASSIS',
                     descr: 'The Test Config Description',
-                    price: 127,
+                    price: 127111,
                     currency: 'EUR',
                     nl_tariff_id: '123',
                     us_tariff_id: '321',

@@ -39,14 +39,23 @@ const ConfigDescription = styled.p`
   line-height: 27px;
 `;
 
-const PriceWrapper = styled.span`
-  color: #38474e;
-  font-size: 22px;
-`;
-
-const OldPriceWrapper = styled(PriceWrapper)`
+const OldPriceWrapper = styled.span`
   text-decoration: line-through;
   color: #bdbdbd;
+`;
+
+const LineWithPriceWrapper = styled.p`
+  text-align: center;
+  line-height: 59px !important;
+  height: 45px;
+  margin: 0 0 .5em 0;
+  padding: 0 !important;
+  position: relative;
+  z-index: 1;
+  font-size: 22px;
+  font-weight: 400;
+  color: #38474e;
+  white-space: nowrap;
 `;
 
 const OrderButton = styled(SelectButton)`
@@ -89,6 +98,15 @@ const ConfigCardWrapper = styled.div`
   }
 `;
 
+const NoPadding = styled.div`padding: 0 0 36px 0;`;
+
+const PanelFooterWrapper = styled(NoPadding)`
+  border-top: 1px solid rgba(189, 189, 189, 0.3) !important;
+  padding-bottom: 0;
+  z-index: 1;
+  position: relative;
+`;
+
 const stringifyConfiguration = config => {
     const cpu = config.cpu ? (<ConfigItem><Icon
             id='cpu'/><ConfigValue>{config.cpu}</ConfigValue><ConfigLabel>CPU</ConfigLabel></ConfigItem>) : '',
@@ -127,14 +145,16 @@ export default function ConfigCard(props) {
 
     return (
         <ConfigCardWrapper className="panel panel-default">
-            <div className="panel-heading">
+            <NoPadding className="panel-heading">
                 {props.config.name}
                 <ConfigSubname>{props.config.label}</ConfigSubname>
                 {(isSideBar) ? (<ConfigDescription>{props.config.descr}</ConfigDescription>) : ''}
-            </div>
-            <div className="panel-body">
+            </NoPadding>
+            <NoPadding className="panel-body">
                 <ul className="list-unstyled">
-                    {(label) ? (<ConfigItem><Icon id='info'/><ConfigValue>{label}</ConfigValue><ConfigLabel><FormattedMessage id='label' defaultMessage="Label"/></ConfigLabel></ConfigItem>) : ''}
+                    {(label) ? (
+                        <ConfigItem><Icon id='info'/><ConfigValue>{label}</ConfigValue><ConfigLabel><FormattedMessage
+                            id='label' defaultMessage="Label"/></ConfigLabel></ConfigItem>) : ''}
                     {stringifyConfiguration(props.config)}
                     <SelectedOption options={props.osOptions} input={props.os} label='os'/>
                     <SelectedOption options={props.administrationOptions} input={props.administration}
@@ -142,23 +162,18 @@ export default function ConfigCard(props) {
                     <SelectedOption options={props.softpackOptions} input={props.softpack} label='softpack'/>
                     <SoftwareDescriber osImage={props.osImage}/>
                 </ul>
-                <hr/>
-                <div className="text-center">
+            </NoPadding>
+            <PanelFooterWrapper className="panel-footer">
+                <LineWithPriceWrapper>
                     {isSideBar ? (
-                        <PriceWrapper>
-                            <FormattedMessage id='per_month' defaultMessage="{price}/month" values={{price}}/>
-                        </PriceWrapper>
+                        <FormattedMessage id='per_month' defaultMessage="{price}/month" values={{price}}/>
                     ) : (
-                        <PriceWrapper>
-                            <FormattedMessage id='from_month' defaultMessage="From {oldPrice} {price}/month" values={{
-                                oldPrice: <OldPriceWrapper>{oldPrice}</OldPriceWrapper>,
-                                price
-                            }}/>
-                        </PriceWrapper>
+                        <FormattedMessage id='from_month' defaultMessage="From {oldPrice} {price}/month" values={{
+                            oldPrice: <OldPriceWrapper>{oldPrice}</OldPriceWrapper>,
+                            price
+                        }}/>
                     )}
-                </div>
-            </div>
-            <div className="panel-footer">
+                </LineWithPriceWrapper>
                 {isSideBar ? (
                     <OrderButton type="submit" className="btn btn-block" disabled={!isOrderButtonActive}>
                         <FormattedMessage id='order'/>
@@ -168,7 +183,7 @@ export default function ConfigCard(props) {
                                   data-config-id={props.config.id}
                                   onClick={handleSelect}><FormattedMessage id='select'/></SelectButton>
                 )}
-            </div>
+            </PanelFooterWrapper>
         </ConfigCardWrapper>
     );
 }
