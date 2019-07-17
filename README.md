@@ -21,7 +21,7 @@
 ```javascript
 window.hipanel_server_order = {
     initialStates: {
-        action: '[api_domain_name]/server/order/add-to-cart-dedicated', // действие формы для заказа
+        action: 'https://[hipanel_domain_name]/server/order/add-to-cart-dedicated', // действие формы для заказа
         location: 'us', // локация по умолчанию, доступные варианты: 'us', 'nl'
         language: 'en', // язык по умолчанию, доступные варианты: 'ru', 'en'
     },
