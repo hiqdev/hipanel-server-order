@@ -14,6 +14,7 @@ if (!window.hipanel_server_order) {
             location: 'us',
             language: 'en',
         },
+        pathToIcons: null,
         configs: {
             nl: [
                 {
