@@ -8,7 +8,7 @@
 4. Перед закрытием тега ```<head>```, вставить всё что написано в файле ```dist/index.html```
 6. Сделать запросы на получение доступных конфигураций ```https://hiapi.advancedhosters.com/configsGetAvailable?0=and&1%5Bseller%5D=dsr&2%5Bwith_prices%5D=1&select%5B%2A%5D=%2A&select%5Bprices%5D=prices&with_prices=1&seller=dsr```
 7. Сделать запросы на получение доступных образов ```https://hiapi.advancedhosters.com/osimagesSearch?type=dedicated&type=dedicated&seller=dsr```
-8. Для получения данных и последующий передачи их в плагин выбора и заказа конфигурации нужно создать глобальную переменную ```window.hipanel_order_server```
+8. Для получения данных и последующий передачи их в плагин выбора и заказа конфигурации, нужно создать глобальную переменную ```window.hipanel_order_server```
 9. В созданную переменную нужно поместить объект с настройками для плагина такой структуры:
 ```javascript
 window.hipanel_order_server = {
