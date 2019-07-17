@@ -284,9 +284,9 @@ class ServerOrder extends React.Component {
         let total = this.state.total;
         const currentState = this.state.administration;
         if (administration === 'managed' && (currentState === 'unmanaged' || currentState == null)) {
-            total += parseFloat(this.state.configObj.support_price);
+            total += parseFloat(this.state.configObj.monthly_support_time);
         } else if (administration === 'unmanaged' && currentState === 'managed') {
-            total -= parseFloat(this.state.configObj.support_price);
+            total -= parseFloat(this.state.configObj.monthly_support_time);
         }
         this.setState({administration, total}, this.setPossibleOsImages);
     }
@@ -305,7 +305,6 @@ class ServerOrder extends React.Component {
         const {
             location, configId, os, administration, softpack, action, configOptions, label, osImage, locationOptions
         } = this.state;
-        const {token} = this.props;
         const serverLabel = <FormattedMessage id='server_label'/>;
 
         if (location && configId) {
@@ -326,8 +325,6 @@ class ServerOrder extends React.Component {
                 </LabelWrapper>
 
                 <input type="hidden" id="tariff_id" name="tariff_id" value={fullConfig[location + '_tariff_id']}/>
-
-                <input type="hidden" id={token.name} name={token.name} value={token.value}/>
 
                 <input type="hidden" id="object_id" name="object_id" value={configId}/>
 

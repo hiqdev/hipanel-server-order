@@ -7,16 +7,12 @@ import ServerOrder from './ServerOrder'
 
 addLocaleData([...en, ...ru]);
 
-if (!window.hipanel_order_server) {
-    window.hipanel_order_server = {
+if (!window.hipanel_server_order) {
+    window.hipanel_server_order = {
         initialStates: {
             action: '/server/order/add-to-cart-dedicated',
             location: 'us',
             language: 'en',
-        },
-        token: {
-            name: '_csrf',
-            value: '123',
         },
         configs: {
             nl: [
@@ -32,7 +28,7 @@ if (!window.hipanel_order_server) {
                     cpu: "1 x W-2123",
                     ssd: "2 x 2 TB",
                     ram: '16 GB',
-                    support_price: "0.07",
+                    monthly_support_time: "0.07",
                     nl_old_price: "17.55",
                     us_old_price: "12.33",
                     profiles: ['“Profi plus” servers'],
@@ -52,7 +48,7 @@ if (!window.hipanel_order_server) {
                     cpu: '1 х W-2125 CPU',
                     hdd: '2 х 2 TB HDD',
                     ram: '2 x 2 TB',
-                    support_price: 1.7,
+                    monthly_support_time: 1.7,
                     nl_old_price: "11.14",
                     profiles: ['“Big data” servers'],
                     us_old_price: "0.83"
@@ -71,7 +67,7 @@ if (!window.hipanel_order_server) {
                     hdd: '2 х 2 TB HDD',
                     ram: '64 GB DDR4',
                     profiles: ['“Profi plus” servers'],
-                    support_price: 0.7,
+                    monthly_support_time: 0.7,
                 },
                 {
                     id: 4,
@@ -87,7 +83,7 @@ if (!window.hipanel_order_server) {
                     hdd: '2 х 240 ГБ SSD',
                     ram: '16 ГБ DDR4',
                     profiles: ['“Profi plus” servers'],
-                    support_price: 100,
+                    monthly_support_time: 100,
                 },
                 {
                     id: 5,
@@ -102,7 +98,7 @@ if (!window.hipanel_order_server) {
                     cpu: '1 х W-2125 CPU',
                     hdd: '2 х 2 TB HDD',
                     ram: '2 x 2 TB',
-                    support_price: 1.7,
+                    monthly_support_time: 1.7,
                     profiles: ['“Big data” servers'],
                     nl_old_price: "11.14",
                     us_old_price: "1.31"
@@ -120,7 +116,7 @@ if (!window.hipanel_order_server) {
                     cpu: '1 х W-2133 CPU',
                     hdd: '2 х 2 TB HDD',
                     ram: '64 GB DDR4',
-                    support_price: 0.7,
+                    monthly_support_time: 0.7,
                     profiles: ['“Big data” servers', '“Profi plus” servers'],
                 },
                 {
@@ -136,7 +132,7 @@ if (!window.hipanel_order_server) {
                     cpu: '1 х W-2123',
                     hdd: '2 х 240 ГБ SSD',
                     ram: '16 ГБ DDR4',
-                    support_price: 100,
+                    monthly_support_time: 100,
                     profiles: ['“Big data” servers', '“Profi plus” servers'],
                 },
             ],
@@ -406,9 +402,9 @@ const messages = {
 };
 
 render(
-    <IntlProvider locale={window.hipanel_order_server.initialStates.language}
-                  messages={messages[window.hipanel_order_server.initialStates.language]}>
-        <ServerOrder {...window.hipanel_order_server}/>
+    <IntlProvider locale={window.hipanel_server_order.initialStates.language}
+                  messages={messages[window.hipanel_server_order.initialStates.language]}>
+        <ServerOrder {...window.hipanel_server_order}/>
     </IntlProvider>,
     document.querySelector('#server-order-app')
 );
