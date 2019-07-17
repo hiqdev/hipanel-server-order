@@ -5,7 +5,7 @@
 1. Подключить Bootstrap ^3.4
 2. Подключить шрифты в секции ```<head>``` ```<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap&subset=cyrillic" rel="stylesheet">```
 3. В месте где нужно что бы появился плагин - разместить елемент ```<div id="server-order-app"></div>```
-4. Перед закрытием тега ```<head>``` вставить все что написано в файле ```dist/index.html```
+4. Перед закрытием тега ```<head>```, вставить всё что написано в файле ```dist/index.html```
 6. Сделать запросы на получение доступных конфигураций ```https://hiapi.advancedhosters.com/configsGetAvailable?0=and&1%5Bseller%5D=dsr&2%5Bwith_prices%5D=1&select%5B%2A%5D=%2A&select%5Bprices%5D=prices&with_prices=1&seller=dsr```
 7. Сделать запросы на получение доступных образов ```https://hiapi.advancedhosters.com/osimagesSearch?type=dedicated&type=dedicated&seller=dsr```
 8. Для получения данных и последующий передачи их в плагин выбора и заказа конфигурации нужно создать глобальную переменную ```window.hipanel_order_server```
