@@ -15,7 +15,7 @@ window.hipanel_order_server = {
     initialStates: {
         action: '/server/order/add-to-cart-dedicated', // действие формы для заказа
         location: 'us', // локация по умолчанию, доступные варианты: 'us', 'nl'
-        language: 'en', // язык пол умолчанию, доступные варианты: 'ru', 'en'
+        language: 'en', // язык по умолчанию, доступные варианты: 'ru', 'en'
     },
     token: {
         /* Настройки сгруппированных по */
