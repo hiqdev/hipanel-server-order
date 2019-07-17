@@ -11,8 +11,8 @@ const Wrapper = styled.svg`
 
 export default function Icon({id}) {
     let pathToIcons = '';
-    if (window.hipanel_server_order_path_to_icons) {
-        pathToIcons = window.hipanel_server_order_path_to_icons;
+    if (window.hipanel_server_order.pathToIcons != null) {
+        pathToIcons = window.hipanel_server_order.pathToIcons;
     }
     const href = `${pathToIcons}icons.svg#${id}`;
     return (
