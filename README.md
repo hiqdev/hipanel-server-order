@@ -34,3 +34,8 @@ window.hipanel_server_order = {
     pathToIcons: null, // путь к файлу `icons.svg` если `null` то искать `https://[your_domain_name]/icons.svg`
 };
 ```
+
+**Пример на PHP**
+
+1. php -S localhost:8000 -t dist
+2. http://localhost:8000/example.php
