@@ -12,8 +12,8 @@
 2. Подключить шрифты в секции `<head>`: `<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap&subset=cyrillic" rel="stylesheet">`
 3. В месте, где нужно чтобы появился плагин, разместить элемент `<div id="server-order-app"></div>`
 4. Перед закрытием тега `<head>`, вставить всё что написано в файле `dist/index.html`
-5. Сделать запросы на получение доступных конфигураций `https://[api_domain_name]/configsGetAvailable?0=and&1%5Bseller%5D=dsr&2%5Bwith_prices%5D=1&select%5B%2A%5D=%2A&select%5Bprices%5D=prices&with_prices=1&seller=dsr`
-6. Сделать запросы на получение доступных образов `https://[api_domain_name]/osimagesSearch?type=dedicated&type=dedicated&seller=dsr`
+5. Сделать запросы на получение доступных конфигураций `https://[api_domain_name]/configsGetAvailable?with_prices=1&seller=dsr`
+6. Сделать запросы на получение доступных образов `https://[api_domain_name]/osimagesSearch?type=dedicated&seller=dsr`
 7. Сгруппировать полученные конфиги по полю `location`
 8. Для получения данных и последующий передачи их в плагин выбора и заказа конфигурации, нужно создать глобальную переменную `window.hipanel_server_order`
 9. Поместить `dist/icons.svg` в доступную для для веб сервера дирикторию, так что бы он был доступен от корня  `https://[your_domain_name]/icons.svg` или создать переменную глобальной области видимости `window.hipanel_server_order.pathToIcons` и записать туда путь к `icons.svg`

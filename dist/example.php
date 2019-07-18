@@ -5,7 +5,7 @@ final class ApiClient
     /**
      * @var string
      */
-    public $apiUrl = 'https://hiapi.advancedhosters.com';
+    public $apiUrl = 'https://beta-hiapi.advancedhosting.com/';
 
     /**
      * @var resource
@@ -27,39 +27,37 @@ final class ApiClient
         curl_close($this->curl);
     }
 
-    public function setParams(string $query): self
+    public function setQuery(array $query = []): self
     {
-        curl_setopt($this->curl, CURLOPT_POSTFIELDS, $query);
+        curl_setopt($this->curl, CURLOPT_POSTFIELDS, http_build_query($query));
 
         return $this;
     }
 
-    public function getData(): array
+    public function getData()
     {
         return json_decode(curl_exec($this->curl));
     }
 }
 
-$configs = (new ApiClient('/configsGetAvailable'))
-    ->setParams('0=and&1%5Bseller%5D=dsr&2%5Bwith_prices%5D=1&select%5B%2A%5D=%2A&select%5Bprices%5D=prices&with_prices=1&seller=dsr')
-    ->getData();
+// Make requests
+$configs = (new ApiClient('configsGetAvailable'))->setQuery(['with_prices' => true, 'seller' => 'dsr'])->getData();
+$osimages = (new ApiClient('osimagesSearch'))->setQuery(['type' => 'dedicated', 'seller' => 'dsr'])->getData();
 
+// Group `configs` by location
 $configsByLocation = [];
 foreach ($configs as $config) {
     $configsByLocation[$config->location][] = $config;
 }
 
-$osimages = (new ApiClient('/osimagesSearch'))
-    ->setParams('type=dedicated&type=dedicated&seller=dsr')
-    ->getData();
-
+// Add `hipanel_server_order` variable in global scope
 $js = sprintf('<script type="text/javascript">var %s = %s;</script>', 'window.hipanel_server_order', json_encode([
     'initialStates' => [
-        'action' => '/server/order/add-to-cart-dedicated',
+        'action' => 'https://beta-hipanel.advancedhosting.com/server/order/add-to-cart-dedicated',
         'location' => 'us',
         'language' => 'en',
     ],
-    'pathToIcons' => '' . DIRECTORY_SEPARATOR,
+    'pathToIcons' => null,
     'configs' => $configsByLocation,
     'osImages' => $osimages,
 ], JSON_UNESCAPED_UNICODE | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS));
