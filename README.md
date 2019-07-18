@@ -15,9 +15,8 @@
 5. Сделать запросы на получение доступных конфигураций `https://[api_domain_name]/configsGetAvailable?with_prices=1&seller=dsr`
 6. Сделать запросы на получение доступных образов `https://[api_domain_name]/osimagesSearch?type=dedicated&seller=dsr`
 7. Сгруппировать полученные конфиги по полю `location`
-8. Для получения данных и последующий передачи их в плагин выбора и заказа конфигурации, нужно создать глобальную переменную `window.hipanel_server_order`
-9. Поместить `dist/icons.svg` в доступную для для веб сервера дирикторию, так что бы он был доступен от корня  `https://[your_domain_name]/icons.svg` или создать переменную глобальной области видимости `window.hipanel_server_order.pathToIcons` и записать туда путь к `icons.svg`
-10. Создать в глобальной области видимости переменную `window.hipanel_server_order`. В созданную переменную нужно поместить объект с настройками для плагина такой структуры:
+8. Поместить `dist/icons.svg` в доступную для для веб сервера дирикторию, так что бы он был доступен от корня  `https://[your_domain_name]/icons.svg` или создать переменную глобальной области видимости `window.hipanel_server_order.pathToIcons` и записать туда путь к `icons.svg`
+9. Создать в глобальной области видимости переменную `window.hipanel_server_order`. В созданную переменную нужно поместить объект с настройками для плагина такой структуры:
 ```javascript
 window.hipanel_server_order = {
     initialStates: {
