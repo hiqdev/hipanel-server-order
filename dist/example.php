@@ -1,6 +1,6 @@
 <?php
 
-final class ExampleSender
+final class ApiClient
 {
     /**
      * @var string
@@ -40,7 +40,7 @@ final class ExampleSender
     }
 }
 
-$configs = (new ExampleSender('/configsGetAvailable'))
+$configs = (new ApiClient('/configsGetAvailable'))
     ->setParams('0=and&1%5Bseller%5D=dsr&2%5Bwith_prices%5D=1&select%5B%2A%5D=%2A&select%5Bprices%5D=prices&with_prices=1&seller=dsr')
     ->getData();
 
@@ -49,7 +49,7 @@ foreach ($configs as $config) {
     $configsByLocation[$config->location][] = $config;
 }
 
-$osimages = (new ExampleSender('/osimagesSearch'))
+$osimages = (new ApiClient('/osimagesSearch'))
     ->setParams('type=dedicated&type=dedicated&seller=dsr')
     ->getData();
 
