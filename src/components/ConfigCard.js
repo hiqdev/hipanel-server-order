@@ -115,13 +115,17 @@ const stringifyConfiguration = config => {
         ssd = config.ssd ? (<ConfigItem><Icon
             id='memory'/><ConfigValue>{config.ssd}</ConfigValue><ConfigLabel>SSD</ConfigLabel></ConfigItem>) : '',
         hdd = config.hdd ? (<ConfigItem><Icon
-            id='ssd'/><ConfigValue>{config.hdd}</ConfigValue><ConfigLabel>HDD</ConfigLabel></ConfigItem>) : '';
+            id='ssd'/><ConfigValue>{config.hdd}</ConfigValue><ConfigLabel>HDD</ConfigLabel></ConfigItem>) : '',
+        traffic = config.traffic ? (<ConfigItem><Icon
+            id='traffic'/><ConfigValue>{config.traffic}</ConfigValue><ConfigLabel><FormattedMessage
+            id='mbps'/></ConfigLabel></ConfigItem>) : '';
     return (
         <Fragment>
             {cpu}
             {ram}
             {ssd}
             {hdd}
+            {traffic}
         </Fragment>
     );
 };
