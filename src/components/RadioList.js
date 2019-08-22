@@ -81,7 +81,7 @@ export default function RadioList({current, ...props}) {
     }
     if (current === null) {
         current = props.options.reduce((accumulator, option) => {
-            return accumulator === null && !option.disabled
+            return accumulator === null && !option.disabled || (!option.disabled && option.name === 'unmanaged')
                 ? option.name
                 : accumulator;
         }, null);
@@ -93,7 +93,7 @@ export default function RadioList({current, ...props}) {
         <div className={'radio radio-' + props.label + (option.disabled === true ? ' disabled' : '')} key={idx}>
             <RadioItem>
                 <input type="radio" name={props.label.toLowerCase()} value={option.name} onChange={handleChange}
-                       checked={current === option.name}
+                       checked={current === option.name} //  || (props.label === 'administration' && option.name === 'unmanaged')
                        disabled={(option.disabled === true) ? 'disabled' : ''}/>
                 <span className="check">&nbsp;</span>
                 <RadioLabel disabled={option.disabled}>{option.title}</RadioLabel>
