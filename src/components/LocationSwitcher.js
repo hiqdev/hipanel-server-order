@@ -1,17 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const SwitchButtonWrapper = styled.div`
+const SwitchButtonWrapper = styled.div.attrs(props => ({className: 'btn-group btn-group-justified'}))`
   margin-top: 14px;
-  background-color: rgba(189, 189, 189, 0.3);
+  background-color: #E0E6ED;
+  opacity: .5;
   border-radius: 50px !important;
   height: 45px;
+  width: 300px;
   padding-bottom: 2px;
   padding-right: 2px;
   
   & label {
-    font-size: 18px;
-    font-weight: 400;
+    font-size: 14px;
+    font-weight: 600;
     position: absolute;
     width: 100%;
     left: 0;
@@ -25,7 +27,9 @@ const SwitchButtonWrapper = styled.div`
     left: 1px;
     border: none;
     border-radius: 50px;
+    font-weight: 600;
     background-color: white;
+    color: black;
     opacity: 1;
     padding: 0 34px;
     line-height: 45px;
@@ -42,7 +46,7 @@ export default function LocationSwitcher(props) {
     };
 
     return (
-        <SwitchButtonWrapper className="btn-group btn-group-justified">
+        <SwitchButtonWrapper>
             {props.locations.map((location, idx) => (
                 <label className={"btn " + (location.name === props.currentLocation ? 'active' : '')}
                        key={idx} data-location={location.name} onClick={handleChange}>
