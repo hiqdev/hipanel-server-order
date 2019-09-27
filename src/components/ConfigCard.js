@@ -4,25 +4,10 @@ import {FormattedMessage} from 'react-intl'
 import SoftwareDescriber from './SoftwareDesriber'
 import SelectedOption from './SelectedOption'
 import {ConfigLabel, ConfigItem, ConfigValue} from './ConfigViewer'
-import Icon from './Icon'
+import SelectButton from "./SelectButton";
+// import Icon from './Icon'
 
-const SelectButton = styled.button`
-  height: 63px;
-  font-size: 22px;
-  line-height: 43px;
-  color: white;
-  background-color: #4db6ac;
-  border-color: #4db6ac;
-  
-  &:hover, &:focus, &:active {
-    outline: none;
-    color: white;
-    background-color: #61cbc1;
-    border-color: #61cbc1;
-  }
-`;
-
-const ConfigSubname = styled.div`
+const ConfigSubname = styled(ConfigItem)`
   margin-top: -2px;
   color: #bdbdbd;
   font-weight: 300;
@@ -31,12 +16,17 @@ const ConfigSubname = styled.div`
   line-height: 27px;
 `;
 
-const ConfigDescription = styled.p`
+const ConfigDescription = styled(ConfigItem)`
   margin-top: -2px;
   font-weight: 300;
   padding: 7px 0 11px 0;
   font-size: 18px;
   line-height: 27px;
+`;
+
+const PriceWrapper = styled.span`
+  font-size: 68px;
+  letter-spacing: -2px;
 `;
 
 const OldPriceWrapper = styled.span`
@@ -44,87 +34,76 @@ const OldPriceWrapper = styled.span`
   color: #bdbdbd;
 `;
 
-const LineWithPriceWrapper = styled.p`
+
+const LineWithPriceWrapper = styled.div`
   text-align: center;
-  line-height: 59px !important;
-  height: 45px;
-  margin: 0 0 .5em 0;
-  padding: 0 !important;
-  position: relative;
-  z-index: 1;
-  font-size: 22px;
-  font-weight: 400;
-  color: #38474e;
-  white-space: nowrap;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 130%;
+  padding: 3rem 0;
 `;
 
-const OrderButton = styled(SelectButton)`
-  line-height: 28px;
-  height: 63px;
-  background-color: #ff5252;
-  border-color: #ff5252;
-  
-  &:hover, &:focus, &:active {
-    outline: none;
-    color: white;
-    background-color: #ff6e67;
-    border-color: #ff6e67;
-  }
+const RowWithButton = styled(ConfigItem)`
+  padding: 20px!important;
 `;
 
 const ConfigCardWrapper = styled.div`
-  padding: 14px 18px 18px;
-  background: white;
-  box-shadow: 0 1px 1.92px 1.08px rgba(0, 0, 0, 0.04), 0 4px 6px 0 rgba(0, 0, 0, 0.01), 0 2px 8px 0 rgba(0, 0, 0, 0.06);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border-radius: 2px;
-  box-sizing: border-box;
-  vertical-align: top;
-  margin-bottom: 18px;
-  
-  & > .panel-heading {
-    font-size: 22px;
-    line-height: 27px;
-    font-weight: 400;
-    border: none;
-    background-color: white;
-  }
-  
-  & > .panel-footer {
-    border: none;
-    background-color: white;
-  }
+  box-shadow: 0px 4px 10px rgba(39, 52, 67, 0.04);
 `;
 
 const NoPadding = styled.div`padding: 0 0 36px 0;`;
 
-const PanelFooterWrapper = styled(NoPadding)`
-  border-top: 1px solid rgba(189, 189, 189, 0.3) !important;
-  padding-bottom: 0;
-  z-index: 1;
-  position: relative;
+const PanelHeaderWrapper = styled.div.attrs(props => ({className: 'panel-heading'}))`
+  height: 87px;
+  text-align: center;
+  background-color: #2F3945!important;
+  color: white!important;
+  border-radius: 4px!important;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 22px;
+  line-height: calc(87px - 22px);
+`;
+
+const PanelFooterWrapper = styled(ConfigItem)`
+`;
+
+const ConfigViewer = styled.ul.attrs(props => ({className: 'list-group'}))`
+    & > li:nth-of-type(odd) {
+      background: #F9FAFC;
+    }
 `;
 
 const stringifyConfiguration = config => {
-    const cpu = config.cpu ? (<ConfigItem><Icon
-            id='cpu'/><ConfigValue>{config.cpu}</ConfigValue><ConfigLabel>CPU</ConfigLabel></ConfigItem>) : '',
-        ram = config.ram ? (<ConfigItem><Icon
-            id='memory'/><ConfigValue>{config.ram}</ConfigValue><ConfigLabel>DDR4</ConfigLabel></ConfigItem>) : '',
-        ssd = config.ssd ? (<ConfigItem><Icon
-            id='memory'/><ConfigValue>{config.ssd}</ConfigValue><ConfigLabel>SSD</ConfigLabel></ConfigItem>) : '',
-        hdd = config.hdd ? (<ConfigItem><Icon
-            id='ssd'/><ConfigValue>{config.hdd}</ConfigValue><ConfigLabel>HDD</ConfigLabel></ConfigItem>) : '',
-        traffic = config.traffic ? (<ConfigItem><Icon
-            id='traffic'/><ConfigValue>{config.traffic}</ConfigValue><ConfigLabel><FormattedMessage
-            id='mbps'/></ConfigLabel></ConfigItem>) : '';
+    const cpu = config.cpu ? (
+            <ConfigItem><ConfigValue>{config.cpu}</ConfigValue><ConfigLabel>CPU</ConfigLabel></ConfigItem>) : '',
+        ram = config.ram ? (
+            <ConfigItem><ConfigValue>{config.ram}</ConfigValue><ConfigLabel>DDR4</ConfigLabel></ConfigItem>) : '',
+        chassis = config.label ? (
+            <ConfigItem><ConfigValue>{config.label}</ConfigValue><ConfigLabel>CHASSIS</ConfigLabel></ConfigItem>) : '',
+        ssd = config.ssd ? (
+            <Fragment><ConfigValue>{config.ssd}</ConfigValue><ConfigLabel>SSD</ConfigLabel></Fragment>) : null,
+        hdd = config.hdd ? (
+            <Fragment><ConfigValue>{config.hdd}</ConfigValue><ConfigLabel>HDD</ConfigLabel></Fragment>) : null,
+        traffic = config.traffic ? (
+            <ConfigItem><ConfigValue>{config.traffic}</ConfigValue><ConfigLabel><FormattedMessage
+                id='mbps'/></ConfigLabel></ConfigItem>) : '';
+        let drive;
+        if (hdd) {
+            drive = <ConfigItem>{hdd}</ConfigItem>;
+        }
+        if (ssd && !hdd) {
+            drive = <ConfigItem>{ssd}</ConfigItem>;
+        } else if (hdd && ssd) {
+            drive = <ConfigItem>{hdd} + {ssd}</ConfigItem>;
+        }
     return (
         <Fragment>
+            {chassis}
             {cpu}
             {ram}
-            {ssd}
-            {hdd}
+            {drive}
             {traffic}
         </Fragment>
     );
@@ -137,57 +116,51 @@ export default function ConfigCard(props) {
     let isSideBar = false, price = null, oldPrice = null, label = null;
     if (props.isSideBar) {
         isSideBar = true;
-        price = props.total.toLocaleString(props.language, {style: 'currency', currency: props.config.currency});
+        price = props.total;
         label = props.label;
     } else {
-        price = props.config.price.toLocaleString(props.language, {style: 'currency', currency: props.config.currency});
+        // price = props.config.price.toLocaleString(props.language, {style: 'currency', currency: props.config.currency, minimumFractionDigits: 0});
+        price = props.config.price;
         if (props.config[props.location + '_old_price']) {
             oldPrice = parseFloat(props.config[props.location + '_old_price']);
         }
     }
+    const currency = new Intl.NumberFormat(props.language, {
+        style: 'currency',
+        currency: props.config.currency,
+        minimumIntegerDigits: 1,
+        minimumSignificantDigits: 1,
+        minimumFractionDigits: 0,
+    }).format(0).replace(/[0-9]/g, '');
     const isOrderButtonActive = (props.os && props.administration && props.softpack && props.osImage);
 
     return (
         <ConfigCardWrapper className="panel panel-default">
-            <NoPadding className="panel-heading">
+            <PanelHeaderWrapper>
                 {props.config.name}
-                <ConfigSubname>{props.config.label}</ConfigSubname>
+            </PanelHeaderWrapper>
+            <LineWithPriceWrapper>
+                <FormattedMessage id='per_month' values={{currency, price: <PriceWrapper>{price}</PriceWrapper>}}/>
+            </LineWithPriceWrapper>
+            <ConfigViewer>
                 {(isSideBar) ? (<ConfigDescription>{props.config.descr}</ConfigDescription>) : ''}
-            </NoPadding>
-            <NoPadding className="panel-body">
-                <ul className="list-unstyled">
-                    {(label) ? (
-                        <ConfigItem><Icon id='info'/><ConfigValue>{label}</ConfigValue><ConfigLabel><FormattedMessage
-                            id='label' defaultMessage="Label"/></ConfigLabel></ConfigItem>) : ''}
-                    {stringifyConfiguration(props.config)}
-                    <SelectedOption options={props.osOptions} input={props.os} label='os'/>
-                    <SelectedOption options={props.administrationOptions} input={props.administration}
-                                    label='administration'/>
-                    <SelectedOption options={props.softpackOptions} input={props.softpack} label='softpack'/>
-                    <SoftwareDescriber osImage={props.osImage}/>
-                </ul>
-            </NoPadding>
-            <PanelFooterWrapper className="panel-footer">
-                <LineWithPriceWrapper>
-                    {isSideBar ? (
-                        <FormattedMessage id='per_month' defaultMessage="{price}/month" values={{price}}/>
-                    ) : (
-                        <FormattedMessage id='from_month' defaultMessage="From {oldPrice} {price}/month" values={{
-                            oldPrice: <OldPriceWrapper>{oldPrice}</OldPriceWrapper>,
-                            price
-                        }}/>
-                    )}
-                </LineWithPriceWrapper>
-                {isSideBar ? (
-                    <OrderButton type="submit" className="btn btn-block" disabled={!isOrderButtonActive}>
-                        <FormattedMessage id='order'/>
-                    </OrderButton>
-                ) : (
-                    <SelectButton type="button" className="btn btn-block"
-                                  data-config-id={props.config.id}
-                                  onClick={handleSelect}><FormattedMessage id='select'/></SelectButton>
-                )}
-            </PanelFooterWrapper>
+                {(label) ? (
+                    <ConfigItem><ConfigValue>{label}</ConfigValue><ConfigLabel><FormattedMessage
+                        id='label' defaultMessage="Server Label"/></ConfigLabel></ConfigItem>) : ''}
+                {stringifyConfiguration(props.config)}
+                <SelectedOption options={props.osOptions} input={props.os} label='os'/>
+                <SelectedOption options={props.administrationOptions} input={props.administration}
+                                label='administration'/>
+                <SelectedOption options={props.softpackOptions} input={props.softpack} label='softpack'/>
+                <SoftwareDescriber osImage={props.osImage}/>
+                {!isSideBar ? (
+                    <RowWithButton>
+                        <SelectButton type="button" className="btn"
+                                      data-config-id={props.config.id}
+                                      onClick={handleSelect}><FormattedMessage id='select'/></SelectButton>
+                    </RowWithButton>
+                ) : ''}
+            </ConfigViewer>
         </ConfigCardWrapper>
     );
 }

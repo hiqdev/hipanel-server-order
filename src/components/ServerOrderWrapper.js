@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 const ServerOrderWrapper = styled.div`
-  padding-top: 108px;
-  background-color: ${props => props.configId !== null ? "#fcf9f7" : "white"};
+  padding: 20px 0;
+  background-color: ${props => props.configId !== null ? "white" : "white"};
   height: 100%;
 `;
 

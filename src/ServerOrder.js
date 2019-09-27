@@ -6,34 +6,70 @@ import LocationSwitcher from './components/LocationSwitcher'
 import ConfigCard from './components/ConfigCard'
 import RadioList from './components/RadioList'
 import ServerOrderWrapper from './components/ServerOrderWrapper'
-import Breadcrumbs from './components/Breadcrumbs'
+import SelectButton from "./components/SelectButton";
+import BackToSelectButton from "./components/BackToSelectButton";
 
 const FontWrapper = styled.div`
   font-family: 'Open Sans', sans-serif;
 `;
 
-const FeaturedHeader = styled.h2`
-  display: inline-block;
-  line-height: 45px;
-  padding: 0 0 13px 0;
-  font-size: 36px;
-  font-weight: 300;
-  margin: 0;
+const OrderButtonWrapper = styled.div`
+
 `;
 
-const GroupHeader = styled.h4`
+const OrderButton = styled(SelectButton)`
+  width: 270px;
+`;
+
+const ConfigurationHeaderWrapper = styled.h2`
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 130%;
+  color: #2F3945;
+  margin-bottom: 25px;
+`;
+
+const ConfigurationDescWrapper = styled.p`
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 170%;
+  color: #8492A5;
+`;
+
+const MainHeaderWrapper = styled.div.attrs(props => ({className: 'col-xs-12 text-center'}))`
+  padding: 0px 0 20px;
+`;
+
+const LocationSwitcherWrapper = styled.div`
+  height: 80px;
+  border-bottom: 1px solid #E0E6ED;
+  border-top: 1px solid #E0E6ED;
+  padding-bottom: 11px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+const FeaturedHeader = styled.div`
+  font-weight: normal;
   font-size: 22px;
-  color: #4db6ac;
-  padding-top: 77px;
-  padding-bottom: 40px;
-  line-height: 27px;
-   font-weight: 600;
+  padding-right: 40px;
+`;
+
+const GroupHeader = styled.h4.attrs(props => ({className: 'col-xs-12 text-center'}))`
+  font-weight: bold;
+  font-size: 32px;
+  color: #2F3945;
+  margin: 2em 0 1em;
 `;
 
 const LabelWrapper = styled.div`
   margin-bottom: 30px;
   padding-top: 72px;
-  padding-bottom: 43px;
+  padding-bottom: 10px;
   
   input:focus::-webkit-input-placeholder { color:transparent; }
   input:focus:-moz-placeholder { color:transparent; } /* FF 4-18 */
@@ -43,18 +79,18 @@ const LabelWrapper = styled.div`
     border-color: transparent;
     outline: 0;
     box-shadow: none;
-    border-bottom: 1px solid #bdbdbd;
+    border-bottom: 1px solid #E0E6ED;
   }
   input {
     display: block;
-    height: 47px;
+    height: 39px;
     margin: auto;
     background-color: transparent;
     color: #38474e;
     border: none;
     border-right: none;
     border-left: none;
-    border-bottom: 1px solid #bdbdbd;
+    border-bottom: 1px solid #E0E6ED;
     border-top: none;
     border-radius: 0;
     text-align: left;
@@ -192,14 +228,14 @@ class ServerOrder extends React.Component {
     getAdministrationOptions() {
         return [
             {
-                name: 'managed',
-                title: <FormattedMessage id='managed' defaultMessage='Managed'/>,
-                disabled: !this.props.osImages.some(image => (image.softpack !== null && typeof image.softpack.panel === 'string'))
+                name: 'unmanaged',
+                title: <FormattedMessage id='unmanaged'/>,
+                disabled: !this.props.osImages.some(image => (image.softpack === null || image.softpack.panel === null))
             },
             {
-                name: 'unmanaged',
-                title: <FormattedMessage id='unmanaged' defaultMessage='Unmanaged'/>,
-                disabled: !this.props.osImages.some(image => (image.softpack === null || image.softpack.panel === null))
+                name: 'managed',
+                title: <FormattedMessage id='managed'/>,
+                disabled: !this.props.osImages.some(image => (image.softpack !== null && typeof image.softpack.panel === 'string'))
             },
         ];
     }
@@ -359,13 +395,13 @@ class ServerOrder extends React.Component {
                 groupByProfiles(this.state.configOptions[location]);
                 mainSection = Object.keys(groups).map((groupName, idx) => {
                     const configs = groups[groupName].map((config, idx) => (
-                        <div className="col-md-4" key={idx}>
+                        <div className="col-md-3" key={idx}>
                             <ConfigCard config={config} {...this.state} location={location}
                                         onSelectConfig={evt => this.handleSelectConfig(evt)}/>
-                            </div>
+                        </div>
                     ));
                     return (<div className="row" key={idx}>
-                        <GroupHeader className='col-xs-12'>{groupName}</GroupHeader>
+                        <GroupHeader>{groupName}</GroupHeader>
                         {configs}
                     </div>);
                 });
@@ -376,26 +412,36 @@ class ServerOrder extends React.Component {
 
         return (
             <FontWrapper ref={this.cmpRef}>
-                <Breadcrumbs currentLocation={location} configId={configId} onBack={location => this.handleLocationChange(location)}/>
                 <ServerOrderWrapper configId={configId}>
                     <div className="container">
                         <form id="hipanel-server-order" action={action} method="POST">
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <div className="row">
-                                        <div className={classnames({"col-md-8": configId === null,"col-md-12": configId !== null})}>
-                                            <FeaturedHeader><FormattedMessage id={headerTextId}/></FeaturedHeader>
-                                        </div>
-                                        <div className={classnames({"col-md-4": configId === null,"hidden": configId !== null})}>
-                                            <LocationSwitcher locations={locationOptions} currentLocation={location}
-                                                              onLocationChange={loc => this.handleLocationChange(loc)}/>
-                                        </div>
+                            <div className={classnames({"hidden": configId !== null, 'row': true})}>
+                                <MainHeaderWrapper>
+                                    <h2><FormattedMessage id='main_header'/></h2>
+                                </MainHeaderWrapper>
+                                <LocationSwitcherWrapper className="col-md-12">
+                                    <FeaturedHeader><FormattedMessage id='featured_dedicated_servers'/></FeaturedHeader>
+                                    <div className={classnames({"hidden": configId !== null})}>
+                                        <LocationSwitcher locations={locationOptions} currentLocation={location}
+                                                          onLocationChange={loc => this.handleLocationChange(loc)}/>
                                     </div>
-                                </div>
+                                </LocationSwitcherWrapper>
                             </div>
                             <div className="row">
                                 <div className={sidebarCard === '' ? "col-md-12" : "col-md-8"}>
+                                    <div className={classnames({"hidden": configId === null})}>
+                                        <FeaturedHeader>
+                                            <ConfigurationHeaderWrapper><FormattedMessage id='configuration_setting'/></ConfigurationHeaderWrapper>
+                                            <ConfigurationDescWrapper><FormattedMessage id='configuration_desc'/></ConfigurationDescWrapper>
+                                        </FeaturedHeader>
+                                    </div>
                                     {mainSection}
+                                    <OrderButtonWrapper className={classnames({"hidden": configId === null})}>
+                                        <OrderButton type="submit" className='btn'>
+                                            <FormattedMessage id='order'/>
+                                        </OrderButton>
+                                        <BackToSelectButton currentLocation={location} onBack={location => this.handleLocationChange(location)}/>
+                                    </OrderButtonWrapper>
                                 </div>
                                 <div className="col-md-4">
                                     {sidebarCard}
