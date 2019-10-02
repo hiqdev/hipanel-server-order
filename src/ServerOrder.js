@@ -58,12 +58,12 @@ const StyledCarousel = styled(Carousel)`
   }
 
   .carousel .control-prev.control-arrow:before {
-    background-image: url('carousel-arrow-left.svg');
+    background-image: ${props => props.pathToIcons ? `url('${props.pathToIcons}carousel-arrow-left.svg')` : "url('carousel-arrow-left.svg')"};
     left: -70px;
   }
 
   .carousel .control-next.control-arrow:before {
-    background-image: url('carousel-arrow-right.svg');
+    background-image: ${props => props.pathToIcons ? `url('${props.pathToIcons}carousel-arrow-right.svg')` : "url('carousel-arrow-right.svg')"};
     right: -70px;
   }
 `;
@@ -400,6 +400,7 @@ class ServerOrder extends React.Component {
         const {
             location, configId, os, administration, softpack, action, configOptions, label, osImage, locationOptions
         } = this.state;
+        const pathToIcons = this.props.pathToIcons;
         const serverLabel = <FormattedMessage id='server_label'/>;
 
         if (location && configId) {
@@ -463,7 +464,7 @@ class ServerOrder extends React.Component {
                     return (<div className="row" key={idx}>
                         <GroupHeader>{groupName}</GroupHeader>
                         <StyledCarousel showThumbs={false} showStatus={false}
-                                        showIndicators={false}>{chunked}</StyledCarousel>
+                                        showIndicators={false} pathToIcons={pathToIcons}>{chunked}</StyledCarousel>
                     </div>);
                 });
             } else {
