@@ -79,7 +79,7 @@ const stringifyConfiguration = config => {
     const cpu = config.cpu ? (
             <ConfigItem><ConfigValue>{config.cpu}</ConfigValue><ConfigLabel>CPU</ConfigLabel></ConfigItem>) : '',
         ram = config.ram ? (
-            <ConfigItem><ConfigValue>{config.ram}</ConfigValue><ConfigLabel>DDR4</ConfigLabel></ConfigItem>) : '',
+            <ConfigItem><ConfigValue>{config.ram}</ConfigValue><ConfigLabel>RAM</ConfigLabel></ConfigItem>) : '',
         chassis = config.label ? (
             <ConfigItem><ConfigValue>{config.label}</ConfigValue><ConfigLabel>CHASSIS</ConfigLabel></ConfigItem>) : '',
         ethernet = config.ethernet ? (
