@@ -8,7 +8,7 @@
 
 **Интеграция пакета**
 
-1. Подключить Bootstrap 3.4.1 и JQuery 2.2.*
+1. Подключить Bootstrap 3.4.1 стили
 2. Подключить шрифты в секции `<head>`: `<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap&subset=cyrillic" rel="stylesheet">`
 3. В месте, где нужно чтобы появился плагин, разместить элемент `<div id="server-order-app"></div>`
 4. Перед закрытием тега `<head>`, вставить всё что написано в файле `dist/index.html`
