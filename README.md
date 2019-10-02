@@ -30,7 +30,7 @@ window.hipanel_server_order = {
     osImages: [
         /* массив доступных образов из `/osimagesSearch`, передать без модификации */
     ],
-    pathToIcons: null, // путь к файлу `icons.svg` если `null` то искать `https://[your_domain_name]/icons.svg`
+    pathToIcons: null, // путь к файлам `*.svg` из папки `dist`, если `null` то искать в корне, на пример `https://[your_domain_name]/icons.svg`
 };
 ```
 
