@@ -3,7 +3,7 @@
 namespace hipanel\server\order\yii;
 
 use Yii;
-use yii\bootstrap\BootstrapPluginAsset;
+use yii\bootstrap\BootstrapAsset;
 use yii\helpers\FileHelper;
 use yii\web\AssetBundle;
 
@@ -12,7 +12,7 @@ class ServerOrderAsset extends AssetBundle
     public $sourcePath = '@hipanel/server/order/dist';
 
     public $depends = [
-        BootstrapPluginAsset::class,
+        BootstrapAsset::class,
     ];
 
     public function init()

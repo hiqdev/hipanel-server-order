@@ -36,5 +36,6 @@ window.hipanel_server_order = {
 
 **Пример на PHP**
 
-1. php -S localhost:8000 -t dist
-2. http://localhost:8000/example.php
+1. cp src/example.php dist/
+2. php -S localhost:8000 -t dist
+3. http://localhost:8000/example.php

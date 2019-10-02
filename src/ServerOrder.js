@@ -1,13 +1,15 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import classnames from 'classnames'
 import {FormattedMessage} from 'react-intl'
 import styled from 'styled-components'
+import "react-responsive-carousel/lib/styles/carousel.min.css"
+import {Carousel} from 'react-responsive-carousel'
 import LocationSwitcher from './components/LocationSwitcher'
 import ConfigCard from './components/ConfigCard'
 import RadioList from './components/RadioList'
 import ServerOrderWrapper from './components/ServerOrderWrapper'
-import SelectButton from "./components/SelectButton";
-import BackToSelectButton from "./components/BackToSelectButton";
+import SelectButton from "./components/SelectButton"
+import BackToSelectButton from "./components/BackToSelectButton"
 
 const FontWrapper = styled.div`
   font-family: 'Open Sans', sans-serif;
@@ -15,6 +17,55 @@ const FontWrapper = styled.div`
 
 const OrderButtonWrapper = styled.div`
 
+`;
+
+const StyledCarousel = styled(Carousel)`
+  .carousel.carousel-slider {
+    overflow: visible;
+  }
+  
+  .carousel .slide {
+    background-color: white;
+  }
+  
+  .carousel.carousel-slider .control-arrow {
+    opacity: 1;
+  }
+  
+  .carousel.carousel-slider .control-arrow:hover {
+    background-color: transparent;
+  }
+  
+  .carousel .control-arrow:before, .carousel.carousel-slider .control-arrow:before {
+    width: 52px;
+    height: 52px;
+    border: 1px solid #E0E6ED;
+    border-radius: 100px;
+    content: " ";
+    position: absolute;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 14px 14px;
+  }
+  
+  .carousel .control-disabled.control-arrow {
+    opacity: 1;
+    display: inherit;
+    
+    &:before {
+      opacity: .4;
+    }
+  }
+
+  .carousel .control-prev.control-arrow:before {
+    background-image: url('carousel-arrow-left.svg');
+    left: -70px;
+  }
+
+  .carousel .control-next.control-arrow:before {
+    background-image: url('carousel-arrow-right.svg');
+    right: -70px;
+  }
 `;
 
 const OrderButton = styled(SelectButton)`
@@ -46,7 +97,6 @@ const LocationSwitcherWrapper = styled.div`
   height: 80px;
   border-bottom: 1px solid #E0E6ED;
   border-top: 1px solid #E0E6ED;
-  padding-bottom: 11px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -101,6 +151,16 @@ const LabelWrapper = styled.div`
 `;
 
 const getOs = obj => `${obj.os} ${obj.version}`;
+
+const chunkArray = (myArray, chunk_size) => {
+    let results = [];
+
+    while (myArray.length) {
+        results.push(myArray.splice(0, chunk_size));
+    }
+
+    return results;
+};
 
 const AlertWrapper = styled.div`
   margin-top: 5em;
@@ -336,8 +396,7 @@ class ServerOrder extends React.Component {
     }
 
     render() {
-        let mainSection = <Alert msgId='select_location'/>, sidebarCard = '',
-            headerTextId = 'featured_dedicated_servers';
+        let mainSection = <Alert msgId='select_location'/>, sidebarCard = '';
         const {
             location, configId, os, administration, softpack, action, configOptions, label, osImage, locationOptions
         } = this.state;
@@ -348,7 +407,6 @@ class ServerOrder extends React.Component {
             const osOptions = this.getOsOptions();
             const softpackOptions = this.getSoftpackOptions();
             const fullConfig = configOptions[location].find(item => parseInt(item.id) === parseInt(configId));
-            headerTextId = 'configuration_setting';
             sidebarCard = (location && configId) ?
                 <ConfigCard config={fullConfig} isSideBar={true} {...this.state} osOptions={osOptions}
                             administrationOptions={administrationOptions} softpackOptions={softpackOptions}/> : '';
@@ -400,9 +458,12 @@ class ServerOrder extends React.Component {
                                         onSelectConfig={evt => this.handleSelectConfig(evt)}/>
                         </div>
                     ));
+                    const chunked = chunkArray(configs, 4).map((rows, ridx) => <Fragment key={ridx}>{rows}</Fragment>);
+
                     return (<div className="row" key={idx}>
                         <GroupHeader>{groupName}</GroupHeader>
-                        {configs}
+                        <StyledCarousel showThumbs={false} showStatus={false}
+                                        showIndicators={false}>{chunked}</StyledCarousel>
                     </div>);
                 });
             } else {
@@ -431,8 +492,10 @@ class ServerOrder extends React.Component {
                                 <div className={sidebarCard === '' ? "col-md-12" : "col-md-8"}>
                                     <div className={classnames({"hidden": configId === null})}>
                                         <FeaturedHeader>
-                                            <ConfigurationHeaderWrapper><FormattedMessage id='configuration_setting'/></ConfigurationHeaderWrapper>
-                                            <ConfigurationDescWrapper><FormattedMessage id='configuration_desc'/></ConfigurationDescWrapper>
+                                            <ConfigurationHeaderWrapper><FormattedMessage
+                                                id='configuration_setting'/></ConfigurationHeaderWrapper>
+                                            <ConfigurationDescWrapper><FormattedMessage
+                                                id='configuration_desc'/></ConfigurationDescWrapper>
                                         </FeaturedHeader>
                                     </div>
                                     {mainSection}
@@ -440,7 +503,8 @@ class ServerOrder extends React.Component {
                                         <OrderButton type="submit" className='btn'>
                                             <FormattedMessage id='order'/>
                                         </OrderButton>
-                                        <BackToSelectButton currentLocation={location} onBack={location => this.handleLocationChange(location)}/>
+                                        <BackToSelectButton currentLocation={location}
+                                                            onBack={location => this.handleLocationChange(location)}/>
                                     </OrderButtonWrapper>
                                 </div>
                                 <div className="col-md-4">
