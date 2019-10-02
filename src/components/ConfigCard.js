@@ -82,28 +82,35 @@ const stringifyConfiguration = config => {
             <ConfigItem><ConfigValue>{config.ram}</ConfigValue><ConfigLabel>DDR4</ConfigLabel></ConfigItem>) : '',
         chassis = config.label ? (
             <ConfigItem><ConfigValue>{config.label}</ConfigValue><ConfigLabel>CHASSIS</ConfigLabel></ConfigItem>) : '',
+        ethernet = config.ethernet ? (
+            <ConfigItem><ConfigValue>{config.ethernet}</ConfigValue><ConfigLabel>Ethernet</ConfigLabel></ConfigItem>) : '',
         ssd = config.ssd ? (
             <Fragment><ConfigValue>{config.ssd}</ConfigValue><ConfigLabel>SSD</ConfigLabel></Fragment>) : null,
         hdd = config.hdd ? (
             <Fragment><ConfigValue>{config.hdd}</ConfigValue><ConfigLabel>HDD</ConfigLabel></Fragment>) : null,
+        raid = config.raid ? (
+                <ConfigItem><ConfigValue>{config.raid}</ConfigValue><ConfigLabel>RAID</ConfigLabel></ConfigItem>) :
+            (<ConfigItem><ConfigValue><FormattedMessage id={'without_raid'}/></ConfigValue><ConfigLabel>RAID</ConfigLabel></ConfigItem>),
         traffic = config.traffic ? (
             <ConfigItem><ConfigValue>{config.traffic}</ConfigValue><ConfigLabel><FormattedMessage
                 id='mbps'/></ConfigLabel></ConfigItem>) : '';
-        let drive;
-        if (hdd) {
-            drive = <ConfigItem>{hdd}</ConfigItem>;
-        }
-        if (ssd && !hdd) {
-            drive = <ConfigItem>{ssd}</ConfigItem>;
-        } else if (hdd && ssd) {
-            drive = <ConfigItem>{hdd} + {ssd}</ConfigItem>;
-        }
+    let drive;
+    if (hdd) {
+        drive = <ConfigItem>{hdd}</ConfigItem>;
+    }
+    if (ssd && !hdd) {
+        drive = <ConfigItem>{ssd}</ConfigItem>;
+    } else if (hdd && ssd) {
+        drive = <ConfigItem>{hdd} + {ssd}</ConfigItem>;
+    }
     return (
         <Fragment>
             {chassis}
             {cpu}
             {ram}
             {drive}
+            {raid}
+            {ethernet}
             {traffic}
         </Fragment>
     );

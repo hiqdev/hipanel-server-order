@@ -29,7 +29,9 @@ if (!window.hipanel_server_order) {
                     cpu: "1 x W-2123",
                     ssd: "2 x 2 TB",
                     ram: '16 GB',
+                    ethernet: '1 Gbit/s',
                     traffic: '150',
+                    raid: 'test raid-card',
                     monthly_support_time: "0.07",
                     nl_old_price: "17.55",
                     us_old_price: "12.33",
@@ -49,6 +51,7 @@ if (!window.hipanel_server_order) {
                     cpu: '1 х W-2125 CPU',
                     hdd: '2 х 2 TB',
                     ram: '100',
+                    ethernet: '1 Gbit/s',
                     traffic: '150',
                     monthly_support_time: 1.7,
                     nl_old_price: "11.14",
@@ -414,6 +417,7 @@ const messages = {
         'from_month': 'From {oldPrice} {price}/mo',
         'main_header': 'Pricing plans Dedicated servers',
         'back_to_select': 'Back to server selection',
+        'without_raid': 'without RAID-card',
     },
     'ru': {
         'configuration_desc': 'Выберите технические данные и тип обслуживания выделенного сервера. Сразу после оформления заказа мы свяжемся с вами, чтобы подтвердить его и подключить ваш заказ к услуге.',
@@ -444,6 +448,7 @@ const messages = {
         'from_month': 'От {oldPrice} {price}/мес',
         'mbps': 'Мбит/с',
         'back_to_select': 'Вернутся к выбору сервера',
+        'without_raid': 'Без RAID-карты',
     }
 };
 
