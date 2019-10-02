@@ -2,12 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 
 const SwitchButtonWrapper = styled.div.attrs(props => ({className: 'btn-group btn-group-justified'}))`
-  margin-top: 14px;
   background-color: #E0E6ED;
   opacity: .5;
   border-radius: 50px !important;
   height: 45px;
-  width: 300px;
+  width: auto;
+  min-width: 268px;
   padding-bottom: 2px;
   padding-right: 2px;
   

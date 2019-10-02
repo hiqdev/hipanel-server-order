@@ -2,7 +2,7 @@
 
 namespace hipanel\server\order\yii;
 
-use yii\bootstrap\BootstrapPluginAsset;
+use yii\bootstrap\BootstrapAsset;
 use yii\web\AssetBundle;
 
 class ServerOrderAdvancedhostingThemeAsset extends AssetBundle
@@ -14,6 +14,6 @@ class ServerOrderAdvancedhostingThemeAsset extends AssetBundle
     ];
 
     public $depends = [
-        BootstrapPluginAsset::class,
+        BootstrapAsset::class,
     ];
 }
