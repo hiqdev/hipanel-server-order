@@ -12,7 +12,7 @@ if (!window.hipanel_server_order) {
         initialStates: {
             action: '/server/order/add-to-cart-dedicated',
             location: 'us',
-            language: 'ru',
+            language: 'en',
         },
         pathToIcons: null,
         configs: {
@@ -421,6 +421,11 @@ const messages = {
         'panel': 'Server control panel',
         'no_panel': 'Without control panel',
         'location': 'Server location region',
+        'clear': 'No softpack',
+        'nl': 'Netherlands',
+        'us': 'USA',
+        'lemp': 'LEMP',
+        'lamp': 'LAMP',
     },
     'ru': {
         'configuration_desc': 'Выберите технические данные и тип обслуживания выделенного сервера. Сразу после оформления заказа мы свяжемся с вами, чтобы подтвердить его и подключить ваш заказ к услуге.',
@@ -456,6 +461,9 @@ const messages = {
         'panel': 'Панель управления',
         'no_panel': 'Без панели',
         'location': 'Локация',
+        'clear': 'Чистая сборка',
+        'lemp': 'LEMP',
+        'lamp': 'LAMP',
     }
 };
 

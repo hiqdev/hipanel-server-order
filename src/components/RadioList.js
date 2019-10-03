@@ -3,7 +3,7 @@ import {FormattedMessage} from 'react-intl'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  padding-bottom: 43px;
+  margin-bottom: 40px;
 `;
 
 const RadioLabel = styled.span`
@@ -125,8 +125,9 @@ export default function RadioList({current, ...props}) {
                        checked={current === option.name}
                        disabled={(option.disabled === true) ? 'disabled' : ''}/>
                 <span className="check">&nbsp;</span>
-                <RadioLabel disabled={option.disabled}><FormattedMessage id={option.title}
-                                                                         defaultMessage={option.title}/></RadioLabel>
+                <RadioLabel disabled={option.disabled}>
+                    <FormattedMessage id={option.name} defaultMessage={option.name}/>
+                </RadioLabel>
             </RadioItem>
         </li>
     ));

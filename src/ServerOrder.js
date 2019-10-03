@@ -16,7 +16,9 @@ const FontWrapper = styled.div`
 `;
 
 const OrderButtonWrapper = styled.div`
-
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const StyledCarousel = styled(Carousel)`
@@ -118,7 +120,7 @@ const GroupHeader = styled.h4.attrs(props => ({className: 'col-xs-12 text-center
 
 const LabelWrapper = styled.div`
   margin-bottom: 30px;
-  padding-top: 72px;
+  padding-top: 40px;
   padding-bottom: 10px;
   
   input:focus::-webkit-input-placeholder { color:transparent; }
@@ -516,7 +518,7 @@ class ServerOrder extends React.Component {
                                 </LocationSwitcherWrapper>
                             </div>
                             <div className="row">
-                                <div className={sidebarCard === '' ? "col-md-12" : "col-md-8"}>
+                                <div className={sidebarCard === '' ? "col-md-12" : "col-md-8 col-lg-7"}>
                                     <div className={classnames({"hidden": configId === null})}>
                                         <FeaturedHeader>
                                             <ConfigurationHeaderWrapper><FormattedMessage
@@ -534,7 +536,7 @@ class ServerOrder extends React.Component {
                                                             onBack={location => this.handleLocationChange(location)}/>
                                     </OrderButtonWrapper>
                                 </div>
-                                <div className="col-md-4">
+                                <div className="col-md-4 col-lg-offset-1">
                                     {sidebarCard}
                                 </div>
                             </div>
