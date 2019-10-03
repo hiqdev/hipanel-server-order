@@ -50,7 +50,7 @@ export default function LocationSwitcher(props) {
             {props.locations.map((location, idx) => (
                 <label className={"btn " + (location.name === props.currentLocation ? 'active' : '')}
                        key={idx} data-location={location.name} onClick={handleChange}>
-                    {location.label}
+                    {location.title}
                 </label>
             ))}
         </SwitchButtonWrapper>

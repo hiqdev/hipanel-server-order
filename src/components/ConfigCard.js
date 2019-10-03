@@ -92,8 +92,7 @@ const stringifyConfiguration = config => {
                 <ConfigItem><ConfigValue>{config.raid}</ConfigValue><ConfigLabel>RAID</ConfigLabel></ConfigItem>) :
             (<ConfigItem><ConfigValue><FormattedMessage id={'without_raid'}/></ConfigValue><ConfigLabel>RAID</ConfigLabel></ConfigItem>),
         traffic = config.traffic ? (
-            <ConfigItem><ConfigValue>{config.traffic}</ConfigValue><ConfigLabel><FormattedMessage
-                id='mbps'/></ConfigLabel></ConfigItem>) : '';
+            <ConfigItem><ConfigValue>{config.traffic}</ConfigValue><ConfigLabel><FormattedMessage id='traffic'/></ConfigLabel></ConfigItem>) : '';
     let drive;
     if (hdd) {
         drive = <ConfigItem>{hdd}</ConfigItem>;
@@ -153,13 +152,15 @@ export default function ConfigCard(props) {
                 {(isSideBar) ? (<ConfigDescription>{props.config.descr}</ConfigDescription>) : ''}
                 {(label) ? (
                     <ConfigItem><ConfigValue>{label}</ConfigValue><ConfigLabel><FormattedMessage
-                        id='label' defaultMessage="Server Label"/></ConfigLabel></ConfigItem>) : ''}
+                        id='server_label'/></ConfigLabel></ConfigItem>) : ''}
                 {stringifyConfiguration(props.config)}
                 <SelectedOption options={props.osOptions} input={props.os} label='os'/>
                 <SelectedOption options={props.administrationOptions} input={props.administration}
                                 label='administration'/>
                 <SelectedOption options={props.softpackOptions} input={props.softpack} label='softpack'/>
                 <SoftwareDescriber osImage={props.osImage}/>
+                <SelectedOption options={props.panelOptions} input={props.panel} label='panel'/>
+                <SelectedOption options={props.locationOptions} input={props.location} label='location'/>
                 {!isSideBar ? (
                     <RowWithButton>
                         <SelectButton type="button" className="btn"

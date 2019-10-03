@@ -21,7 +21,9 @@ export default function SelectedOption({input, options, label}) {
 
         return (
             <ConfigItem>
-                <ConfigValue>{item.title}</ConfigValue><ConfigLabel><FormattedMessage id={label} defaultMessage={capitalize(label)}/></ConfigLabel>
+                <ConfigValue><FormattedMessage id={item.name}
+                                               defaultMessage={item.title}/></ConfigValue><ConfigLabel><FormattedMessage
+                id={label} defaultMessage={capitalize(label)}/></ConfigLabel>
             </ConfigItem>
         );
     }

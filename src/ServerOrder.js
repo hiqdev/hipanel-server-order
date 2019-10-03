@@ -192,6 +192,7 @@ class ServerOrder extends React.Component {
             administration: null,
             administrationOptions: [],
             softpack: null,
+            panel: null,
             softpackOptions: [],
             isOrderActive: false,
             total: 0,
@@ -199,11 +200,11 @@ class ServerOrder extends React.Component {
             locationOptions: [
                 {
                     name: 'nl',
-                    label: <FormattedMessage id='nl' defaultMessage='Netherlands'/>
+                    title: <FormattedMessage id='nl' defaultMessage='Netherlands'/>
                 },
                 {
                     name: 'us',
-                    label: <FormattedMessage id='us' defaultMessage='USA'/>
+                    title: <FormattedMessage id='us' defaultMessage='USA'/>
                 },
             ],
         }, props.initialStates);
@@ -263,6 +264,22 @@ class ServerOrder extends React.Component {
         this.setState({
             possibleOsImages: osImages,
         }, this.setOsImage);
+    }
+
+    getPanelOptions() {
+        let panels = Object.keys(this.props.osImages).map(key => {
+            const image = this.props.osImages[key];
+            const panelName = image.softpack && image.softpack.panel ? image.softpack.panel : 'no_panel';
+
+            return {
+                name: panelName,
+                title: panelName,
+                disabled: false
+            };
+        });
+        panels = panels.filter((item, index, self) => index === self.findIndex((t) => t.title === item.title));
+
+        return panels;
     }
 
     getOsOptions() {
@@ -391,6 +408,10 @@ class ServerOrder extends React.Component {
         this.setState({softpack}, this.setPossibleOsImages);
     }
 
+    handlePanelChange(panel) {
+        this.setState({panel}); // , this.setPossibleOsImages
+    }
+
     handleLabelChange(evt) {
         this.setState({label: evt.target.value});
     }
@@ -398,7 +419,7 @@ class ServerOrder extends React.Component {
     render() {
         let mainSection = <Alert msgId='select_location'/>, sidebarCard = '';
         const {
-            location, configId, os, administration, softpack, action, configOptions, label, osImage, locationOptions
+            location, configId, os, administration, softpack, panel, action, configOptions, label, osImage, locationOptions
         } = this.state;
         const pathToIcons = this.props.pathToIcons;
         const serverLabel = <FormattedMessage id='server_label'/>;
@@ -407,10 +428,12 @@ class ServerOrder extends React.Component {
             const administrationOptions = this.getAdministrationOptions();
             const osOptions = this.getOsOptions();
             const softpackOptions = this.getSoftpackOptions();
+            const panelOptions = this.getPanelOptions();
             const fullConfig = configOptions[location].find(item => parseInt(item.id) === parseInt(configId));
             sidebarCard = (location && configId) ?
                 <ConfigCard config={fullConfig} isSideBar={true} {...this.state} osOptions={osOptions}
-                            administrationOptions={administrationOptions} softpackOptions={softpackOptions}/> : '';
+                            administrationOptions={administrationOptions} softpackOptions={softpackOptions}
+                            panelOptions={panelOptions} locationOptions={locationOptions}/> : '';
             mainSection = <fieldset>
 
                 <LabelWrapper className="form-group">
@@ -435,6 +458,9 @@ class ServerOrder extends React.Component {
 
                 <RadioList label="softpack" options={softpackOptions} current={softpack}
                            onInputChange={value => this.handleSoftpackChange(value)}/>
+
+                <RadioList label="panel" options={panelOptions} current={panel}
+                           onInputChange={value => this.handlePanelChange(value)}/>
             </fieldset>;
         } else if (location) {
             if (Object.keys(this.state.configOptions).length && this.state.configOptions.hasOwnProperty(location)) {
