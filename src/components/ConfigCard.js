@@ -75,24 +75,26 @@ const ConfigViewer = styled.ul.attrs(props => ({className: 'list-group'}))`
     }
 `;
 
-const stringifyConfiguration = config => {
+const stringifyConfiguration = (config, isSideBar) => {
     const cpu = config.cpu ? (
             <ConfigItem><ConfigValue>{config.cpu}</ConfigValue><ConfigLabel>CPU</ConfigLabel></ConfigItem>) : '',
         ram = config.ram ? (
             <ConfigItem><ConfigValue>{config.ram}</ConfigValue><ConfigLabel>RAM</ConfigLabel></ConfigItem>) : '',
         chassis = config.label ? (
             <ConfigItem><ConfigValue>{config.label}</ConfigValue><ConfigLabel>CHASSIS</ConfigLabel></ConfigItem>) : '',
-        ethernet = config.ethernet ? (
-            <ConfigItem><ConfigValue>{config.ethernet}</ConfigValue><ConfigLabel>Ethernet</ConfigLabel></ConfigItem>) : '',
         ssd = config.ssd ? (
             <Fragment><ConfigValue>{config.ssd}</ConfigValue><ConfigLabel>SSD</ConfigLabel></Fragment>) : null,
         hdd = config.hdd ? (
             <Fragment><ConfigValue>{config.hdd}</ConfigValue><ConfigLabel>HDD</ConfigLabel></Fragment>) : null,
-        raid = config.raid ? (
-                <ConfigItem><ConfigValue>{config.raid}</ConfigValue><ConfigLabel>RAID</ConfigLabel></ConfigItem>) :
-            (<ConfigItem><ConfigValue><FormattedMessage id={'without_raid'}/></ConfigValue><ConfigLabel>RAID</ConfigLabel></ConfigItem>),
         traffic = config.traffic ? (
-            <ConfigItem><ConfigValue>{config.traffic}</ConfigValue><ConfigLabel><FormattedMessage id='traffic'/></ConfigLabel></ConfigItem>) : '';
+            <ConfigItem><ConfigValue>{config.traffic}</ConfigValue><ConfigLabel><FormattedMessage
+                id='traffic'/></ConfigLabel></ConfigItem>) : '';
+    let raid = config.raid ? (
+            <ConfigItem><ConfigValue>{config.raid}</ConfigValue><ConfigLabel>RAID</ConfigLabel></ConfigItem>) :
+        (<ConfigItem><ConfigValue><FormattedMessage
+            id={'without_raid'}/></ConfigValue><ConfigLabel>RAID</ConfigLabel></ConfigItem>);
+    let ethernet = config.ethernet ? (
+        <ConfigItem><ConfigValue>{config.ethernet}</ConfigValue><ConfigLabel>Ethernet</ConfigLabel></ConfigItem>) : '';
     let drive;
     if (hdd) {
         drive = <ConfigItem>{hdd}</ConfigItem>;
@@ -101,6 +103,9 @@ const stringifyConfiguration = config => {
         drive = <ConfigItem>{ssd}</ConfigItem>;
     } else if (hdd && ssd) {
         drive = <ConfigItem>{hdd} + {ssd}</ConfigItem>;
+    }
+    if (!isSideBar) {
+        raid = ethernet = '';
     }
     return (
         <Fragment>
@@ -153,14 +158,18 @@ export default function ConfigCard(props) {
                 {(label) ? (
                     <ConfigItem><ConfigValue>{label}</ConfigValue><ConfigLabel><FormattedMessage
                         id='server_label'/></ConfigLabel></ConfigItem>) : ''}
-                {stringifyConfiguration(props.config)}
+                {stringifyConfiguration(props.config, isSideBar)}
                 <SelectedOption options={props.osOptions} input={props.os} label='os'/>
                 <SelectedOption options={props.administrationOptions} input={props.administration}
                                 label='administration'/>
                 <SelectedOption options={props.softpackOptions} input={props.softpack} label='softpack'/>
                 <SoftwareDescriber osImage={props.osImage}/>
-                <SelectedOption options={props.panelOptions} input={props.panel} label='panel'/>
-                <SelectedOption options={props.locationOptions} input={props.location} label='location'/>
+                {isSideBar ? (
+                    <Fragment>
+                        <SelectedOption options={props.panelOptions} input={props.panel} label='panel'/>
+                        <SelectedOption options={props.locationOptions} input={props.location} label='location'/>
+                    </Fragment>
+                ) : ''}
                 {!isSideBar ? (
                     <RowWithButton>
                         <SelectButton type="button" className="btn"
