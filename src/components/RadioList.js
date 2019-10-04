@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {FormattedMessage} from 'react-intl'
 import styled from 'styled-components'
 
@@ -121,12 +121,12 @@ export default function RadioList({current, ...props}) {
         <li className={'list-group-item radio radio-' + props.label + (option.disabled === true ? ' disabled' : '')}
             key={idx}>
             <RadioItem>
-                <input type="radio" name={props.label.toLowerCase()} value={option.name} onChange={handleChange}
+                <input type="radio" name={props.label.toLowerCase()} value={option.name ? option.name : ''} onChange={handleChange}
                        checked={current === option.name}
                        disabled={(option.disabled === true) ? 'disabled' : ''}/>
                 <span className="check">&nbsp;</span>
                 <RadioLabel disabled={option.disabled}>
-                    <FormattedMessage id={option.name} defaultMessage={option.name}/>
+                    <FormattedMessage id={option.name ? option.name : option.title} defaultMessage={option.name}/>
                 </RadioLabel>
             </RadioItem>
         </li>

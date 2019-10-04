@@ -166,7 +166,7 @@ export default function ConfigCard(props) {
                 <SoftwareDescriber osImage={props.osImage}/>
                 {isSideBar ? (
                     <Fragment>
-                        <SelectedOption options={props.panelOptions} input={props.panel} label='panel'/>
+                        <SelectedOption options={props.panelOptions} input={props.panel ? props.panel : 'no_panel'} label='panel'/>
                         <SelectedOption options={props.locationOptions} input={props.location} label='location'/>
                     </Fragment>
                 ) : ''}

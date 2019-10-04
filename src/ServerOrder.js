@@ -228,17 +228,18 @@ class ServerOrder extends React.Component {
     }
 
     setOsImage() {
+        const panel = this.state.panel === 'no_panel' ? null : this.state.panel;
         this.setState(state => {
             if (state.possibleOsImages.length && state.softpack) {
                 let osImage = null;
                 const images = state.possibleOsImages.filter(image => getOs(image) === state.os);
                 for (let i = 0; i < images.length; i++) {
                     const image = images[i];
-                    if (image.softpack === null && state.softpack === 'clear') {
+                    if (image.softpack === null && state.softpack === 'clear' && panel === null) {
                         osImage = image;
                         break;
                     }
-                    if (image.softpack !== null && image.softpack.name === state.softpack) {
+                    if (image.softpack !== null && image.softpack.name === state.softpack && image.softpack.panel === panel) {
                         osImage = image;
                         break;
                     }
@@ -253,10 +254,11 @@ class ServerOrder extends React.Component {
 
     setPossibleOsImages() {
         let osImages = this.props.osImages;
+        let panel = this.state.panel === 'no_panel' ? null : this.state.panel;
         if (this.state.administration) {
             osImages = osImages.filter(image => {
-                if (this.state.administration === 'managed') {
-                    return image.softpack && typeof image.softpack.panel === 'string';
+                if (this.state.administration === 'managed' && this.state.panel !== null) {
+                    return image.softpack && typeof image.softpack.panel === 'string' && image.softpack.panel === panel;
                 } else {
                     return image.softpack === null || image.softpack.panel === null;
                 }
@@ -269,17 +271,24 @@ class ServerOrder extends React.Component {
     }
 
     getPanelOptions() {
+        const administration = this.state.administration;
         let panels = Object.keys(this.props.osImages).map(key => {
             const image = this.props.osImages[key];
-            const panelName = image.softpack && image.softpack.panel ? image.softpack.panel : 'no_panel';
-
-            return {
-                name: panelName,
-                title: panelName,
-                disabled: false
-            };
+            if (image.softpack && typeof image.softpack.panel === 'string') {
+                return {
+                    name: image.softpack.panel,
+                    title: image.softpack.panel,
+                    disabled: administration === 'unmanaged',
+                };
+            }
         });
-        panels = panels.filter((item, index, self) => index === self.findIndex((t) => t.title === item.title));
+        panels = panels.filter(el => el != null);
+        panels = panels.filter((item, index, self) => index === self.findIndex((t) => (typeof t !== 'undefined' && t.name === item.name)));
+        panels.unshift({
+            name: 'no_panel',
+            title: 'no_panel',
+            disabled: administration === 'managed',
+        });
 
         return panels;
     }
@@ -294,9 +303,7 @@ class ServerOrder extends React.Component {
                 disabled: false
             };
         });
-
         osOptions = osOptions.filter((item, index, self) => index === self.findIndex((t) => t.title === item.title));
-
         osOptions.map(os => {
             os.disabled = !this.state.possibleOsImages.some(image => getOs(image) === os.name);
         });
@@ -374,6 +381,7 @@ class ServerOrder extends React.Component {
             osImage: null,
             administration: null,
             softpack: null,
+            panel: null,
             isOrderActive: false,
         });
     }
@@ -386,6 +394,7 @@ class ServerOrder extends React.Component {
             label: '',
             administration: null,
             softpack: null,
+            panel: null,
             isOrderActive: false,
             total: config.price,
         });
@@ -411,7 +420,7 @@ class ServerOrder extends React.Component {
     }
 
     handlePanelChange(panel) {
-        this.setState({panel}); // , this.setPossibleOsImages
+        this.setState({panel}, this.setPossibleOsImages);
     }
 
     handleLabelChange(evt) {

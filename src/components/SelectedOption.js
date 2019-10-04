@@ -14,14 +14,14 @@ const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1);
  */
 export default function SelectedOption({input, options, label}) {
     if (input && options && label) {
-        const item = options.find(item => item.name === input);
+        const item = options.find(item => item.name === input || item.title === input);
         if (!item) {
             return null
         }
 
         return (
             <ConfigItem>
-                <ConfigValue><FormattedMessage id={item.name} defaultMessage={item.name}/> </ConfigValue>
+                <ConfigValue><FormattedMessage id={item.name ? item.name : item.title} defaultMessage={item.name ? item.name : item.title}/> </ConfigValue>
                 <ConfigLabel><FormattedMessage id={label} defaultMessage={capitalize(label)}/></ConfigLabel>
             </ConfigItem>
         );

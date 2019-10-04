@@ -175,216 +175,256 @@ if (!window.hipanel_server_order) {
         },
         osImages: [
             {
-                name: "freebsd_11_clear",
-                title: "Clear FreeBSD 11 LEMP (demo)",
-                os: "FreeBSD",
-                version: 11,
-                panel: null,
-                deprecated: false,
-                softpack: null,
-                osimage: "freebsd_11_clear"
+                "name": "freebsd_11_clear",
+                "title": "Clear FreeBSD 11 LEMP [X_X]",
+                "os": "FreeBSD",
+                "version": 11,
+                "panel": null,
+                "deprecated": false,
+                "softpack": null,
+                "osimage": "freebsd_11_clear"
             },
             {
-                name: "ubuntu_1810_clean",
-                title: "Ubuntu 18.10 Clean installation (demo)",
-                os: "Ubuntu",
-                version: 18.1,
-                panel: null,
-                deprecated: false,
-                softpack: null,
-                osimage: "ubuntu_1810_clean"
+                "name": "ubuntu_1810_clean",
+                "title": "Ubuntu 18.10 Clean installation [X_X]",
+                "os": "Ubuntu",
+                "version": 18.1,
+                "panel": null,
+                "deprecated": false,
+                "softpack": null,
+                "osimage": "ubuntu_1810_clean"
             },
             {
-                name: "ubuntu_1804_lemp",
-                title: "Ubuntu 18.04 LTS x64 with LEMP stack (demo)",
-                os: "Ubuntu",
-                version: "18.04 LTS",
-                panel: null,
-                deprecated: false,
-                softpack: {
-                    name: "lemp",
-                    panel: null,
-                    packages: [
+                "name": "ubuntu_1804_lemp",
+                "title": "Ubuntu 18.04 LTS x64 with LEMP stack [X_X]",
+                "os": "Ubuntu",
+                "version": "18.04 LTS",
+                "panel": null,
+                "deprecated": false,
+                "softpack": {
+                    "name": "lemp",
+                    "panel": null,
+                    "packages": [
                         {
-                            name: "Nginx",
-                            version: "1.15.0"
+                            "name": "Nginx",
+                            "version": "1.15.0"
                         },
                         {
-                            name: "MySQL",
-                            version: 8
+                            "name": "MySQL",
+                            "version": 8
                         },
                         {
-                            name: "PHP-FPM",
-                            version: "7.3.0"
+                            "name": "PHP-FPM",
+                            "version": "7.3.0"
                         }
                     ]
                 },
-                osimage: "ubuntu_1804_lemp"
+                "osimage": "ubuntu_1804_lemp"
             },
             {
-                name: "centos_7_clean",
-                title: "CentOS 7 (demo)",
-                os: "CentOS",
-                version: 7,
-                panel: null,
-                deprecated: false,
-                softpack: null,
-                osimage: "centos_7_clean"
+                "name": "centos_7_clean",
+                "title": "CentOS 7",
+                "os": "CentOS",
+                "version": 7,
+                "panel": null,
+                "deprecated": false,
+                "softpack": null,
+                "osimage": "centos_7_clean"
             },
             {
-                name: "ubuntu_1804_lemp_hipanel",
-                title: "Ubuntu 18.04 LTS x64 with LEMP stack and HiPanel (demo)",
-                os: "Ubuntu",
-                version: "18.04 LTS",
-                panel: null,
-                deprecated: false,
-                softpack: {
-                    name: "lemp",
-                    panel: "HiPanel",
-                    packages: [
+                "name": "ubuntu_1604_clean",
+                "title": "Ubuntu 16.04 LTS x64",
+                "os": "Ubuntu",
+                "version": "16.04 LTS",
+                "panel": null,
+                "deprecated": false,
+                "softpack": null,
+                "osimage": "ubuntu_1604_clean"
+            },
+            {
+                "name": "debian_10_clean",
+                "title": "Debian GNU/Linux 10",
+                "os": "Debian",
+                "version": 10,
+                "panel": null,
+                "deprecated": false,
+                "softpack": null,
+                "osimage": "debian_10_clean"
+            },
+            {
+                "name": "ubuntu_1804_lemp_hipanel",
+                "title": "Ubuntu 18.04 LTS x64 with LEMP stack and HiPanel [X_X]",
+                "os": "Ubuntu",
+                "version": "18.04 LTS",
+                "panel": null,
+                "deprecated": false,
+                "softpack": {
+                    "name": "lemp",
+                    "panel": "HiPanel",
+                    "packages": [
                         {
-                            name: "Nginx",
-                            version: "1.15.1"
+                            "name": "Nginx",
+                            "version": "1.15.1"
                         },
                         {
-                            name: "MySQL",
-                            version: "8.0.2"
+                            "name": "MySQL",
+                            "version": "8.0.2"
                         },
                         {
-                            name: "PHP-FPM",
-                            version: "7.3.2"
+                            "name": "PHP-FPM",
+                            "version": "7.3.2"
                         }
                     ]
                 },
-                osimage: "ubuntu_1804_lemp_hipanel"
+                "osimage": "ubuntu_1804_lemp_hipanel"
             },
             {
-                name: "freebsd_11_lamp",
-                title: "FreeBSD 11 LEMP stack (demo)",
-                os: "FreeBSD",
-                version: 11,
-                panel: null,
-                deprecated: false,
-                softpack: {
-                    name: "lamp",
-                    panel: "HiPanel",
-                    packages: [
+                "name": "debian_9_clean",
+                "title": "Debian GNU/Linux 9",
+                "os": "Debian",
+                "version": 9,
+                "panel": null,
+                "deprecated": false,
+                "softpack": null,
+                "osimage": "debian_9_clean"
+            },
+            {
+                "name": "freebsd_11_lamp",
+                "title": "FreeBSD 11 LEMP stack [X_X]",
+                "os": "FreeBSD",
+                "version": 11,
+                "panel": null,
+                "deprecated": false,
+                "softpack": {
+                    "name": "lamp",
+                    "panel": "HiPanel",
+                    "packages": [
                         {
-                            name: "Apache",
-                            version: 2.2
+                            "name": "Apache",
+                            "version": 2.2
                         },
                         {
-                            name: "MySQL",
-                            version: 8
+                            "name": "MySQL",
+                            "version": 8
                         },
                         {
-                            name: "PHP-FPM",
-                            version: "7.3.0"
+                            "name": "PHP-FPM",
+                            "version": "7.3.0"
                         }
                     ]
                 },
-                osimage: "freebsd_11_lamp"
+                "osimage": "freebsd_11_lamp"
             },
             {
-                name: "ubuntu_1804_clean",
-                title: "Ubuntu 18.04 LTS x64",
-                os: "Ubuntu",
-                version: "18.04 LTS",
-                panel: null,
-                deprecated: false,
-                softpack: null,
-                osimage: "ubuntu_1804_clean"
+                "name": "ubuntu_1804_clean",
+                "title": "Ubuntu 18.04 LTS x64",
+                "os": "Ubuntu",
+                "version": "18.04 LTS",
+                "panel": null,
+                "deprecated": false,
+                "softpack": null,
+                "osimage": "ubuntu_1804_clean"
             },
             {
-                name: "windows_10_clean",
-                title: "Windows 10 (demo)",
-                os: "Windows",
-                version: 10.1,
-                panel: null,
-                deprecated: false,
-                softpack: null,
-                osimage: "windows_10_clean"
+                "name": "windows_10_clean",
+                "title": "Windows 10 [X_X]",
+                "os": "Windows",
+                "version": 10.1,
+                "panel": null,
+                "deprecated": false,
+                "softpack": null,
+                "osimage": "windows_10_clean"
             },
             {
-                name: "centos_6_lamp",
-                title: "CentOS 6 x64 with LAMP stack (demo)",
-                os: "CentOS",
-                version: 6,
-                panel: null,
-                deprecated: true,
-                softpack: {
-                    name: "lamp",
-                    panel: null,
-                    packages: [
+                "name": "centos_6_lamp",
+                "title": "CentOS 6 x64 with LAMP stack [X_X]",
+                "os": "CentOS",
+                "version": 6,
+                "panel": null,
+                "deprecated": true,
+                "softpack": {
+                    "name": "lamp",
+                    "panel": null,
+                    "packages": [
                         {
-                            name: "Apache",
-                            version: "2.0.1"
+                            "name": "Apache",
+                            "version": "2.0.1"
                         },
                         {
-                            name: "MySQL",
-                            version: 5.5
+                            "name": "MySQL",
+                            "version": 5.5
                         },
                         {
-                            name: "PHP-FPM",
-                            version: "5.6.0"
+                            "name": "PHP-FPM",
+                            "version": "5.6.0"
                         }
                     ]
                 },
-                osimage: "centos_6_lamp"
+                "osimage": "centos_6_lamp"
             },
             {
-                name: "ubuntu_1804_lamp_hipanel",
-                title: "Ubuntu 18.04 LTS x64 with LAMP stack and HiPanel (demo)",
-                os: "Ubuntu",
-                version: "18.04 LTS",
-                panel: null,
-                deprecated: false,
-                softpack: {
-                    name: "lamp",
-                    panel: "HiPanel",
-                    packages: [
+                "name": "centos_6_clean",
+                "title": "CentOS 6",
+                "os": "CentOS",
+                "version": 6,
+                "panel": null,
+                "deprecated": false,
+                "softpack": null,
+                "osimage": "centos_6_clean"
+            },
+            {
+                "name": "ubuntu_1804_lamp_hipanel",
+                "title": "Ubuntu 18.04 LTS x64 with LAMP stack and HiPanel [X_X]",
+                "os": "Ubuntu",
+                "version": "18.04 LTS",
+                "panel": null,
+                "deprecated": false,
+                "softpack": {
+                    "name": "lamp",
+                    "panel": "HiPanel",
+                    "packages": [
                         {
-                            name: "Apache",
-                            version: "2.2.2"
+                            "name": "Apache",
+                            "version": "2.2.2"
                         },
                         {
-                            name: "MySQL",
-                            version: "8.0.1"
+                            "name": "MySQL",
+                            "version": "8.0.1"
                         },
                         {
-                            name: "PHP-FPM",
-                            version: "7.3.2"
+                            "name": "PHP-FPM",
+                            "version": "7.3.2"
                         }
                     ]
                 },
-                osimage: "ubuntu_1804_lamp_hipanel"
+                "osimage": "ubuntu_1804_lamp_hipanel"
             },
             {
-                name: "ubuntu_1804_lamp",
-                title: "Ubuntu 18.04 LTS x64 with LAMP stack (demo)",
-                os: "Ubuntu",
-                version: "18.04 LTS",
-                panel: null,
-                deprecated: false,
-                softpack: {
-                    name: "lamp",
-                    panel: null,
-                    packages: [
+                "name": "ubuntu_1804_lamp",
+                "title": "Ubuntu 18.04 LTS x64 with LAMP stack [X_X]",
+                "os": "Ubuntu",
+                "version": "18.04 LTS",
+                "panel": null,
+                "deprecated": false,
+                "softpack": {
+                    "name": "lamp",
+                    "panel": null,
+                    "packages": [
                         {
-                            name: "Apache",
-                            version: 2.2
+                            "name": "Apache",
+                            "version": 2.2
                         },
                         {
-                            name: "MySQL",
-                            version: 8
+                            "name": "MySQL",
+                            "version": 8
                         },
                         {
-                            name: "PHP-FPM",
-                            version: "7.3.1"
+                            "name": "PHP-FPM",
+                            "version": "7.3.1"
                         }
                     ]
                 },
-                osimage: "ubuntu_1804_lamp"
+                "osimage": "ubuntu_1804_lamp"
             }
         ]
     };
