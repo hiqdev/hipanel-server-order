@@ -109,7 +109,7 @@ export default function RadioList({current, ...props}) {
     }
     if (current === null) {
         current = props.options.reduce((accumulator, option) => {
-            return accumulator === null && !option.disabled // || (!option.disabled && option.name === 'unmanaged') || (!option.disabled && option.name === 'CentOS 7')
+            return accumulator === null && !option.disabled || (!option.disabled && option.name === 'CentOS 7')
                 ? option.name
                 : accumulator;
         }, null);
