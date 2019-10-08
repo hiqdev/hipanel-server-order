@@ -12,15 +12,16 @@
 2. Подключить шрифты в секции `<head>`: `<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap&subset=cyrillic" rel="stylesheet">`
 3. В месте, где нужно чтобы появился плагин, разместить элемент `<div id="server-order-app"></div>`
 4. Перед закрытием тега `<head>`, вставить всё что написано в файле `dist/index.html`
-5. Сделать запросы на получение доступных конфигураций `https://[api_domain_name]/configsGetAvailable?with_prices=1&seller=dsr`
-6. Сделать запросы на получение доступных образов `https://[api_domain_name]/osimagesSearch?type=dedicated&seller=dsr`
+5. Сделать запросы на получение доступных конфигураций `https://hiapi.advancedhosting.com/configsGetAvailable?with_prices=1&seller=dsr`
+6. Сделать запросы на получение доступных образов `https://hiapi.advancedhosting.com/osimagesSearch?type=dedicated&seller=dsr`
 7. Сгруппировать полученные конфиги по полю `location`
-8. Поместить `dist/icons.svg` в доступную для для веб сервера дирикторию, так что бы он был доступен от корня  `https://[your_domain_name]/icons.svg` или создать переменную глобальной области видимости `window.hipanel_server_order.pathToIcons` и записать туда путь к `icons.svg`
+8. Поместить `dist/*.svg` в доступную для для веб сервера дирикторию, так что бы он был доступен от корня  `https://[your_domain_name]/*.svg` или создать переменную глобальной области видимости `window.hipanel_server_order.pathToIcons` и записать туда путь к `*.svg`
 9. Создать в глобальной области видимости переменную `window.hipanel_server_order`. В созданную переменную нужно поместить объект с настройками для плагина такой структуры:
+
 ```javascript
 window.hipanel_server_order = {
     initialStates: {
-        action: 'https://[hipanel_domain_name]/server/order/add-to-cart-dedicated', // действие формы для заказа
+        action: 'https://hipanel.advancedhosting.com/server/order/add-to-cart-dedicated', // действие формы для заказа
         location: 'us', // локация по умолчанию, доступные варианты: 'us', 'nl'
         language: 'en', // язык по умолчанию, доступные варианты: 'ru', 'en'
     },
@@ -30,7 +31,7 @@ window.hipanel_server_order = {
     osImages: [
         /* массив доступных образов из `/osimagesSearch`, передать без модификации */
     ],
-    pathToIcons: null, // путь к файлам `*.svg` из папки `dist`, если `null` то искать в корне, на пример `https://[your_domain_name]/icons.svg`
+    pathToIcons: null, // путь к файлам `*.svg` из папки `dist`, если `null` то искать в корне, на пример `https://[your_domain_name]/*.svg`
 };
 ```
 

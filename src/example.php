@@ -5,7 +5,7 @@ final class ApiClient
     /**
      * @var string
      */
-    public static $apiUrl = 'https://beta-hiapi.advancedhosting.com/';
+    public $apiUrl = 'https://hiapi.advancedhosting.com/';
 
     /**
      * @var resource
@@ -15,7 +15,7 @@ final class ApiClient
     public function __construct(string $path)
     {
         if ($curl = curl_init()) {
-            curl_setopt($curl, CURLOPT_URL, self::$apiUrl . $path);
+            curl_setopt($curl, CURLOPT_URL, $this->apiUrl . $path);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_POST, true);
             $this->curl = $curl;
@@ -36,7 +36,7 @@ final class ApiClient
 
     public function getData(): array
     {
-        return json_decode(curl_exec($this->curl));
+        return json_decode(curl_exec($this->curl), true);
     }
 }
 
@@ -51,7 +51,7 @@ foreach ($configs as $config) {
 // Add `hipanel_server_order` variable in global scope
 $js = sprintf('<script type="text/javascript">var %s = %s;</script>', 'window.hipanel_server_order', json_encode([
     'initialStates' => [
-        'action' => ApiClient::$apiUrl . 'server/order/add-to-cart-dedicated',
+        'action' => 'https://hipanel.advancedhosting.com/server/order/add-to-cart-dedicated',
         'location' => 'us',
         'language' => 'en',
     ],
