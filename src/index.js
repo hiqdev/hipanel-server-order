@@ -12,7 +12,7 @@ if (!window.hipanel_server_order) {
     window.hipanel_server_order = {
         initialStates: {
             action: '/server/order/add-to-cart-dedicated',
-            location: 'us',
+            location: 'nl',
             language: 'en',
         },
         pathToIcons: null,
@@ -174,8 +174,8 @@ if (!window.hipanel_server_order) {
                 },
             ],
         },
-        osImages: [
-            {
+        osImages: {
+            "freebsd_11_clear": {
                 "name": "freebsd_11_clear",
                 "title": "Clear FreeBSD 11 LEMP [X_X]",
                 "os": "FreeBSD",
@@ -185,7 +185,7 @@ if (!window.hipanel_server_order) {
                 "softpack": null,
                 "osimage": "freebsd_11_clear"
             },
-            {
+            "ubuntu_1810_clean": {
                 "name": "ubuntu_1810_clean",
                 "title": "Ubuntu 18.10 Clean installation [X_X]",
                 "os": "Ubuntu",
@@ -195,7 +195,7 @@ if (!window.hipanel_server_order) {
                 "softpack": null,
                 "osimage": "ubuntu_1810_clean"
             },
-            {
+            "ubuntu_1804_lemp": {
                 "name": "ubuntu_1804_lemp",
                 "title": "Ubuntu 18.04 LTS x64 with LEMP stack [X_X]",
                 "os": "Ubuntu",
@@ -206,23 +206,14 @@ if (!window.hipanel_server_order) {
                     "name": "lemp",
                     "panel": null,
                     "packages": [
-                        {
-                            "name": "Nginx",
-                            "version": "1.15.0"
-                        },
-                        {
-                            "name": "MySQL",
-                            "version": 8
-                        },
-                        {
-                            "name": "PHP-FPM",
-                            "version": "7.3.0"
-                        }
+                        {"name": "Nginx", "version": "1.15.0"},
+                        {"name": "MySQL", "version": 8},
+                        {"name": "PHP-FPM", "version": "7.3.0"}
                     ]
                 },
                 "osimage": "ubuntu_1804_lemp"
             },
-            {
+            "centos_7_clean": {
                 "name": "centos_7_clean",
                 "title": "CentOS 7",
                 "os": "CentOS",
@@ -232,7 +223,7 @@ if (!window.hipanel_server_order) {
                 "softpack": null,
                 "osimage": "centos_7_clean"
             },
-            {
+            "ubuntu_1604_clean": {
                 "name": "ubuntu_1604_clean",
                 "title": "Ubuntu 16.04 LTS x64",
                 "os": "Ubuntu",
@@ -242,9 +233,9 @@ if (!window.hipanel_server_order) {
                 "softpack": null,
                 "osimage": "ubuntu_1604_clean"
             },
-            {
+            "debian_10_clean": {
                 "name": "debian_10_clean",
-                "title": "Debian GNU/Linux 10",
+                "title": "Debian GNU\/Linux 10",
                 "os": "Debian",
                 "version": 10,
                 "panel": null,
@@ -252,7 +243,7 @@ if (!window.hipanel_server_order) {
                 "softpack": null,
                 "osimage": "debian_10_clean"
             },
-            {
+            "ubuntu_1804_lemp_hipanel": {
                 "name": "ubuntu_1804_lemp_hipanel",
                 "title": "Ubuntu 18.04 LTS x64 with LEMP stack and HiPanel [X_X]",
                 "os": "Ubuntu",
@@ -263,25 +254,16 @@ if (!window.hipanel_server_order) {
                     "name": "lemp",
                     "panel": "HiPanel",
                     "packages": [
-                        {
-                            "name": "Nginx",
-                            "version": "1.15.1"
-                        },
-                        {
-                            "name": "MySQL",
-                            "version": "8.0.2"
-                        },
-                        {
-                            "name": "PHP-FPM",
-                            "version": "7.3.2"
-                        }
+                        {"name": "Nginx", "version": "1.15.1"},
+                        {"name": "MySQL", "version": "8.0.2"},
+                        {"name": "PHP-FPM", "version": "7.3.2"}
                     ]
                 },
                 "osimage": "ubuntu_1804_lemp_hipanel"
             },
-            {
+            "debian_9_clean": {
                 "name": "debian_9_clean",
-                "title": "Debian GNU/Linux 9",
+                "title": "Debian GNU\/Linux 9",
                 "os": "Debian",
                 "version": 9,
                 "panel": null,
@@ -289,7 +271,7 @@ if (!window.hipanel_server_order) {
                 "softpack": null,
                 "osimage": "debian_9_clean"
             },
-            {
+            "freebsd_11_lamp": {
                 "name": "freebsd_11_lamp",
                 "title": "FreeBSD 11 LEMP stack [X_X]",
                 "os": "FreeBSD",
@@ -300,23 +282,14 @@ if (!window.hipanel_server_order) {
                     "name": "lamp",
                     "panel": "HiPanel",
                     "packages": [
-                        {
-                            "name": "Apache",
-                            "version": 2.2
-                        },
-                        {
-                            "name": "MySQL",
-                            "version": 8
-                        },
-                        {
-                            "name": "PHP-FPM",
-                            "version": "7.3.0"
-                        }
+                        {"name": "Apache", "version": 2.2},
+                        {"name": "MySQL", "version": 8},
+                        {"name": "PHP-FPM", "version": "7.3.0"}
                     ]
                 },
                 "osimage": "freebsd_11_lamp"
             },
-            {
+            "ubuntu_1804_clean": {
                 "name": "ubuntu_1804_clean",
                 "title": "Ubuntu 18.04 LTS x64",
                 "os": "Ubuntu",
@@ -326,7 +299,7 @@ if (!window.hipanel_server_order) {
                 "softpack": null,
                 "osimage": "ubuntu_1804_clean"
             },
-            {
+            "windows_10_clean": {
                 "name": "windows_10_clean",
                 "title": "Windows 10 [X_X]",
                 "os": "Windows",
@@ -336,7 +309,7 @@ if (!window.hipanel_server_order) {
                 "softpack": null,
                 "osimage": "windows_10_clean"
             },
-            {
+            "centos_6_lamp": {
                 "name": "centos_6_lamp",
                 "title": "CentOS 6 x64 with LAMP stack [X_X]",
                 "os": "CentOS",
@@ -347,23 +320,14 @@ if (!window.hipanel_server_order) {
                     "name": "lamp",
                     "panel": null,
                     "packages": [
-                        {
-                            "name": "Apache",
-                            "version": "2.0.1"
-                        },
-                        {
-                            "name": "MySQL",
-                            "version": 5.5
-                        },
-                        {
-                            "name": "PHP-FPM",
-                            "version": "5.6.0"
-                        }
+                        {"name": "Apache", "version": "2.0.1"},
+                        {"name": "MySQL", "version": 5.5},
+                        {"name": "PHP-FPM", "version": "5.6.0"}
                     ]
                 },
                 "osimage": "centos_6_lamp"
             },
-            {
+            "centos_6_clean": {
                 "name": "centos_6_clean",
                 "title": "CentOS 6",
                 "os": "CentOS",
@@ -373,7 +337,7 @@ if (!window.hipanel_server_order) {
                 "softpack": null,
                 "osimage": "centos_6_clean"
             },
-            {
+            "ubuntu_1804_lamp_hipanel": {
                 "name": "ubuntu_1804_lamp_hipanel",
                 "title": "Ubuntu 18.04 LTS x64 with LAMP stack and HiPanel [X_X]",
                 "os": "Ubuntu",
@@ -384,23 +348,14 @@ if (!window.hipanel_server_order) {
                     "name": "lamp",
                     "panel": "HiPanel",
                     "packages": [
-                        {
-                            "name": "Apache",
-                            "version": "2.2.2"
-                        },
-                        {
-                            "name": "MySQL",
-                            "version": "8.0.1"
-                        },
-                        {
-                            "name": "PHP-FPM",
-                            "version": "7.3.2"
-                        }
+                        {"name": "Apache", "version": "2.2.2"},
+                        {"name": "MySQL", "version": "8.0.1"},
+                        {"name": "PHP-FPM", "version": "7.3.2"}
                     ]
                 },
                 "osimage": "ubuntu_1804_lamp_hipanel"
             },
-            {
+            "ubuntu_1804_lamp": {
                 "name": "ubuntu_1804_lamp",
                 "title": "Ubuntu 18.04 LTS x64 with LAMP stack [X_X]",
                 "os": "Ubuntu",
@@ -411,23 +366,14 @@ if (!window.hipanel_server_order) {
                     "name": "lamp",
                     "panel": null,
                     "packages": [
-                        {
-                            "name": "Apache",
-                            "version": 2.2
-                        },
-                        {
-                            "name": "MySQL",
-                            "version": 8
-                        },
-                        {
-                            "name": "PHP-FPM",
-                            "version": "7.3.1"
-                        }
+                        {"name": "Apache", "version": 2.2},
+                        {"name": "MySQL", "version": 8},
+                        {"name": "PHP-FPM", "version": "7.3.1"}
                     ]
                 },
                 "osimage": "ubuntu_1804_lamp"
             }
-        ]
+        }
     };
 }
 
@@ -507,7 +453,11 @@ const messages = {
         'lamp': 'LAMP',
     }
 };
-
+let osimages = [];
+Object.keys(hipanel_server_order.osImages).map(key => {
+    osimages.push(hipanel_server_order.osImages[key]);
+});
+hipanel_server_order.osImages = osimages;
 render(
     <IntlProvider locale={window.hipanel_server_order.initialStates.language}
                   messages={messages[window.hipanel_server_order.initialStates.language]}>

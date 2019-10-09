@@ -46,7 +46,7 @@ class ServerOrder extends Widget
         $this->view->registerJsVar('hipanel_server_order', [
             'initialStates' => [
                 'action' => Url::toRoute(['/server/order/add-to-cart-dedicated']),
-                'location' => 'us',
+                'location' => 'nl',
                 'language' => Yii::$app->language,
             ],
             'pathToIcons' => $themeBundle->baseUrl . DIRECTORY_SEPARATOR,
