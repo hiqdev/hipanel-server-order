@@ -12,13 +12,13 @@ class ServerOrderAsset extends AssetBundle
 {
     public $sourcePath = '@hipanel/server/order/dist';
 
-    public $depends = [
-        BootstrapAsset::class,
-    ];
-
     public function init()
     {
         parent::init();
+        Yii::$app->assetManager->bundles[BootstrapAsset::class] = [
+            'css' => [],
+            'js' => [],
+        ];
         $files = array_map('basename', FileHelper::findFiles(Yii::getAlias($this->sourcePath), [
             'only' => ['vendor.*.js', 'app.*.js', 'vendor.*.css', 'app.*.css'],
             'caseSensitive' => true,
