@@ -1,3 +1,4 @@
+import './styles.scss'
 import React from 'react'
 import {render} from 'react-dom'
 import {addLocaleData, IntlProvider} from 'react-intl';

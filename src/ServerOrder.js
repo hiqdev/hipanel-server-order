@@ -2,7 +2,6 @@ import React, {Fragment} from 'react'
 import classnames from 'classnames'
 import {FormattedMessage} from 'react-intl'
 import styled from 'styled-components'
-import "react-responsive-carousel/lib/styles/carousel.min.css"
 import {Carousel} from 'react-responsive-carousel'
 import LocationSwitcher from './components/LocationSwitcher'
 import ConfigCard from './components/ConfigCard'
