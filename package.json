@@ -25,6 +25,7 @@
     "nwb": "0.23.x",
     "nwb-sass": "0.9.x",
     "babel-plugin-react-html-attrs": "2.x",
+    "@quickbaseoss/babel-plugin-styled-components-css-namespace": "^1.0.0-rc3",
     "styled-components.macro": "^1.0.0"
   },
   "author": "Andrii Klochok",

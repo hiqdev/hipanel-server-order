@@ -2,6 +2,7 @@ import React, {Fragment} from 'react'
 import classnames from 'classnames'
 import {FormattedMessage} from 'react-intl'
 import styled from 'styled-components'
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {Carousel} from 'react-responsive-carousel'
 import LocationSwitcher from './components/LocationSwitcher'
 import ConfigCard from './components/ConfigCard'
@@ -90,18 +91,21 @@ const ConfigurationDescWrapper = styled.p`
   color: #8492A5;
 `;
 
-const MainHeaderWrapper = styled.div.attrs(props => ({className: 'col-xs-12 text-center'}))`
+const MainHeaderWrapper = styled.div.attrs(props => ({className: 'col-12 text-center'}))`
   padding: 0px 0 20px;
 `;
 
 const LocationSwitcherWrapper = styled.div`
   height: 80px;
-  border-bottom: 1px solid #E0E6ED;
-  border-top: 1px solid #E0E6ED;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+`;
+
+const Separator = styled.div.attrs(props => ({className: 'w-100'}))`
+  height: 1px;
+  border-top: 1px solid #E0E6ED;
 `;
 
 const FeaturedHeader = styled.div`
@@ -110,11 +114,11 @@ const FeaturedHeader = styled.div`
   padding-right: 40px;
 `;
 
-const GroupHeader = styled.h4.attrs(props => ({className: 'col-xs-12 text-center'}))`
+const GroupHeader = styled.h4.attrs(props => ({className: 'text-center'}))`
   font-weight: bold;
   font-size: 32px;
   color: #2F3945;
-  margin: 2em 0 1em;
+  padding: 2em 0 1em;
 `;
 
 const LabelWrapper = styled.div`
@@ -490,17 +494,19 @@ class ServerOrder extends React.Component {
                 groupByProfiles(this.state.configOptions[location]);
                 mainSection = Object.keys(groups).map((groupName, idx) => {
                     const configs = groups[groupName].map((config, idx) => (
-                        <div className="col-md-3" key={idx}>
+                        <div className="col-3" key={idx}>
                             <ConfigCard config={config} {...this.state} location={location}
                                         onSelectConfig={evt => this.handleSelectConfig(evt)}/>
                         </div>
                     ));
-                    const chunked = chunkArray(configs, 4).map((rows, ridx) => <Fragment key={ridx}>{rows}</Fragment>);
+                    const chunked = chunkArray(configs, 4).map((rows, ridx) => <div className={'row'} key={ridx}>{rows}</div>);
 
                     return (<div className="row" key={idx}>
-                        <GroupHeader>{groupName}</GroupHeader>
-                        <StyledCarousel showThumbs={false} showStatus={false}
-                                        showIndicators={false} pathToIcons={pathToIcons}>{chunked}</StyledCarousel>
+                        <div className="col-12">
+                            <GroupHeader>{groupName}</GroupHeader>
+                            <StyledCarousel showThumbs={false} showStatus={false}
+                                            showIndicators={false} pathToIcons={pathToIcons}>{chunked}</StyledCarousel>
+                        </div>
                     </div>);
                 });
             } else {
@@ -513,21 +519,23 @@ class ServerOrder extends React.Component {
                 <ServerOrderWrapper configId={configId}>
                     <div className="container">
                         <form id="hipanel-server-order" action={action} method="POST">
-                            <div className={classnames({"hidden": configId !== null, 'row': true})}>
+                            <div className={classnames({"d-none": configId !== null, 'row': true})}>
                                 <MainHeaderWrapper>
                                     <h2><FormattedMessage id='main_header'/></h2>
                                 </MainHeaderWrapper>
-                                <LocationSwitcherWrapper className="col-md-12">
+                                <div className="col-12"><Separator/></div>
+                                <LocationSwitcherWrapper className="col-12">
                                     <FeaturedHeader><FormattedMessage id='featured_dedicated_servers'/></FeaturedHeader>
-                                    <div className={classnames({"hidden": configId !== null})}>
+                                    <div className={classnames({"d-none": configId !== null})}>
                                         <LocationSwitcher locations={locationOptions} currentLocation={location}
                                                           onLocationChange={loc => this.handleLocationChange(loc)}/>
                                     </div>
                                 </LocationSwitcherWrapper>
+                                <div className="col-12"><Separator/></div>
                             </div>
                             <div className="row">
-                                <div className={sidebarCard === '' ? "col-md-12" : "col-md-8 col-lg-7"}>
-                                    <div className={classnames({"hidden": configId === null})}>
+                                <div className={sidebarCard === '' ? "col-12" : "col-sm-12 col-md-8 col-lg-7 col-xl-7"}>
+                                    <div className={classnames({"d-none": configId === null})}>
                                         <FeaturedHeader>
                                             <ConfigurationHeaderWrapper><FormattedMessage
                                                 id='configuration_setting'/></ConfigurationHeaderWrapper>
@@ -536,7 +544,7 @@ class ServerOrder extends React.Component {
                                         </FeaturedHeader>
                                     </div>
                                     {mainSection}
-                                    <OrderButtonWrapper className={classnames({"hidden": configId === null})}>
+                                    <OrderButtonWrapper className={classnames({"d-none": configId === null})}>
                                         <OrderButton type="submit" className='btn'>
                                             <FormattedMessage id='order'/>
                                         </OrderButton>
@@ -544,7 +552,7 @@ class ServerOrder extends React.Component {
                                                             onBack={location => this.handleLocationChange(location)}/>
                                     </OrderButtonWrapper>
                                 </div>
-                                <div className="col-md-4 col-lg-offset-1">
+                                <div className="col-sm-12 col-md-4 offset-lg-1 offset-xl-1">
                                     {sidebarCard}
                                 </div>
                             </div>

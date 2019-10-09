@@ -5,7 +5,6 @@ import SoftwareDescriber from './SoftwareDesriber'
 import SelectedOption from './SelectedOption'
 import {ConfigLabel, ConfigItem, ConfigValue} from './ConfigViewer'
 import SelectButton from "./SelectButton";
-// import Icon from './Icon'
 
 const ConfigSubname = styled(ConfigItem)`
   margin-top: -2px;
@@ -54,7 +53,7 @@ const ConfigCardWrapper = styled.div`
 
 const NoPadding = styled.div`padding: 0 0 36px 0;`;
 
-const PanelHeaderWrapper = styled.div.attrs(props => ({className: 'panel-heading'}))`
+const CardHeaderWrapper = styled.div.attrs(props => ({className: 'card-header'}))`
   height: 87px;
   text-align: center;
   background-color: #2F3945!important;
@@ -66,7 +65,7 @@ const PanelHeaderWrapper = styled.div.attrs(props => ({className: 'panel-heading
   line-height: calc(87px - 22px);
 `;
 
-const PanelFooterWrapper = styled(ConfigItem)`
+const CardFooterWrapper = styled(ConfigItem)`
 `;
 
 const ConfigViewer = styled.ul.attrs(props => ({className: 'list-group'}))`
@@ -146,10 +145,10 @@ export default function ConfigCard(props) {
     const isOrderButtonActive = (props.os && props.administration && props.softpack && props.osImage);
 
     return (
-        <ConfigCardWrapper className="panel panel-default">
-            <PanelHeaderWrapper>
+        <ConfigCardWrapper className="card">
+            <CardHeaderWrapper>
                 {props.config.name}
-            </PanelHeaderWrapper>
+            </CardHeaderWrapper>
             <LineWithPriceWrapper>
                 <FormattedMessage id='per_month' values={{currency, price: <PriceWrapper>{price}</PriceWrapper>}}/>
             </LineWithPriceWrapper>

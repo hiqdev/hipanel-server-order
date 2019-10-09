@@ -1,7 +1,7 @@
 module.exports = {
     type: 'react-app',
     babel: {
-        plugins: ['react-html-attrs']
+        plugins: ["@quickbaseoss/babel-plugin-styled-components-css-namespace", 'react-html-attrs']
     },
     webpack: {
         publicPath: '',
