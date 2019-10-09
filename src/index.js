@@ -511,7 +511,9 @@ const messages = {
 render(
     <IntlProvider locale={window.hipanel_server_order.initialStates.language}
                   messages={messages[window.hipanel_server_order.initialStates.language]}>
-        <ServerOrder {...window.hipanel_server_order}/>
+        <ServerOrder {...window.hipanel_server_order} ref={(cmp) => {
+            window.hipanel_server_order_app = cmp;
+        }}/>
     </IntlProvider>,
     document.querySelector('#server-order-app')
 );

@@ -1,4 +1,15 @@
 .use-bootstrap {
   @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap&subset=cyrillic");
   @import "~bootstrap/scss/bootstrap";
+
+  .radio:hover label {
+    cursor: pointer;
+  }
+
+  button:focus, button:active:focus, button.active:focus,
+  .btn:focus, .btn:active:focus, .btn.active:focus,
+  .btn.focus, .btn:active.focus, .btn.active.focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
 }

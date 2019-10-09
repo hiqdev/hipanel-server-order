@@ -376,6 +376,13 @@ class ServerOrder extends React.Component {
         return unionPacks;
     }
 
+    setLocation(location) {
+        const locations = ['nl', 'us'];
+        if (locations.includes(location)) {
+            this.handleLocationChange(location);
+        }
+    }
+
     handleLocationChange(location) {
         this.setState({
             location: location,
@@ -499,7 +506,8 @@ class ServerOrder extends React.Component {
                                         onSelectConfig={evt => this.handleSelectConfig(evt)}/>
                         </div>
                     ));
-                    const chunked = chunkArray(configs, 4).map((rows, ridx) => <div className={'row'} key={ridx}>{rows}</div>);
+                    const chunked = chunkArray(configs, 4).map((rows, ridx) => <div className={'row'}
+                                                                                    key={ridx}>{rows}</div>);
 
                     return (<div className="row" key={idx}>
                         <div className="col-12">
@@ -519,20 +527,20 @@ class ServerOrder extends React.Component {
                 <ServerOrderWrapper configId={configId}>
                     <div className="container">
                         <form id="hipanel-server-order" action={action} method="POST">
-                            <div className={classnames({"d-none": configId !== null, 'row': true})}>
-                                <MainHeaderWrapper>
-                                    <h2><FormattedMessage id='main_header'/></h2>
-                                </MainHeaderWrapper>
-                                <div className="col-12"><Separator/></div>
-                                <LocationSwitcherWrapper className="col-12">
-                                    <FeaturedHeader><FormattedMessage id='featured_dedicated_servers'/></FeaturedHeader>
-                                    <div className={classnames({"d-none": configId !== null})}>
-                                        <LocationSwitcher locations={locationOptions} currentLocation={location}
-                                                          onLocationChange={loc => this.handleLocationChange(loc)}/>
-                                    </div>
-                                </LocationSwitcherWrapper>
-                                <div className="col-12"><Separator/></div>
-                            </div>
+                            {/*<div className={classnames({"d-none": configId !== null, 'row': true})}>*/}
+                            {/*    <MainHeaderWrapper>*/}
+                            {/*        <h2><FormattedMessage id='main_header'/></h2>*/}
+                            {/*    </MainHeaderWrapper>*/}
+                            {/*    <div className="col-12"><Separator/></div>*/}
+                            {/*    <LocationSwitcherWrapper className="col-12">*/}
+                            {/*        <FeaturedHeader><FormattedMessage id='featured_dedicated_servers'/></FeaturedHeader>*/}
+                            {/*        <div className={classnames({"d-none": configId !== null})}>*/}
+                            {/*            <LocationSwitcher locations={locationOptions} currentLocation={location}*/}
+                            {/*                              onLocationChange={loc => this.handleLocationChange(loc)}/>*/}
+                            {/*        </div>*/}
+                            {/*    </LocationSwitcherWrapper>*/}
+                            {/*    <div className="col-12"><Separator/></div>*/}
+                            {/*</div>*/}
                             <div className="row">
                                 <div className={sidebarCard === '' ? "col-12" : "col-sm-12 col-md-8 col-lg-7 col-xl-7"}>
                                     <div className={classnames({"d-none": configId === null})}>
