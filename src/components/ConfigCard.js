@@ -54,10 +54,11 @@ const ConfigCardWrapper = styled.div`
 const NoPadding = styled.div`padding: 0 0 36px 0;`;
 
 const CardHeaderWrapper = styled.div.attrs(props => ({className: 'card-header'}))`
+  position: relative;
   height: 87px;
   text-align: center;
-  background-color: #2F3945!important;
-  color: white!important;
+  background-color: #E0E6ED!important;
+  color: #2F3945!important;
   border-radius: 4px!important;
   font-style: normal;
   font-weight: bold;
@@ -66,6 +67,16 @@ const CardHeaderWrapper = styled.div.attrs(props => ({className: 'card-header'})
 `;
 
 const CardFooterWrapper = styled(ConfigItem)`
+`;
+
+const ServerIcon = styled.div`
+  width: 50px;
+  height: 40px;
+  position: absolute;
+  left: calc(50% - 25px);
+  bottom: -20px;
+  background-repeat: no-repeat;
+  background-image: ${props => props.pathToIcons ? `url('${props.pathToIcons}server-icon.svg')` : "url('server-icon.svg')"};
 `;
 
 const ConfigViewer = styled.ul.attrs(props => ({className: 'list-group'}))`
@@ -129,7 +140,6 @@ export default function ConfigCard(props) {
         price = props.total;
         label = props.label;
     } else {
-        // price = props.config.price.toLocaleString(props.language, {style: 'currency', currency: props.config.currency, minimumFractionDigits: 0});
         price = props.config.price;
         if (props.config[props.location + '_old_price']) {
             oldPrice = parseFloat(props.config[props.location + '_old_price']);
@@ -148,19 +158,20 @@ export default function ConfigCard(props) {
         <ConfigCardWrapper className="card">
             <CardHeaderWrapper>
                 {props.config.name}
+                <ServerIcon/>
             </CardHeaderWrapper>
             <LineWithPriceWrapper>
                 <FormattedMessage id='per_month' values={{currency, price: <PriceWrapper>{price}</PriceWrapper>}}/>
             </LineWithPriceWrapper>
             <ConfigViewer>
-                {(isSideBar) ? (<ConfigDescription>{props.config.descr}</ConfigDescription>) : ''}
+                {/*{(isSideBar) ? (<ConfigDescription>{props.config.descr}</ConfigDescription>) : ''}*/}
                 {(label) ? (
                     <ConfigItem><ConfigValue>{label}</ConfigValue><ConfigLabel><FormattedMessage
                         id='server_label'/></ConfigLabel></ConfigItem>) : ''}
                 {stringifyConfiguration(props.config, isSideBar)}
-                <SelectedOption options={props.osOptions} input={props.os} label='os'/>
                 <SelectedOption options={props.administrationOptions} input={props.administration}
                                 label='administration'/>
+                <SelectedOption options={props.osOptions} input={props.os} label='os'/>
                 <SelectedOption options={props.softpackOptions} input={props.softpack} label='softpack'/>
                 <SoftwareDescriber osImage={props.osImage}/>
                 {isSideBar ? (
