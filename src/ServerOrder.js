@@ -1,10 +1,10 @@
 import React, {Fragment} from 'react'
 import classnames from 'classnames'
-import {FormattedMessage} from 'react-intl'
+import {FormattedMessage, injectIntl} from 'react-intl'
 import styled from 'styled-components'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {Carousel} from 'react-responsive-carousel'
-import LocationSwitcher from './components/LocationSwitcher'
+// import LocationSwitcher from './components/LocationSwitcher'
 import ConfigCard from './components/ConfigCard'
 import RadioList from './components/RadioList'
 import ServerOrderWrapper from './components/ServerOrderWrapper'
@@ -443,9 +443,9 @@ class ServerOrder extends React.Component {
             location, configId, os, administration, softpack, panel, action, configOptions, label, osImage, locationOptions
         } = this.state;
         const pathToIcons = this.props.pathToIcons;
-        const serverLabel = <FormattedMessage id='server_label'/>;
 
         if (location && configId) {
+            const {intl} = this.props;
             const administrationOptions = this.getAdministrationOptions();
             const osOptions = this.getOsOptions();
             const softpackOptions = this.getSoftpackOptions();
@@ -458,8 +458,9 @@ class ServerOrder extends React.Component {
             mainSection = <fieldset>
 
                 <LabelWrapper className="form-group">
-                    <label htmlFor="label" className='sr-only'>{serverLabel}</label>
-                    <input type="text" className="form-control" name='label' id="label" placeholder="Server Label"
+                    <label htmlFor="label" className='sr-only'><FormattedMessage id={'server_label'}/></label>
+                    <input type="text" className="form-control" name='label' id="label"
+                           placeholder={intl.formatMessage({id: 'server_label'})}
                            autoComplete="off" value={label} onChange={evt => this.handleLabelChange(evt)}/>
                 </LabelWrapper>
 
@@ -573,4 +574,4 @@ class ServerOrder extends React.Component {
     }
 }
 
-export default ServerOrder
+export default injectIntl(ServerOrder);

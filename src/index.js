@@ -12,8 +12,8 @@ if (!window.hipanel_server_order) {
     window.hipanel_server_order = {
         initialStates: {
             action: '/server/order/add-to-cart-dedicated',
-            location: 'nl',
-            language: 'en',
+            location: 'us',
+            language: 'ru',
         },
         pathToIcons: null,
         configs: {
@@ -437,8 +437,8 @@ const messages = {
         'no_configurations': 'Нет конфигураций',
         'software': 'Программное обеспечение',
         'no_softpack': 'отсутствует',
-        'managed': 'Поддержка 24/7',
-        'unmanaged': 'Базовое',
+        'managed': 'Экспертное обслуживание 24/7',
+        'unmanaged': 'Базовое обслуживание',
         'per_month': '{currency}{price}/мес',
         'from_month': 'От {oldPrice} {price}/мес',
         'mbps': 'Мбит/с',
@@ -455,9 +455,16 @@ const messages = {
 };
 let osimages = [];
 Object.keys(hipanel_server_order.osImages).map(key => {
-    osimages.push(hipanel_server_order.osImages[key]);
+    const image = hipanel_server_order.osImages[key];
+    const acceptableOs = ['CentOS', 'Ubuntu', 'Debian'];
+    const acceptableVersion = [7, 6, 9, 10, '16.04 LTS', '18.04 LTS'];
+    if (acceptableOs.includes(image.os) && acceptableVersion.includes(image.version)) {
+        osimages.push(image);
+    }
 });
+osimages.sort((a, b) => a.os.localeCompare(b.os));
 hipanel_server_order.osImages = osimages;
+
 render(
     <IntlProvider locale={window.hipanel_server_order.initialStates.language}
                   messages={messages[window.hipanel_server_order.initialStates.language]}>
@@ -467,3 +474,18 @@ render(
     </IntlProvider>,
     document.querySelector('#server-order-app')
 );
+
+// Disable missing translation message as translations will be added later.
+
+// eslint-disable-next-line
+const consoleError = console.error.bind(console);
+// eslint-disable-next-line
+console.error = (message, ...args) => {
+    if (
+        typeof message === 'string' &&
+        message.startsWith('[React Intl] Missing message:')
+    ) {
+        return;
+    }
+    consoleError(message, ...args);
+};
