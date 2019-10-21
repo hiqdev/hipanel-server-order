@@ -454,7 +454,7 @@ class ServerOrder extends React.Component {
             sidebarCard = (location && configId) ?
                 <ConfigCard config={fullConfig} isSideBar={true} {...this.state} osOptions={osOptions}
                             administrationOptions={administrationOptions} softpackOptions={softpackOptions}
-                            panelOptions={panelOptions} locationOptions={locationOptions}/> : '';
+                            panelOptions={panelOptions} locationOptions={locationOptions} pathToIcons={pathToIcons}/> : '';
             mainSection = <fieldset>
 
                 <LabelWrapper className="form-group">
@@ -504,7 +504,7 @@ class ServerOrder extends React.Component {
                     const configs = groups[groupName].map((config, idx) => (
                         <div className="col-3" key={idx}>
                             <ConfigCard config={config} {...this.state} location={location}
-                                        onSelectConfig={evt => this.handleSelectConfig(evt)}/>
+                                        onSelectConfig={evt => this.handleSelectConfig(evt)} pathToIcons={pathToIcons}/>
                         </div>
                     ));
                     const chunked = chunkArray(configs, 4).map((rows, ridx) => <div className={'row'}

@@ -131,6 +131,7 @@ const stringifyConfiguration = (config, isSideBar) => {
 };
 
 export default function ConfigCard(props) {
+    const { pathToIcons } = props;
     const handleSelect = evt => {
         props.onSelectConfig(evt.currentTarget.dataset.configId);
     };
@@ -158,7 +159,7 @@ export default function ConfigCard(props) {
         <ConfigCardWrapper className="card">
             <CardHeaderWrapper>
                 {props.config.name}
-                <ServerIcon/>
+                <ServerIcon pathToIcons={pathToIcons}/>
             </CardHeaderWrapper>
             <LineWithPriceWrapper>
                 <FormattedMessage id='per_month' values={{currency, price: <PriceWrapper>{price}</PriceWrapper>}}/>
