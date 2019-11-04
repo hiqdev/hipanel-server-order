@@ -61,12 +61,12 @@ const StyledCarousel = styled(Carousel)`
 
   .carousel .control-prev.control-arrow:before {
     background-image: ${props => props.pathToIcons ? `url('${props.pathToIcons}carousel-arrow-left.svg')` : "url('carousel-arrow-left.svg')"};
-    left: -70px;
+    left: -87px;
   }
 
   .carousel .control-next.control-arrow:before {
     background-image: ${props => props.pathToIcons ? `url('${props.pathToIcons}carousel-arrow-right.svg')` : "url('carousel-arrow-right.svg')"};
-    right: -70px;
+    right: -87px;
   }
 `;
 

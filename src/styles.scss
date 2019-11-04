@@ -2,6 +2,14 @@
   @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap&subset=cyrillic");
   @import "~bootstrap/scss/bootstrap";
 
+  @media (min-width: 1200px) {
+    .container {
+      max-width: 1200px;
+    }
+  }
+
+  color: #2f3945 !important;
+
   .radio:hover label {
     cursor: pointer;
   }
@@ -11,5 +19,14 @@
   .btn.focus, .btn:active.focus, .btn.active.focus {
     outline: none !important;
     box-shadow: none !important;
+  }
+
+  .list-group-item:first-child {
+    border-radius: 0;
+  }
+
+  .list-group-item {
+    border-left: none;
+    border-right: none;
   }
 }

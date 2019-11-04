@@ -49,6 +49,7 @@ const RowWithButton = styled(ConfigItem)`
 
 const ConfigCardWrapper = styled.div`
   box-shadow: 0px 4px 10px rgba(39, 52, 67, 0.04);
+  min-width: 270px !important;
 `;
 
 const NoPadding = styled.div`padding: 0 0 36px 0;`;
@@ -59,7 +60,7 @@ const CardHeaderWrapper = styled.div.attrs(props => ({className: 'card-header'})
   text-align: center;
   background-color: #E0E6ED!important;
   color: #2F3945!important;
-  border-radius: 4px!important;
+  border-radius: 0;
   font-style: normal;
   font-weight: bold;
   font-size: 22px;
@@ -131,7 +132,7 @@ const stringifyConfiguration = (config, isSideBar) => {
 };
 
 export default function ConfigCard(props) {
-    const { pathToIcons } = props;
+    const {pathToIcons} = props;
     const handleSelect = evt => {
         props.onSelectConfig(evt.currentTarget.dataset.configId);
     };
@@ -177,7 +178,8 @@ export default function ConfigCard(props) {
                 <SoftwareDescriber osImage={props.osImage}/>
                 {isSideBar ? (
                     <Fragment>
-                        <SelectedOption options={props.panelOptions} input={props.panel ? props.panel : 'no_panel'} label='panel'/>
+                        <SelectedOption options={props.panelOptions} input={props.panel ? props.panel : 'no_panel'}
+                                        label='panel'/>
                         <SelectedOption options={props.locationOptions} input={props.location} label='location'/>
                     </Fragment>
                 ) : ''}
