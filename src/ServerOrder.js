@@ -1,5 +1,6 @@
-import React, {Fragment} from 'react'
+import React from 'react'
 import classnames from 'classnames'
+import PropTypes from 'prop-types'
 import {FormattedMessage, injectIntl} from 'react-intl'
 import styled from 'styled-components'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -183,6 +184,7 @@ class ServerOrder extends React.Component {
     constructor(props) {
         super(props);
         this.cmpRef = React.createRef();
+        this.props.registerServerOrderComponent(this);
         this.state = Object.assign({}, {
             actions: null,
             location: 'usa',
@@ -454,7 +456,8 @@ class ServerOrder extends React.Component {
             sidebarCard = (location && configId) ?
                 <ConfigCard config={fullConfig} isSideBar={true} {...this.state} osOptions={osOptions}
                             administrationOptions={administrationOptions} softpackOptions={softpackOptions}
-                            panelOptions={panelOptions} locationOptions={locationOptions} pathToIcons={pathToIcons}/> : '';
+                            panelOptions={panelOptions} locationOptions={locationOptions}
+                            pathToIcons={pathToIcons}/> : '';
             mainSection = <fieldset>
 
                 <LabelWrapper className="form-group">
@@ -573,5 +576,9 @@ class ServerOrder extends React.Component {
         );
     }
 }
+
+ServerOrder.propTypes = {
+    registerServerOrderComponent: PropTypes.func
+};
 
 export default injectIntl(ServerOrder);
