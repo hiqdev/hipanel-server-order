@@ -29,4 +29,8 @@
     border-left: none;
     border-right: none;
   }
+
+  .row {
+    align-items: inherit!important;
+  }
 }
