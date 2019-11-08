@@ -51,14 +51,16 @@ const StyledCarousel = styled(Carousel)`
     background-size: 14px 14px;
   }
   
+  /*
   .carousel .control-disabled.control-arrow {
     opacity: 1;
-    display: inherit;
+    display: initial;
     
     &:before {
       opacity: .4;
     }
   }
+  */
 
   .carousel .control-prev.control-arrow:before {
     background-image: ${props => props.pathToIcons ? `url('${props.pathToIcons}carousel-arrow-left.svg')` : "url('carousel-arrow-left.svg')"};
@@ -68,6 +70,25 @@ const StyledCarousel = styled(Carousel)`
   .carousel .control-next.control-arrow:before {
     background-image: ${props => props.pathToIcons ? `url('${props.pathToIcons}carousel-arrow-right.svg')` : "url('carousel-arrow-right.svg')"};
     right: -87px;
+  }
+  
+  .carousel .control-dots {
+    position: absolute;
+    bottom: -25px;
+    list-style: none;
+    display: block;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    width: 100%; 
+  }
+  .carousel .control-dots li.dot {
+    background-color: #8492a5;
+    box-shadow: none;
+    margin: 0 12px;
+  }
+  .carousel .control-dots li.dot.selected {
+    background-color: #fc6d22;
   }
 `;
 
@@ -185,7 +206,9 @@ class ServerOrder extends React.Component {
         super(props);
         this.cmpRef = React.createRef();
         this.props.registerServerOrderComponent(this);
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.state = Object.assign({}, {
+            screenWidth: window.innerWidth,
             actions: null,
             location: 'usa',
             configId: null,
@@ -224,12 +247,21 @@ class ServerOrder extends React.Component {
     }
 
     componentDidMount(prevProps, prevState, snapshot) {
+        window.addEventListener("resize", this.updateWindowDimensions);
         this.setState({
             configOptions: this.props.configs,
             osImages: this.props.osImages,
             administration: 'managed',
             possibleOsImages: this.props.osImages,
         }, this.setPossibleOsImages);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateWindowDimensions)
+    }
+
+    updateWindowDimensions() {
+        this.setState({ screenWidth: window.innerWidth });
     }
 
     setOsImage() {
@@ -490,6 +522,7 @@ class ServerOrder extends React.Component {
         } else if (location) {
             if (Object.keys(this.state.configOptions).length && this.state.configOptions.hasOwnProperty(location)) {
                 let groups = {};
+                const screenWidth = this.state.screenWidth;
                 const groupByProfiles = (configs) => {
                     for (let i = 0; i < configs.length; i++) {
                         const config = configs[i];
@@ -505,24 +538,36 @@ class ServerOrder extends React.Component {
                 groupByProfiles(this.state.configOptions[location]);
                 mainSection = Object.keys(groups).map((groupName, idx) => {
                     const configs = groups[groupName].map((config, idx) => (
-                        <div className="col-3" key={idx}>
+                        <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12" key={idx}>
                             <ConfigCard config={config} {...this.state} location={location}
                                         onSelectConfig={evt => this.handleSelectConfig(evt)} pathToIcons={pathToIcons}/>
                         </div>
                     ));
-                    const chunked = chunkArray(configs, 4).map((rows, ridx) => <div className={'row'}
+                    let chunks = 4, showIndicators = false, showArrows = true;
+                    if (screenWidth <= 768) {
+                        chunks = 1;
+                        showIndicators = true;
+                        showArrows = false;
+                    } else if (screenWidth <= 992) {
+                        chunks = 2;
+                        showIndicators = true;
+                        showArrows = false;
+                    } else if (screenWidth <= 1200) {
+                        chunks = 3;
+                    }
+                    const chunked = chunkArray(configs, chunks).map((rows, ridx) => <div className={'row'}
                                                                                     key={ridx}>{rows}</div>);
 
                     return (<div className="row" key={idx}>
                         <div className="col-12">
                             <GroupHeader>{groupName}</GroupHeader>
-                            <StyledCarousel showThumbs={false} showStatus={false}
-                                            showIndicators={false} pathToIcons={pathToIcons}>{chunked}</StyledCarousel>
+                            <StyledCarousel showThumbs={false} showStatus={false} showArrows={showArrows}
+                                            showIndicators={showIndicators} pathToIcons={pathToIcons}>{chunked}</StyledCarousel>
                         </div>
                     </div>);
                 });
             } else {
-                mainSection = <Alert msgId='no_configurations'/>;
+                mainSection = ''; //<Alert msgId='no_configurations'/>;
             }
         }
 
