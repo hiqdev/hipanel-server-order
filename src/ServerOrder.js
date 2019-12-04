@@ -309,6 +309,11 @@ class ServerOrder extends React.Component {
 
     getPanelOptions() {
         const administration = this.state.administration;
+        const no_panel = {
+            name: 'no_panel',
+            title: 'no_panel',
+            disabled: administration === 'managed',
+        };
         let panels = Object.keys(this.props.osImages).map(key => {
             const image = this.props.osImages[key];
             if (image.softpack && typeof image.softpack.panel === 'string') {
@@ -321,11 +326,9 @@ class ServerOrder extends React.Component {
         });
         panels = panels.filter(el => el != null);
         panels = panels.filter((item, index, self) => index === self.findIndex((t) => (typeof t !== 'undefined' && t.name === item.name)));
-        panels.unshift({
-            name: 'no_panel',
-            title: 'no_panel',
-            disabled: administration === 'managed',
-        });
+
+        // panels.unshift(no_panel);
+        panels = [no_panel];
 
         return panels;
     }
@@ -355,16 +358,21 @@ class ServerOrder extends React.Component {
                 title: <FormattedMessage id='unmanaged'/>,
                 disabled: !this.props.osImages.some(image => (image.softpack === null || image.softpack.panel === null))
             },
-            {
-                name: 'managed',
-                title: <FormattedMessage id='managed'/>,
-                disabled: !this.props.osImages.some(image => (image.softpack !== null && typeof image.softpack.panel === 'string'))
-            },
+            // {
+            //     name: 'managed',
+            //     title: <FormattedMessage id='managed'/>,
+            //     disabled: !this.props.osImages.some(image => (image.softpack !== null && typeof image.softpack.panel === 'string'))
+            // },
         ];
     }
 
     getSoftpackOptions() {
         let rawSoftpacks = [];
+        const no_softpack = {
+            name: 'clear',
+            title: <FormattedMessage id='no_softpack' defaultMessage='No softpack'/>,
+            disabled: false,
+        };
         for (let osImageName in this.props.osImages) {
             const image = this.props.osImages.hasOwnProperty(osImageName) ? this.props.osImages[osImageName] : null;
             if (image && image.softpack) {
@@ -375,11 +383,8 @@ class ServerOrder extends React.Component {
                 })
             }
         }
-        rawSoftpacks.unshift({
-            name: 'clear',
-            title: <FormattedMessage id='no_softpack' defaultMessage='No softpack'/>,
-            disabled: false,
-        });
+        // rawSoftpacks.unshift(no_softpack);
+        rawSoftpacks = [no_softpack];
         let unionPacks = rawSoftpacks.filter((item, index, self) => index === self.findIndex((t) => (
                 t.place === item.place && t.name === item.name
             ))
