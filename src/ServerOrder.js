@@ -5,6 +5,7 @@ import {FormattedMessage, injectIntl} from 'react-intl'
 import styled from 'styled-components'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {Carousel} from 'react-responsive-carousel'
+import {isEmpty, sortBy, each} from 'underscore';
 // import LocationSwitcher from './components/LocationSwitcher'
 import ConfigCard from './components/ConfigCard'
 import RadioList from './components/RadioList'
@@ -482,6 +483,11 @@ class ServerOrder extends React.Component {
             location, configId, os, administration, softpack, panel, action, configOptions, label, osImage, locationOptions
         } = this.state;
         const pathToIcons = this.props.pathToIcons;
+        if (!isEmpty(configOptions)) {
+            each(configOptions, (configs, location) => {
+                configOptions[location] = sortBy(configs, 'sort_order');
+            })
+        }
 
         if (location && configId) {
             const {intl} = this.props;

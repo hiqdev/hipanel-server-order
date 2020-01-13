@@ -37,6 +37,7 @@ if (!window.hipanel_server_order) {
                     nl_old_price: "17.55",
                     us_old_price: "12.33",
                     profiles: ['“Profi plus” servers'],
+                    sort_order: 100,
                 },
             ],
             us: [
@@ -56,7 +57,8 @@ if (!window.hipanel_server_order) {
                     monthly_support_time: 1.7,
                     nl_old_price: "11.14",
                     profiles: ['“Big data” servers'],
-                    us_old_price: "0.83"
+                    us_old_price: "0.83",
+                    sort_order: 100,
                 },
                 {
                     id: 3,
@@ -73,6 +75,7 @@ if (!window.hipanel_server_order) {
                     traffic: '150',
                     profiles: ['“Profi plus” servers'],
                     monthly_support_time: 0.7,
+                    sort_order: 300,
                 },
                 {
                     id: 4,
@@ -89,6 +92,7 @@ if (!window.hipanel_server_order) {
                     traffic: '150',
                     profiles: ['“Profi plus” servers'],
                     monthly_support_time: 100,
+                    sort_order: 200,
                 },
                 {
                     id: 5,
@@ -106,7 +110,8 @@ if (!window.hipanel_server_order) {
                     monthly_support_time: 1.7,
                     profiles: ['“Big data” servers'],
                     nl_old_price: "11.14",
-                    us_old_price: "1.31"
+                    us_old_price: "1.31",
+                    sort_order: 400,
                 },
                 {
                     id: 6,
@@ -123,6 +128,7 @@ if (!window.hipanel_server_order) {
                     traffic: '55',
                     monthly_support_time: 0.7,
                     profiles: ['“Big data” servers', '“Profi plus” servers'],
+                    sort_order: 300,
                 },
                 {
                     id: 7,
@@ -139,6 +145,7 @@ if (!window.hipanel_server_order) {
                     traffic: '50',
                     monthly_support_time: 100,
                     profiles: ['“Big data” servers', '“Profi plus” servers'],
+                    sort_order: 500,
                 },
                 {
                     id: 8,
@@ -155,6 +162,7 @@ if (!window.hipanel_server_order) {
                     traffic: '50',
                     monthly_support_time: 100,
                     profiles: ['“Big data” servers', '“Profi plus” servers'],
+                    sort_order: 600,
                 },
                 {
                     id: 9,
@@ -171,6 +179,7 @@ if (!window.hipanel_server_order) {
                     traffic: '50',
                     monthly_support_time: 100,
                     profiles: ['“Big data” servers', '“Profi plus” servers'],
+                    sort_order: 50,
                 },
             ],
         },
