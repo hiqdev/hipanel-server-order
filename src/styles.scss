@@ -8,6 +8,12 @@
     }
   }
 
+  @media screen and (max-width: 768px) {
+    #hipanel-server-order > .row > div {
+      margin-bottom: 2em;
+    }
+  }
+
   color: #2f3945 !important;
 
   .radio:hover label {
@@ -31,6 +37,6 @@
   }
 
   .row {
-    align-items: inherit!important;
+    align-items: inherit !important;
   }
 }
