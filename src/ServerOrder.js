@@ -262,7 +262,7 @@ class ServerOrder extends React.Component {
     }
 
     updateWindowDimensions() {
-        this.setState({ screenWidth: window.innerWidth });
+        this.setState({screenWidth: window.innerWidth});
     }
 
     setOsImage() {
@@ -567,13 +567,13 @@ class ServerOrder extends React.Component {
                         chunks = 3;
                     }
                     const chunked = chunkArray(configs, chunks).map((rows, ridx) => <div className={'row'}
-                                                                                    key={ridx}>{rows}</div>);
+                                                                                         key={ridx}>{rows}</div>);
 
                     return (<div className="row" key={idx}>
-                        <div className="col-12">
-                            <GroupHeader>{groupName}</GroupHeader>
+                        <div className="col-12" style={{marginBottom: '3em'}}>
                             <StyledCarousel showThumbs={false} showStatus={false} showArrows={showArrows}
-                                            showIndicators={showIndicators} pathToIcons={pathToIcons}>{chunked}</StyledCarousel>
+                                            showIndicators={showIndicators}
+                                            pathToIcons={pathToIcons}>{chunked}</StyledCarousel>
                         </div>
                     </div>);
                 });
@@ -610,6 +610,16 @@ class ServerOrder extends React.Component {
                                             <ConfigurationDescWrapper><FormattedMessage
                                                 id='configuration_desc'/></ConfigurationDescWrapper>
                                         </FeaturedHeader>
+                                    </div>
+                                    <div className={classnames({'row': true, "d-none": configId !== null})}>
+                                        <div className="col-md-12">
+                                            <GroupHeader>
+                                                <FormattedMessage id='one_click_install_header'/>
+                                            </GroupHeader>
+                                            <p className='text-center' style={{width: '65%', margin: '0 auto 4em', color: '#8492A5'}}>
+                                                <FormattedMessage id='one_click_install_message'/>
+                                            </p>
+                                        </div>
                                     </div>
                                     {mainSection}
                                     <OrderButtonWrapper className={classnames({"d-none": configId === null})}>

@@ -422,6 +422,8 @@ const messages = {
         'us': 'USA',
         'lemp': 'LEMP',
         'lamp': 'LAMP',
+        'one_click_install_header': 'One-click installation',
+        'one_click_install_message': 'Today, it is easier than ever to buy a dedicated hosting and start using it. After you select the most suitable configuration, operating system, and software, all further installation and configuration processes are fully automated on our side.',
     },
     'ru': {
         'configuration_desc': 'Выберите технические данные и тип обслуживания выделенного сервера. Сразу после оформления заказа мы свяжемся с вами, чтобы подтвердить его и подключить ваш заказ к услуге.',
@@ -460,6 +462,8 @@ const messages = {
         'clear': 'Чистая сборка',
         'lemp': 'LEMP',
         'lamp': 'LAMP',
+        'one_click_install_header': 'Установка в один клик',
+        'one_click_install_message': 'После того, как вы выберете нужную конфигурацию, операционную систему и программное обеспечение, вся дальнейшая установка и настройка систем будет полностью автоматизирована на нашей стороне.',
     }
 };
 let osimages = [];

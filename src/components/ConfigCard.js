@@ -187,7 +187,7 @@ export default function ConfigCard(props) {
                     <RowWithButton>
                         <SelectButton type="button" className="btn"
                                       data-config-id={props.config.id}
-                                      onClick={handleSelect}><FormattedMessage id='select'/></SelectButton>
+                                      onClick={handleSelect}><FormattedMessage id='order'/></SelectButton>
                     </RowWithButton>
                 ) : ''}
             </ConfigViewer>
