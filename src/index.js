@@ -412,7 +412,7 @@ const messages = {
         'from_month': 'From {oldPrice} {price}/mo',
         'main_header': 'Pricing plans Dedicated servers',
         'back_to_select': 'Back to server selection',
-        'without_raid': 'without RAID-card',
+        'without_raid': 'Without a RAID card',
         'traffic': 'Traffic',
         'panel': 'Server control panel',
         'no_panel': 'Without control panel',
