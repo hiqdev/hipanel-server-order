@@ -11,7 +11,7 @@ addLocaleData([...en, ...ru]);
 if (!window.hipanel_server_order) {
     window.hipanel_server_order = {
         initialStates: {
-            action: '/server/order/add-to-cart-dedicated',
+            action: 'https://beta-hipanel.advancedhosting.com/server/order/add-to-cart-dedicated',
             location: 'us',
             language: 'ru',
         },

@@ -480,7 +480,7 @@ class ServerOrder extends React.Component {
     render() {
         let mainSection = <Alert msgId='select_location'/>, sidebarCard = '';
         const {
-            location, configId, os, administration, softpack, panel, action, configOptions, label, osImage, locationOptions
+            location, configId, os, administration, softpack, panel, action, configOptions, label, osImage, locationOptions, language
         } = this.state;
         const pathToIcons = this.props.pathToIcons;
         if (!isEmpty(configOptions)) {
@@ -586,7 +586,7 @@ class ServerOrder extends React.Component {
             <FontWrapper ref={this.cmpRef}>
                 <ServerOrderWrapper configId={configId}>
                     <div className="container">
-                        <form id="hipanel-server-order" action={action} method="POST">
+                        <form id="hipanel-server-order" action={`${action}?language=${language}`} method="POST">
                             {/*<div className={classnames({"d-none": configId !== null, 'row': true})}>*/}
                             {/*    <MainHeaderWrapper>*/}
                             {/*        <h2><FormattedMessage id='main_header'/></h2>*/}
