@@ -20,7 +20,7 @@
     "react-intl": "^2.9.0",
     "react-responsive-carousel": "^3.1.50",
     "styled-components": "^4.4.0",
-    "underscore": "^1.9.2"
+    "underscore": "^1.12.1"
   },
   "devDependencies": {
     "nwb": "0.23.x",
